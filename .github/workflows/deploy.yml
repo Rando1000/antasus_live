@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,30 +13,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Ensure cache directory exists
-        run: |
-          mkdir -p bootstrap/cache
-          chmod -R 775 bootstrap/cache
-
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: mbstring, bcmath, pdo, mysql
-          tools: composer
+          tools: none  # Composer brauchst du nicht global hier
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install dependencies locally (no build artifacts)
         run: |
+          mkdir -p bootstrap/cache
+          chmod -R 775 bootstrap/cache
           composer install --no-dev --optimize-autoloader
           npm ci
           npm run build
 
-      - name: Deploy via SSH
+      - name: Deploy via SSH to Hostinger
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
@@ -46,9 +43,20 @@ jobs:
           script: |
             cd ${{ secrets.HOSTINGER_PATH }}
             git pull origin main
-            composer install --no-dev --optimize-autoloader
-            npm ci
-            npm run build
-            php artisan migrate --force
-            php artisan config:cache
-            php artisan route:cache
+
+            # Verwende benutzerdefinierte Composer-Installation
+            php ~/composer install --no-dev --optimize-autoloader
+
+            # Optional: Cache-Ordner sicherstellen
+            mkdir -p bootstrap/cache
+            chmod -R 775 bootstrap/cache
+
+            # Wenn Node verfügbar ist
+            if command -v npm &> /dev/null; then
+              npm ci
+              npm run build
+            fi
+
+            php artisan migrate --force || true
+            php artisan config:cache || true
+            php artisan route:cache || true

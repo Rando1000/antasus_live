@@ -26,6 +26,7 @@ jobs:
           username: ${{ secrets.HOSTINGER_USER }}
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           script: |
+            export PATH=$HOME/nodejs/bin:$PATH
             cd ${{ secrets.HOSTINGER_PATH }}
             git pull origin main
 

@@ -28,7 +28,7 @@ Route::get('/', function () {
 Route::get('/leistungen', [LeistungenController::class, 'index'])->name('leistungen.index');
 Route::get('/leistungen/{service:slug}/{item:slug}/{id}', [ServiceItemController::class, 'show'])->name('services.items.show');
 Route::get('/leistungen/{serviceSlug}/{itemSlug}/{item}', [ServiceItemShowController::class, 'show'])
-    ->name('services.items.show');
+    ->name('services.items.show.item');
 
 
 // Kategorieseite mit allen Items (inkl. Modal-Mechanik)
@@ -95,13 +95,13 @@ Route::middleware([
 
 // Kunden-Bereich (nur für Rolle "kunde")
 Route::middleware(['auth', 'role:kunde'])->group(function () {
-    Route::get('/kundenbereich', fn () => Inertia::render('Kunde/Dashboard'))->name('kunde.dashboard');
+    Route::get('/kundenbereich', fn () => Inertia::render('Dashboard'))->name('kunde.dashboard');
 });
 
 // Admin-Bereich (nur für Rolle "admin")
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin', fn () => Inertia::render('Admin/Dashboard'))->name('admin.dashboard');
-});
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/admin', fn () => Inertia::render('Admin/Dashboard'))->name('admin.dashboard');
+// });
 
 Route::middleware(['auth'])->get('/redirect-after-login', function () {
     if (auth()->user()->role === 'admin') {

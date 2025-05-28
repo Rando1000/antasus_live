@@ -31,22 +31,28 @@
                     class="items-center hidden space-x-12 md:flex"
                 >
                     <NavLink
-                        href="/leistungen"
+                        href="/History"
+                        label="History"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     >
-                        Projects
                     </NavLink>
                     <NavLink
                         href="/leistungen"
+                        label="Projects"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     >
-                        Dienstleistungen
+                    </NavLink>
+                    <NavLink
+                        href="/leistungen"
+                        label="Dienstleistungen"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                    >
                     </NavLink>
                     <NavLink
                         href="/referenzen"
+                        label="Referenzen"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     >
-                        Referenzen
                     </NavLink>
                     <Link
                         href="/kontakt"
@@ -154,6 +160,15 @@
                         <li>
                             <NavLink
                                 href="/leistungen"
+                                label="Dienstleistungen"
+                                class="block hover:text-teal-600"
+                                >Leistungen</NavLink
+                            >
+                        </li>
+                        <li>
+                            <NavLink
+                                href="/leistungen"
+                                label="Projects"
                                 class="block hover:text-teal-600"
                                 >Leistungen</NavLink
                             >
@@ -161,13 +176,23 @@
                         <li>
                             <NavLink
                                 href="/referenzen"
+                                label="Referenzen"
                                 class="block hover:text-teal-600"
                                 >Referenzen</NavLink
                             >
                         </li>
                         <li>
                             <NavLink
+                                href="/leistungen"
+                                label="History"
+                                class="block hover:text-teal-600"
+                                >Leistungen</NavLink
+                            >
+                        </li>
+                        <li>
+                            <NavLink
                                 href="/kontakt"
+                                label="kontakt"
                                 class="block hover:text-teal-600"
                                 >Kontakt</NavLink
                             >

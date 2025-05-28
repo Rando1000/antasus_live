@@ -1,0 +1,55 @@
+<?php
+
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use App\Http\Controllers\Admin\ReferenzController;
+use App\Http\Controllers\Admin\ServiceItemController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\DashboardController;
+
+
+//----------------Rollen-Routes------------
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('referenzen', ReferenzController::class)->except('show');
+
+
+    });
+
+
+//-------------------------------------------
+
+//--------------Admin_Dashboard--------------------------
+
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+});
+
+//-------------------------------------------------------
+
+
+//--------------Leistungen-Backend_Admin_Routes----------
+Route::middleware(['auth', 'role:admin'])
+->prefix('admin/services')->name('admin.services.')->group(function () {
+    Route::get('/', [ServiceController::class, 'index'])->name('index');
+    Route::get('/create', [ServiceController::class, 'create'])->name('create');
+    Route::post('/', [ServiceController::class, 'store'])->name('store');
+    Route::get('/{service}/edit', [ServiceController::class, 'edit'])->name('edit');
+    Route::put('/{service}', [ServiceController::class, 'update'])->name('update');
+    Route::delete('/{service}', [ServiceController::class, 'destroy'])->name('destroy');
+});
+Route::middleware(['auth', 'role:admin'])
+->prefix('admin/services/{service}/items')->name('admin.services.items.')->group(function () {
+    Route::get('/', [ServiceItemController::class, 'index'])->name('index');
+    Route::get('/create', [ServiceItemController::class, 'create'])->name('create');
+    Route::post('/', [ServiceItemController::class, 'store'])->name('store');
+    Route::get('/{item}/edit', [ServiceItemController::class, 'edit'])->name('edit');
+    Route::put('/{item}', [ServiceItemController::class, 'update'])->name('update');
+    Route::delete('/{item}', [ServiceItemController::class, 'destroy'])->name('destroy');
+});
+
+//------------------------------------------------------

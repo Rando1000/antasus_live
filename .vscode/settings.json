@@ -1,0 +1,20 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit"
+    },
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "vetur.validation.template": false,
+    "volar.validation.script": true,
+    "volar.takeOverMode.enabled": true,
+    "tailwindCSS.includeLanguages": {
+        "blade": "html",
+        "vue": "html"
+    },
+    "intelephense.files.associations": ["*.php", "*.blade.php"],
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}

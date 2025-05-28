@@ -10,14 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, bcmath, pdo, mysql
           tools: composer
 
       - name: Set up Node.js
@@ -25,13 +24,28 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install & Build Frontend
         run: |
           composer install --no-dev --optimize-autoloader
           npm ci
           npm run build
 
-      - name: Deploy via SSH
+      - name: Upload project to Hostinger via SCP
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          rsync -avz --delete \
+            --exclude=".git*" \
+            --exclude="node_modules" \
+            --exclude="tests" \
+            --exclude="docker-compose.yml" \
+            --exclude="vendor" \
+            -e "ssh -p ${{ secrets.HOSTINGER_PORT }}" \
+            ./ ${{ secrets.HOSTINGER_USER }}@${{ secrets.HOSTINGER_HOST }}:${{ secrets.HOSTINGER_PATH }}
+
+      - name: Finalize Deployment via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOSTINGER_HOST }}
@@ -40,10 +54,7 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY }}
           script: |
             cd ${{ secrets.HOSTINGER_PATH }}
-            git pull origin main
             composer install --no-dev --optimize-autoloader
-            npm ci
-            npm run build
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache

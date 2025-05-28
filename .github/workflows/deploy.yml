@@ -24,6 +24,11 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Ensure cache directory exists
+        run: |
+          mkdir -p bootstrap/cache
+          chmod -R 775 bootstrap/cache
+
       - name: Install & Build Frontend
         run: |
           composer install --no-dev --optimize-autoloader

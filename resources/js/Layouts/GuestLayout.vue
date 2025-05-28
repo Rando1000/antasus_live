@@ -32,6 +32,11 @@
                 >
                     <NavLink
                         href="/History"
+                        label="Über Uns"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                    ></NavLink>
+                    <NavLink
+                        href="/History"
                         label="History"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     >

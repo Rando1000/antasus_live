@@ -20,10 +20,10 @@
     <div class="min-h-screen bg-white">
         <!-- Sticky Header mit Glaseffekt -->
 
-        <div class="container px-4 mx-auto my-auto">
+        <div class="container h-20 px-6 mx-auto md:h-40 md:min-w-fit">
             <div class="flex items-center justify-between h-16 md:h-36">
                 <Link href="/" class="flex items-center h-40">
-                    <ApplicationLogo2 class="h-36 md:h-80" />
+                    <ApplicationLogo2 class="h-48 md:h-96" />
                 </Link>
 
                 <nav
@@ -252,6 +252,7 @@
                 class="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center text-white"
             >
                 <slot name="header" />
+                <MobileNav />
             </div>
         </header>
 
@@ -271,7 +272,6 @@
         <main>
             <slot />
         </main>
-        <MobileNav v-if="isMobile" />
 
         <Footer />
     </div>
@@ -285,7 +285,6 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { computed, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
-import BottomNav from "@/Components/BottomNav.vue";
 
 const page = usePage();
 const canonicalUrl = computed(() => {
@@ -297,7 +296,6 @@ const mobileMenuOpen = ref(false);
 function toggleMobileMenu() {
     mobileMenuOpen.value = !mobileMenuOpen.value;
 }
-const isMobile = computed(() => window.innerWidth <= 768);
 const props = defineProps({
     title: String,
     user: Object,

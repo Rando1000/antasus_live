@@ -62,8 +62,9 @@
                 @click.self="closeModal"
             >
                 <div
-                    class="relative w-full max-w-2xl p-6 mx-4 bg-white rounded-lg shadow-xl animate-fade-in-up"
+                    class="relative w-full max-w-2xl mx-4 bg-white rounded-lg shadow-xl animate-fade-in-up flex flex-col max-h-[90vh]"
                 >
+                    <!-- Schließen -->
                     <button
                         @click="closeModal"
                         class="absolute text-gray-400 top-3 right-3 hover:text-gray-600"
@@ -72,28 +73,45 @@
                         &times;
                     </button>
 
-                    <h2 class="mb-4 text-2xl font-bold text-gray-900">
-                        {{ selectedItem.title }}
-                    </h2>
+                    <!-- Titel & Bild -->
+                    <div class="p-6">
+                        <h2 class="mb-4 text-2xl font-bold text-gray-900">
+                            {{ selectedItem.title }}
+                        </h2>
 
-                    <img
-                        v-if="selectedItem.image_url"
-                        :src="selectedItem.image_url"
-                        :alt="selectedItem.title"
-                        class="object-cover w-full h-64 mb-4 rounded"
-                    />
+                        <img
+                            v-if="selectedItem.image_url"
+                            :src="selectedItem.image_url"
+                            :alt="selectedItem.title"
+                            class="object-cover w-full h-64 mb-4 rounded"
+                        />
+                    </div>
 
-                    <p class="text-gray-700 whitespace-pre-line">
+                    <!-- Scrollbarer Textbereich -->
+                    <div
+                        class="px-6 overflow-y-auto text-gray-700 whitespace-pre-line max-h-[40vh]"
+                    >
                         {{ selectedItem.description }}
-                    </p>
+                    </div>
 
-                    <div class="mt-6 text-right">
-                        <Link
-                            href="/kontakt"
-                            class="inline-block px-6 py-3 text-white rounded shadow bg-antasus-primary hover:bg-antasus-dark"
+                    <!-- Aktionen unten -->
+                    <div class="p-6 mt-auto border-t bg-gray-50">
+                        <div
+                            class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center"
                         >
-                            Projekt anfragen
-                        </Link>
+                            <Link
+                                :href="`/leistungen/${props.service.slug}/${selectedItem.slug}/${selectedItem.id}`"
+                                class="text-sm font-semibold text-teal-700 hover:underline"
+                            >
+                                Vollständige Projektbeschreibung ansehen →
+                            </Link>
+                            <Link
+                                href="/kontakt"
+                                class="inline-block px-6 py-3 text-white rounded shadow bg-antasus-primary hover:bg-antasus-dark"
+                            >
+                                Projekt anfragen
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

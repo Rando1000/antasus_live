@@ -1,7 +1,6 @@
 <script setup>
 import ApiTokenManager from "@/Pages/API/Partials/ApiTokenManager.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import GuestLayout from "@/Layouts/GuestLayout_letzte.vue";
 
 defineProps({
     tokens: Array,
@@ -11,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-    <GuestLayout title="API Tokens">
+    <AppLayout title="API Tokens">
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 API Tokens
@@ -27,5 +26,5 @@ defineProps({
                 />
             </div>
         </div>
-    </GuestLayout>
+    </AppLayout>
 </template>

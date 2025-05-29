@@ -30,11 +30,11 @@
                     v-if="$page.url !== '/kontakt'"
                     class="items-center hidden space-x-12 md:flex"
                 >
-                    <NavLink
+                    <!-- <NavLink
                         href="/History"
                         label="Über Uns"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    ></NavLink>
+                    ></NavLink> -->
                     <NavLink
                         href="/History"
                         label="History"

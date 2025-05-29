@@ -26,37 +26,35 @@ jobs:
 
             echo "📁 Aktuelles Verzeichnis: $(pwd)"
             echo "➡️ Hole neusten Code von GitHub..."
-            git pull origin main
+            git reset --hard
+            git clean -fd
+            git pull origin main --rebase
 
             echo "🔍 Prüfe kritische Dateien..."
             test -f public/index.php || (echo "❌ index.php fehlt!" && exit 1)
             test -f public/.htaccess || (echo "❌ .htaccess fehlt!" && exit 1)
 
-            echo "🧰 Prüfe ob npm verfügbar ist..."
-            if ! command -v npm &> /dev/null; then
-              echo "📦 npm nicht gefunden – versuche Node.js zu installieren..."
+            echo "🧰 Prüfe ob node & npm verfügbar sind..."
+            if ! command -v node &> /dev/null || ! command -v npm &> /dev/null; then
+              echo "📦 Node.js oder npm nicht gefunden – installiere..."
               curl -O https://nodejs.org/dist/v18.19.1/node-v18.19.1-linux-x64.tar.xz
               tar -xf node-v18.19.1-linux-x64.tar.xz
               mv node-v18.19.1-linux-x64 ~/nodejs
-              export PATH=$HOME/nodejs/bin:$PATH
               echo 'export PATH=$HOME/nodejs/bin:$PATH' >> ~/.bashrc
-              source ~/.bashrc
+              export PATH=$HOME/nodejs/bin:$PATH
             fi
 
             echo "📦 Installiere PHP-Abhängigkeiten (Composer über Benutzerpfad)..."
             ~/composer install --no-dev --optimize-autoloader
 
             echo "🔧 Baue Assets mit npm..."
-            if command -v npm &> /dev/null; then
-              npm ci
-              npm run build
-            else
-              echo "⚠️ npm weiterhin nicht verfügbar – Build wird übersprungen"
-            fi
+            npm ci
+            npm run build
 
-            echo "🔄 Führe Laravel-Befehle aus..."
-            php artisan migrate --force || echo "Migration skipped"
-            php artisan config:cache || echo "Config cache skipped"
-            php artisan route:cache || echo "Route cache skipped"
+            echo "🧪 Laravel Commands ausführen (ohne Datenverlust)..."
+            php artisan config:cache
+            php artisan route:cache || echo "⚠️ Routen-Caching übersprungen"
+            php artisan migrate --force || echo "⚠️ Migration übersprungen"
 
-            echo "✅ Deployment abgeschlossen."
+            echo "✅ Deployment abgeschlossen – teste Seite..."
+            curl -sSf https://www.antasus.de || (echo "❌ Seite nicht erreichbar!" && exit 1)

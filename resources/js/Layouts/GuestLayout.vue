@@ -17,6 +17,7 @@
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="theme-color" content="#14b8a6" />
     </Head>
+
     <div class="min-h-screen bg-white">
         <!-- Sticky Header mit Glaseffekt -->
 
@@ -285,6 +286,7 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { computed, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
+import { useHead } from "@vueuse/head";
 import BottomNav from "@/Components/BottomNav.vue";
 
 const page = usePage();
@@ -292,6 +294,34 @@ const canonicalUrl = computed(() => {
     const currentPath = page.url.replace(/\?.*$/, ""); // Strip query
     return `https://www.antasus.de${currentPath}`;
 });
+
+useHead({
+    script: [
+        {
+            type: "application/ld+json",
+            children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                name: "Antasus Infra",
+                url: "https://www.antasus.de",
+                logo: "https://www.antasus.de/logo.png",
+                image: "https://www.antasus.de/images/Header_welcome.webp",
+                description:
+                    "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
+                address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "Norrenbergstraße 122",
+                    addressLocality: "Wuppertal",
+                    postalCode: "42289",
+                    addressCountry: "DE",
+                },
+                telephone: "+49 202 42988411",
+                email: "info@antasus.de",
+            }),
+        },
+    ],
+});
+
 const mobileMenuOpen = ref(false);
 
 function toggleMobileMenu() {

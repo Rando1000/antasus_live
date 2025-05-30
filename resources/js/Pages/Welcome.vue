@@ -81,9 +81,10 @@
                 </div>
 
                 <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                    <div
+                    <Link
                         v-for="(leistung, index) in leistungen"
                         :key="index"
+                        :href="`/leistungen/${leistung.slug}`"
                         class="relative overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-lg group rounded-xl hover:shadow-xl"
                     >
                         <div
@@ -104,7 +105,7 @@
                                 {{ leistung.beschreibung }}
                             </p>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </section>
@@ -277,21 +278,25 @@ onMounted(() => {
 const leistungen = [
     {
         titel: "Hausanschlüsse",
+        slug: "hausanschlüsse",
         beschreibung:
             "Trasse, Bohrung & Innenmontage – alles aus einer Hand mit deutscher Präzision.",
     },
     {
         titel: "Glasfaser-Tiefbau",
+        slug: "glasfaser-tiefbau",
         beschreibung:
             "DIN- & VDE-gerechte Leerrohrverlegung mit höchster Qualität und Dokumentation.",
     },
     {
         titel: "Projektplanung & Beratung",
+        slug: "projektplanung-beratung",
         beschreibung:
             "Technische Planung mit Praxisbezug für Generalunternehmer und Bauherren.",
     },
     {
         titel: "Dokumentation",
+        slug: "dokumentation",
         beschreibung:
             "Lückenlose Ausführung nach Auftraggebervorgaben & aktuellen Normen.",
     },

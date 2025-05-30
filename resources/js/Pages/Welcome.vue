@@ -262,6 +262,7 @@ const jsonLd = {
         },
         geoRadius: 150,
     },
+    priceRange: "Auf Anfrage",
     sameAs: [
         "https://www.linkedin.com/company/antasus",
         "https://www.xing.com/pages/antasus-infra",

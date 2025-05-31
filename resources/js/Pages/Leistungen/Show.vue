@@ -6,6 +6,9 @@
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
             rel="canonical"
         />
+        <script type="application/ld+json">
+            {{ structuredData }}
+        </script>
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">
@@ -122,7 +125,7 @@
 <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link, usePage, router } from "@inertiajs/vue3";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 
 const props = defineProps({
     service: Object,
@@ -172,9 +175,14 @@ onMounted(() => {
             selectedItem.value = item;
         }
     }
+});
 
-    // JSON-LD Structured Data (wie in Welcome.vue)
-    const jsonLd = {
+onUnmounted(() => {
+    document.removeEventListener("keydown", handleEscape);
+});
+
+const structuredData = computed(() => {
+    const data = {
         "@context": "https://schema.org",
         "@graph": props.service.items.map((item) => ({
             "@type": "Service",
@@ -197,15 +205,7 @@ onMounted(() => {
             url: `https://www.antasus.de/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
         })),
     };
-
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
-});
-
-onUnmounted(() => {
-    document.removeEventListener("keydown", handleEscape);
+    return JSON.stringify(data, null, 2);
 });
 </script>
 

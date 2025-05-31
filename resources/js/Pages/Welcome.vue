@@ -9,6 +9,7 @@
                     src="/images/Header_welcome.avif"
                     alt="Glasfaser Netzwerk"
                     class="object-cover w-full opacity-80"
+                    :jsonLd="jsonLd"
                 />
             </div>
 

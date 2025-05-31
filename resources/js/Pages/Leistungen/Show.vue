@@ -3,37 +3,9 @@
         <title>{{ service.title }} | ANTASUS Infra</title>
         <meta name="description" :content="service.description" />
         <link
-            rel="canonical"
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
+            rel="canonical"
         />
-        <!-- JSON-LD structured data for all service items -->
-        <script type="application/ld+json">
-            {{
-                JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@graph": service.items.map((item) => ({
-                        "@type": "Service",
-                        "name": item.title,
-                        "description": item.description,
-                        "provider": {
-                            "@type": "LocalBusiness",
-                            "name": "ANTASUS Infra",
-                            "url": "https://www.antasus.de",
-                        },
-                        "areaServed": {
-                            "@type": "GeoCircle",
-                            "geoMidpoint": {
-                                "@type": "GeoCoordinates",
-                                latitude: 51.2562,
-                                longitude: 7.1508,
-                            },
-                            "geoRadius": 150,
-                        },
-                        "url": `https://www.antasus.de/leistungen/${service.slug}/${item.slug}/${item.id}`,
-                    })),
-                })
-            }}
-        </script>
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">
@@ -200,6 +172,36 @@ onMounted(() => {
             selectedItem.value = item;
         }
     }
+
+    // JSON-LD Structured Data (wie in Welcome.vue)
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@graph": props.service.items.map((item) => ({
+            "@type": "Service",
+            name: item.title,
+            description: item.description,
+            provider: {
+                "@type": "LocalBusiness",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+            },
+            areaServed: {
+                "@type": "GeoCircle",
+                geoMidpoint: {
+                    "@type": "GeoCoordinates",
+                    latitude: 51.2562,
+                    longitude: 7.1508,
+                },
+                geoRadius: 150,
+            },
+            url: `https://www.antasus.de/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
+        })),
+    };
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
 });
 
 onUnmounted(() => {

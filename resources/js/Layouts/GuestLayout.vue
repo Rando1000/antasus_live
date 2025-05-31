@@ -287,7 +287,6 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { computed, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
 import { useHead } from "@vueuse/head";
-import BottomNav from "@/Components/BottomNav.vue";
 
 const page = usePage();
 const canonicalUrl = computed(() => {
@@ -297,14 +296,16 @@ const canonicalUrl = computed(() => {
 
 useHead({
     script: [
+        // LocalBusiness
         {
             type: "application/ld+json",
             children: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "LocalBusiness",
-                name: "Antasus Infra",
+                "@id": "https://www.antasus.de/#localbusiness",
+                name: "ANTASUS Infra",
                 url: "https://www.antasus.de",
-                logo: "https://www.antasus.de/logo.png",
+                logo: "https://www.antasus.de/images/antasus-logo2.svg",
                 image: "https://www.antasus.de/images/Header_welcome.webp",
                 description:
                     "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
@@ -317,6 +318,41 @@ useHead({
                 },
                 telephone: "+49 202 42988411",
                 email: "info@antasus.de",
+                priceRange: "Auf Anfrage",
+                areaServed: {
+                    "@type": "GeoCircle",
+                    geoMidpoint: {
+                        "@type": "GeoCoordinates",
+                        latitude: 51.2562,
+                        longitude: 7.1508,
+                    },
+                    geoRadius: 150,
+                },
+            }),
+        },
+        // Organization mit Social-Profilen
+        {
+            type: "application/ld+json",
+            children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "@id": "https://www.antasus.de/#organization",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+                logo: "https://www.antasus.de/images/antasus-logo2.svg",
+                sameAs: [
+                    "https://www.linkedin.com/company/antasus",
+                    "https://www.xing.com/pages/antasus-infra",
+                ],
+                contactPoint: [
+                    {
+                        "@type": "ContactPoint",
+                        telephone: "+49 176 24757616",
+                        contactType: "customer service",
+                        areaServed: "DE",
+                        availableLanguage: ["de"],
+                    },
+                ],
             }),
         },
     ],

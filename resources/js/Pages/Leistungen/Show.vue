@@ -1,20 +1,31 @@
+<!-- resources/js/Pages/Leistungen/Show.vue -->
 <template>
     <Head>
         <title>{{ service.title }} | ANTASUS Infra</title>
         <meta name="description" :content="service.description" />
         <link
-            :href="`https://www.antasus.de/leistungen/${service.slug}`"
             rel="canonical"
+            :href="`https://www.antasus.de/leistungen/${service.slug}`"
         />
-        <script type="application/ld+json">
-            {{ structuredData }}
-        </script>
+        <!-- OpenGraph falls gewünscht -->
+        <meta
+            property="og:title"
+            :content="service.title + ' | ANTASUS Infra'"
+        />
+        <meta property="og:description" :content="service.description" />
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:url"
+            :content="`https://www.antasus.de/leistungen/${service.slug}`"
+        />
+        <!-- Wenn es ein Bild für die Übersicht gibt: -->
+        <!-- <meta property="og:image" content="https://www.antasus.de/images/og-service-overview.webp" /> -->
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->
         <section
-            class="w-full px-4 text-center bg-gradient-to-br from-antasus-primary via-teal-600 to-antasus-dark/90 backdrop-blur-md"
+            class="w-full px-4 text-center bg-gradient-to-br from-antasus-primary ..."
         >
             <div class="max-w-4xl py-20 mx-auto text-white">
                 <h1
@@ -57,7 +68,7 @@
             </div>
         </section>
 
-        <!-- Modal -->
+        <!-- Modal für Service-Detail (unverändert) -->
         <Transition name="fade-slide">
             <div
                 v-if="selectedItem"
@@ -67,7 +78,7 @@
                 <div
                     class="relative w-full max-w-2xl mx-4 bg-white rounded-lg shadow-xl animate-fade-in-up flex flex-col max-h-[90vh]"
                 >
-                    <!-- Schließen -->
+                    <!-- Schließen-Button -->
                     <button
                         @click="closeModal"
                         class="absolute text-gray-400 top-3 right-3 hover:text-gray-600"
@@ -81,7 +92,6 @@
                         <h2 class="mb-4 text-2xl font-bold text-gray-900">
                             {{ selectedItem.title }}
                         </h2>
-
                         <img
                             v-if="selectedItem.image_url"
                             :src="selectedItem.image_url"
@@ -90,7 +100,7 @@
                         />
                     </div>
 
-                    <!-- Scrollbarer Textbereich -->
+                    <!-- Text-Bereich -->
                     <div
                         class="px-6 overflow-y-auto text-gray-700 whitespace-pre-line max-h-[40vh]"
                     >
@@ -103,7 +113,7 @@
                             class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center"
                         >
                             <Link
-                                :href="`/leistungen/${props.service.slug}/${selectedItem.slug}/${selectedItem.id}`"
+                                :href="`/leistungen/${service.slug}/${selectedItem.slug}/${selectedItem.id}`"
                                 class="text-sm font-semibold text-teal-700 hover:underline"
                             >
                                 Vollständige Projektbeschreibung ansehen →
@@ -123,17 +133,18 @@
 </template>
 
 <script setup>
+import { useHead } from "@vueuse/head";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Head, Link, usePage, router } from "@inertiajs/vue3";
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { Link, usePage, router } from "@inertiajs/vue3";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 
-const props = defineProps({
-    service: Object,
-});
-
+const props = defineProps({ service: Object });
 const selectedItem = ref(null);
 const page = usePage();
 
+/**
+ * Modal-Funktionen (wie gehabt)
+ */
 function showModal(item) {
     selectedItem.value = item;
     router.push({
@@ -143,7 +154,6 @@ function showModal(item) {
         url: `/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
     });
 }
-
 function closeModal() {
     selectedItem.value = null;
     router.push({
@@ -153,7 +163,6 @@ function closeModal() {
         url: `/leistungen/${props.service.slug}`,
     });
 }
-
 function handleEscape(event) {
     if (event.key === "Escape" && selectedItem.value) {
         closeModal();
@@ -163,49 +172,42 @@ function handleEscape(event) {
 onMounted(() => {
     document.addEventListener("keydown", handleEscape);
 
-    const segments = page.url.split("/");
-    const itemId = segments.includes("item")
-        ? segments[segments.indexOf("item") + 1]
-        : null;
-    if (itemId) {
-        const item = props.service.items.find(
-            (i) => i.id.toString() === itemId
-        );
-        if (item) {
-            selectedItem.value = item;
-        }
-    }
+    // JSON-LD für alle Service-Items in @graph
+    const graph = props.service.items.map((item) => ({
+        "@type": "Service",
+        name: item.title,
+        description: item.description,
+        url: `https://www.antasus.de/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
+        provider: {
+            "@type": "LocalBusiness",
+            "@id": "https://www.antasus.de/#localbusiness",
+        },
+        areaServed: {
+            "@type": "GeoCircle",
+            geoMidpoint: {
+                "@type": "GeoCoordinates",
+                latitude: 51.2562,
+                longitude: 7.1508,
+            },
+            geoRadius: 150,
+        },
+    }));
+
+    useHead({
+        script: [
+            {
+                type: "application/ld+json",
+                children: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@graph": graph,
+                }),
+            },
+        ],
+    });
 });
 
 onUnmounted(() => {
     document.removeEventListener("keydown", handleEscape);
-});
-
-const structuredData = computed(() => {
-    const data = {
-        "@context": "https://schema.org",
-        "@graph": props.service.items.map((item) => ({
-            "@type": "Service",
-            name: item.title,
-            description: item.description,
-            provider: {
-                "@type": "LocalBusiness",
-                name: "ANTASUS Infra",
-                url: "https://www.antasus.de",
-            },
-            areaServed: {
-                "@type": "GeoCircle",
-                geoMidpoint: {
-                    "@type": "GeoCoordinates",
-                    latitude: 51.2562,
-                    longitude: 7.1508,
-                },
-                geoRadius: 150,
-            },
-            url: `https://www.antasus.de/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
-        })),
-    };
-    return JSON.stringify(data, null, 2);
 });
 </script>
 

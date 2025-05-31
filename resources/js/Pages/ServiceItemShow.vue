@@ -1,21 +1,22 @@
+<!-- resources/js/Pages/Leistungen/ServiceItemShow.vue -->
 <template>
-    <GuestLayout :serviceArea="'dienstleistungen'">
-        <Head>
-            <title>
-                {{ item.title }} – {{ service.title }} | ANTASUS Infra
-            </title>
-            <meta name="description" :content="item.description" />
-            <meta
-                property="og:title"
-                :content="`${item.title} – ${service.title}`"
-            />
-            <meta property="og:description" :content="item.description" />
-            <meta property="og:image" :content="imageUrl" />
-            <meta property="og:type" content="article" />
-            <meta property="og:url" :content="fullUrl" />
-            <link rel="canonical" :href="fullUrl" />
-        </Head>
+    <Head>
+        <title>{{ item.title }} – {{ service.title }} | ANTASUS Infra</title>
+        <meta name="description" :content="item.description" />
+        <link rel="canonical" :href="fullUrl" />
+        <!-- OpenGraph falls nötig: -->
+        <meta
+            property="og:title"
+            :content="`${item.title} – ${service.title}`"
+        />
+        <meta property="og:description" :content="item.description" />
+        <meta property="og:image" :content="imageUrl" />
+        <meta property="og:url" :content="fullUrl" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+    </Head>
 
+    <GuestLayout :serviceArea="'dienstleistungen'">
         <section
             class="max-w-4xl px-4 py-20 mx-auto text-center animate-fade-in"
         >
@@ -43,9 +44,10 @@
 </template>
 
 <script setup>
+import { useHead } from "@vueuse/head";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
-import { computed, onMounted } from "vue";
+import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
 
 const props = defineProps({
     service: Object,
@@ -59,27 +61,33 @@ const imageUrl = computed(
         "https://www.antasus.de/images/og-leistungen.webp"
 );
 
-onMounted(() => {
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: props.item.title,
-        description: props.item.description,
-        provider: {
-            "@type": "Organization",
-            name: "ANTASUS Infra",
-            url: "https://www.antasus.de",
+// JSON-LD für **einen** Service
+useHead({
+    script: [
+        {
+            type: "application/ld+json",
+            children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Service",
+                name: props.item.title,
+                description: props.item.description,
+                image: imageUrl.value,
+                url: fullUrl.value,
+                provider: {
+                    "@type": "LocalBusiness",
+                    "@id": "https://www.antasus.de/#localbusiness",
+                },
+                areaServed: {
+                    "@type": "GeoCircle",
+                    geoMidpoint: {
+                        "@type": "GeoCoordinates",
+                        latitude: 51.2562,
+                        longitude: 7.1508,
+                    },
+                    geoRadius: 150,
+                },
+            }),
         },
-        areaServed: {
-            "@type": "Place",
-            name: "Deutschland",
-        },
-        image: props.item.image_url,
-    };
-
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
+    ],
 });
 </script>

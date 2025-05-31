@@ -6,6 +6,34 @@
             rel="canonical"
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
         />
+        <!-- JSON-LD structured data for all service items -->
+        <script type="application/ld+json">
+            {{
+                JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@graph": service.items.map((item) => ({
+                        "@type": "Service",
+                        "name": item.title,
+                        "description": item.description,
+                        "provider": {
+                            "@type": "LocalBusiness",
+                            "name": "ANTASUS Infra",
+                            "url": "https://www.antasus.de",
+                        },
+                        "areaServed": {
+                            "@type": "GeoCircle",
+                            "geoMidpoint": {
+                                "@type": "GeoCoordinates",
+                                latitude: 51.2562,
+                                longitude: 7.1508,
+                            },
+                            "geoRadius": 150,
+                        },
+                        "url": `https://www.antasus.de/leistungen/${service.slug}/${item.slug}/${item.id}`,
+                    })),
+                })
+            }}
+        </script>
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">

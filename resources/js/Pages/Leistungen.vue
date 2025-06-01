@@ -15,7 +15,6 @@
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
     </Head>
-
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">
@@ -118,7 +117,7 @@ import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
 import { Head, Link } from "@inertiajs/vue3";
-import { ref, computed, watch, onMounted } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 
 const props = defineProps({
     services: Array,
@@ -129,7 +128,6 @@ const selectService = (service) => {
     activeService.value = service.id;
 };
 
-// Dynamische Titel und Beschreibungen
 const metaTitle = computed(() =>
     activeService.value
         ? `Leistung: ${
@@ -137,6 +135,7 @@ const metaTitle = computed(() =>
           } | ANTASUS Infra`
         : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen"
 );
+
 const metaDescription = computed(() =>
     activeService.value
         ? props.services.find((s) => s.id === activeService.value)
@@ -144,7 +143,6 @@ const metaDescription = computed(() =>
         : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
 );
 
-// FAQ-Daten
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
@@ -159,7 +157,7 @@ const faqs = [
     {
         frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
         antwort:
-            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
+            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
         frage: "Wer ist Ansprechpartner während der Umsetzung?",
@@ -168,7 +166,39 @@ const faqs = [
     },
 ];
 
-// FAQ JSON-LD (wird bei Montage in den Head geschrieben)
+watch(activeService, () => {
+    const current = props.services.find((s) => s.id === activeService.value);
+    if (!current) return;
+
+    const structured = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: current.title,
+        description: current.description,
+        provider: {
+            "@type": "Organization",
+            name: "ANTASUS Infra",
+            url: "https://www.antasus.de",
+            contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+49 202 42988411",
+                mobile: "+49 176 24757616",
+                contactType: "customer support",
+            },
+        },
+        areaServed: { "@type": "Place", name: "Deutschland" },
+    };
+
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.dataset.dynamicLd = true;
+    tag.text = JSON.stringify(structured);
+    document
+        .querySelectorAll("script[data-dynamic-ld]")
+        .forEach((el) => el.remove());
+    document.head.appendChild(tag);
+});
+
 const structuredDataFAQ = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -182,47 +212,10 @@ const structuredDataFAQ = {
     })),
 };
 
-// Bei Änderung der aktiven Leistung Service-JSON-LD einfügen
-watch(activeService, () => {
-    const current = props.services.find((s) => s.id === activeService.value);
-    if (!current) return;
-
-    const serviceStructured = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: current.title,
-        description: current.description,
-        provider: {
-            "@type": "Organization",
-            name: "ANTASUS Infra",
-            url: "https://www.antasus.de",
-            contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+49 202 42988411",
-                contactType: "customer support",
-            },
-        },
-        areaServed: { "@type": "Place", name: "Deutschland" },
-    };
-
-    // Entferne vorherige Service-Skripte
-    document
-        .querySelectorAll("script[data-service-ld]")
-        .forEach((el) => el.remove());
-
-    // Füge neues Service-Skript ein
-    const tag = document.createElement("script");
-    tag.type = "application/ld+json";
-    tag.dataset.serviceLd = true;
-    tag.text = JSON.stringify(serviceStructured);
-    document.head.appendChild(tag);
-});
-
-// Beim Mounten das FAQ-Skript in den Head schreiben
 onMounted(() => {
-    const faqTag = document.createElement("script");
-    faqTag.type = "application/ld+json";
-    faqTag.text = JSON.stringify(structuredDataFAQ);
-    document.head.appendChild(faqTag);
+    const faqScript = document.createElement("script");
+    faqScript.type = "application/ld+json";
+    faqScript.text = JSON.stringify(structuredDataFAQ);
+    document.head.appendChild(faqScript);
 });
 </script>

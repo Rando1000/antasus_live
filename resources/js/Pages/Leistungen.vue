@@ -190,6 +190,19 @@ const faqs = [
     },
 ];
 
+const structuredDataFAQ = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.frage,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.antwort,
+        },
+    })),
+};
+
 onMounted(() => {
     const faqScript = document.createElement("script");
     faqScript.type = "application/ld+json";

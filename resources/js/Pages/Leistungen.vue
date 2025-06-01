@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <!-- Basis-Meta-Tags -->
+        <!-- Grundlegende Meta-Tags -->
         <title>{{ metaTitle }}</title>
         <meta name="description" :content="metaDescription" />
         <meta
@@ -16,24 +16,29 @@
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
 
-        <!-- 1) LocalBusiness-Schema -->
-        <script type="application/ld+json">
-            {{ localBusinessJson }}
+        <!-- 1) LocalBusiness (Lokales Unternehmen) -->
+        <script>
+            :jsonLd="localBusinessJsonLd"
         </script>
 
-        <!-- 2) FAQPage-Schema -->
-        <script type="application/ld+json">
-            {{ faqJson }}
+        <!-- 2) Organization (Unternehmen) -->
+        <script>
+            :jsonLd="organizationJsonLd"
         </script>
 
-        <!-- 3) Service-Schema – nur wenn activeService gesetzt ist -->
-        <script v-if="activeServiceObject" type="application/ld+json">
-            {{ serviceJson }}
+        <!-- 3) FAQPage -->
+        <script>
+            :jsonLd="faqPageJsonLd"
+        </script>
+
+        <!-- 4) Service: nur, wenn ein Service ausgewählt ist -->
+        <script v-if="activeServiceObject">
+            :jsonLd="serviceJsonLd"
         </script>
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">
-        <!-- HEADER -->
+        <!-- HEADER-Bereich -->
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">
                 <div class="max-w-4xl mx-auto">
@@ -65,10 +70,10 @@
             </section>
         </template>
 
-        <!-- Artikelauswahl -->
+        <!-- Artikel-/Service-Auswahl -->
         <ArticleCard :services="services" @select="selectService" />
 
-        <!-- Detailabschnitt für eine einzelne Service -->
+        <!-- Details zu einem einzelnen Service -->
         <section
             v-if="activeServiceObject"
             class="py-16 bg-white border-t border-gray-100"
@@ -113,7 +118,7 @@
             </div>
         </section>
 
-        <!-- Call-to-Action am Ende -->
+        <!-- Call-to-Action -->
         <section class="py-20 bg-white">
             <div class="max-w-4xl px-4 mx-auto text-center">
                 <h2 class="mb-4 text-2xl font-bold text-gray-900">
@@ -138,27 +143,25 @@ import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
 
 //
-// 1) Props
+// 1) Props entgegennehmen
 //
 const props = defineProps({
     services: Array,
 });
 
 //
-// 2) States & Ausgewählte Service
+// 2) State für die aktuell ausgewählte Service
 //
 const activeService = ref(null);
 const selectService = (service) => {
     activeService.value = service.id;
 };
-
-// Computed: zurückgegebene Service-Instanz (oder null)
 const activeServiceObject = computed(() => {
     return props.services.find((s) => s.id === activeService.value) || null;
 });
 
 //
-// 3) Meta-Title & Description
+// 3) Meta-Title / Description
 //
 const metaTitle = computed(() =>
     activeServiceObject.value
@@ -173,9 +176,9 @@ const metaDescription = computed(() =>
 );
 
 //
-// 4) LocalBusiness-JSON (immer anzeigen)
+// 4) LocalBusiness-JSON-LD
 //
-const localBusinessJson = computed(() =>
+const localBusinessJsonLd = computed(() =>
     JSON.stringify(
         {
             "@context": "https://schema.org",
@@ -216,7 +219,37 @@ const localBusinessJson = computed(() =>
 );
 
 //
-// 5) FAQPage-JSON (immer anzeigen)
+// 5) Organization-JSON-LD
+//
+const organizationJsonLd = computed(() =>
+    JSON.stringify(
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "ANTASUS Infra",
+            url: "https://www.antasus.de",
+            logo: "https://www.antasus.de/images/antasus-logo2.svg",
+            contactPoint: [
+                {
+                    "@type": "ContactPoint",
+                    telephone: "+49 202 42988411",
+                    contactType: "customer support",
+                    areaServed: "DE",
+                    availableLanguage: "de",
+                },
+            ],
+            sameAs: [
+                "https://www.linkedin.com/company/antasus",
+                "https://www.xing.com/pages/antasus-infra",
+            ],
+        },
+        null,
+        2
+    )
+);
+
+//
+// 6) FAQPage-JSON-LD
 //
 const faqs = [
     {
@@ -241,7 +274,7 @@ const faqs = [
     },
 ];
 
-const faqJson = computed(() =>
+const faqPageJsonLd = computed(() =>
     JSON.stringify(
         {
             "@context": "https://schema.org",
@@ -261,14 +294,12 @@ const faqJson = computed(() =>
 );
 
 //
-// 6) Service-JSON (nur anzeigen, wenn activeServiceObject gesetzt ist)
+// 7) Service-JSON-LD (nur, wenn activeServiceObject gesetzt ist)
 //
-const serviceJson = computed(() => {
+const serviceJsonLd = computed(() => {
     if (!activeServiceObject.value) {
         return "";
     }
-
-    // Beispiel: Wir nehmen Titel und Beschreibung der ausgewählten Service
     const srv = activeServiceObject.value;
     return JSON.stringify(
         {
@@ -298,10 +329,17 @@ const serviceJson = computed(() => {
 });
 
 //
-// 7) Navigation zwischen Services und Meta-Updates
+// 8) Methode zum Anzeigen eines Modals (falls gewünscht)
 //
 function showModal(item) {
-    // (funktionaler Code aus dem bestehenden Setup, falls gewünscht)
-    // z.B. zur Anzeige eines Modal-Fensters – nicht relevant für JSON-LD
+    // Dein existierender Code, falls du ein Modal öffnen willst.
+    // Für JSON-LD wird hier nichts benötigt.
 }
 </script>
+
+<style scoped>
+/* Beispiel-Styles für Details-Funktionalität */
+details summary {
+    list-style: none;
+}
+</style>

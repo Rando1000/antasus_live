@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <!-- Standard‐Meta‐Tags -->
+        <!-- Standard-Meta-Tags -->
         <title>{{ metaTitle }}</title>
         <meta name="description" :content="metaDescription" />
         <meta
@@ -16,13 +16,12 @@
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
 
-        <!-- EIN einziger JSON-LD-Block mit @graph, der LocalBusiness, FAQPage und (falls gesetzt) Service enthält -->
-        <script type="application/ld+json">
-            {{ JSON.stringify(fullGraphLd, null, 2) }}
-        </script>
+        <!-- EIN SCRIPT-BLOCK mit rohem JSON-LD (LocalBusiness + FAQPage + optional Service) -->
+        <script type="application/ld+json" v-html="jsonLdRaw"></script>
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">
+        <!-- HEADER -->
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">
                 <div class="max-w-4xl mx-auto">
@@ -54,10 +53,10 @@
             </section>
         </template>
 
-        <!-- Auswahl der Leistungen -->
+        <!-- Auswahlbereich: Artikelkarten -->
         <ArticleCard :services="services" @select="selectService" />
 
-        <!-- Details zu einer ausgewählten Leistung -->
+        <!-- Detailabschnitt für eine einzelne Leistung -->
         <section
             v-if="activeServiceObject"
             class="py-16 bg-white border-t border-gray-100"
@@ -102,7 +101,7 @@
             </div>
         </section>
 
-        <!-- Call-to-Action -->
+        <!-- Call-to-Action am Seitenende -->
         <section class="py-20 bg-white">
             <div class="max-w-4xl px-4 mx-auto text-center">
                 <h2 class="mb-4 text-2xl font-bold text-gray-900">
@@ -126,22 +125,23 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
 
-// 1) Props: Alle Services aus dem Controller
+// 1) Props: Array aller Services aus dem Controller
 const props = defineProps({
     services: Array,
 });
 
+// 2) State: aktuell ausgewählte Service-ID
 const activeService = ref(null);
 const selectService = (service) => {
     activeService.value = service.id;
 };
 
-// 2) ActiveService-Objekt (oder null)
+// 3) Computed: Objekt der aktiven Service (oder null)
 const activeServiceObject = computed(() => {
     return props.services.find((s) => s.id === activeService.value) || null;
 });
 
-// 3) Meta-Titel & Description
+// 4) Meta-Title & Description
 const metaTitle = computed(() =>
     activeServiceObject.value
         ? `Leistung: ${activeServiceObject.value.title} | ANTASUS Infra`
@@ -153,7 +153,7 @@ const metaDescription = computed(() =>
         : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
 );
 
-// 4) LocalBusiness‐Block (immer ausgeben)
+// 5) LocalBusiness-Schema (immer mitgeben)
 const localBusinessLd = {
     "@type": "LocalBusiness",
     name: "ANTASUS Infra",
@@ -187,7 +187,7 @@ const localBusinessLd = {
     ],
 };
 
-// 5) FAQPage‐Block (immer ausgeben)
+// 6) FAQPage-Schema (immer mitgeben)
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
@@ -210,7 +210,6 @@ const faqs = [
             "Ein deutschsprachiger Bauleiter oder technischer Ansprechpartner ist während der gesamten Umsetzung für Sie erreichbar – telefonisch oder vor Ort.",
     },
 ];
-
 const faqLd = {
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
@@ -223,8 +222,8 @@ const faqLd = {
     })),
 };
 
-// 6) Service‐Block (only if activeServiceObject gesetzt)
-function serviceLd(service) {
+// 7) Service-Schema (nur, wenn eine einzelne Service gewählt ist)
+function makeServiceLd(service) {
     return {
         "@type": "Service",
         name: service.title,
@@ -246,19 +245,25 @@ function serviceLd(service) {
     };
 }
 
-// 7) Vollständiges @graph‐Objekt (konsolidiert für Google)
+// 8) Zusammensetzen von @graph in EINEM einzigen JSON-LD-Block
 const fullGraphLd = computed(() => {
-    // Immer LocalBusiness + FAQPage
-    const graphArray = [localBusinessLd, faqLd];
+    // LocalBusiness + FAQPage immer
+    const arr = [localBusinessLd, faqLd];
 
-    // Falls activeService gewählt, Service‐Schema hinzufügen
+    // Falls ein Service aktiv, Service-Schema hinzufügen
     if (activeServiceObject.value) {
-        graphArray.push(serviceLd(activeServiceObject.value));
+        arr.push(makeServiceLd(activeServiceObject.value));
     }
 
     return {
         "@context": "https://schema.org",
-        "@graph": graphArray,
+        "@graph": arr,
     };
+});
+
+// 9) Wir brauchen die JSON-LD als **unescaped** String, damit Vue es exakt so in den <script>-Block schreibt
+const jsonLdRaw = computed(() => {
+    // JSON.stringify … ohne zusätzliche Escape-Zeichen
+    return JSON.stringify(fullGraphLd.value);
 });
 </script>

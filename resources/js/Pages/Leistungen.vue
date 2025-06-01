@@ -1,5 +1,6 @@
 <template>
     <Head>
+        <!-- Metadaten -->
         <title>{{ metaTitle }}</title>
         <meta name="description" :content="metaDescription" />
         <meta
@@ -14,7 +15,94 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://www.antasus.de/leistungen" />
+
+        <!-- JSON-LD: LocalBusiness -->
+        <script type="application/ld+json">
+            {{
+              JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                "name": "ANTASUS Infra",
+                "image": "https://www.antasus.de/images/antasus-logo2.svg",
+                "@id": "https://www.antasus.de/#organization",
+                "url": "https://www.antasus.de",
+                "telephone": "+49 202 42988411",
+                "email": "info@antasus.de",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "Norrenbergstraße 122",
+                  "addressLocality": "Wuppertal",
+                  "postalCode": "42289",
+                  "addressCountry": "DE"
+                },
+                "description": "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE.",
+                "areaServed": {
+                  "@type": "GeoCircle",
+                  "geoMidpoint": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 51.2562,
+                    "longitude": 7.1508
+                  },
+                  "geoRadius": 150
+                },
+                "priceRange": "Auf Anfrage",
+                "sameAs": [
+                  "https://www.linkedin.com/company/antasus",
+                  "https://www.xing.com/pages/antasus-infra"
+                ]
+              })
+            }}
+        </script>
+
+        <!-- JSON-LD: Alle Services als @graph -->
+        <script type="application/ld+json">
+            {{
+              JSON.stringify({
+                "@context": "https://schema.org",
+                "@graph": services.map(s => ({
+                  "@type": "Service",
+                  "name": s.title,
+                  "description": s.description,
+                  "provider": {
+                    "@type": "LocalBusiness",
+                    "name": "ANTASUS Infra",
+                    "url": "https://www.antasus.de"
+                  },
+                  "areaServed": {
+                    "@type": "GeoCircle",
+                    "geoMidpoint": {
+                      "@type": "GeoCoordinates",
+                      "latitude": 51.2562,
+                      "longitude": 7.1508
+                    },
+                    "geoRadius": 150
+                  },
+                  "url": `https://www.antasus.de/leistungen/${s.slug}`
+                }))
+              })
+            }}
+        </script>
+
+        <!-- JSON-LD: FAQPage -->
+        <script type="application/ld+json">
+            {{
+              JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": faqs.map(f => ({
+                  "@type": "Question",
+                  "name": f.frage,
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": f.antwort
+                  }
+                }))
+              })
+            }}
+        </script>
     </Head>
+
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">
@@ -57,18 +145,14 @@
                 <h2
                     class="mb-10 text-3xl font-extrabold text-center text-gray-900"
                 >
-                    Details zu "{{
-                        services.find((s) => s.id === activeService)?.title
-                    }}"
+                    Details zu “{{ currentService.title }}”
                 </h2>
                 <div class="grid gap-8 md:grid-cols-2">
                     <ServiceItemCard
-                        v-for="item in services.find(
-                            (s) => s.id === activeService
-                        )?.items || []"
+                        v-for="item in currentService.items"
                         :key="item.id"
                         :item="item"
-                        @select="showModal"
+                        @select="openItemDetail"
                     />
                 </div>
             </div>
@@ -81,7 +165,7 @@
                 >
                     Häufige Fragen
                 </h2>
-                <div v-for="(faq, index) in faqs" :key="index" class="mb-6">
+                <div v-for="(faq, idx) in faqs" :key="idx" class="mb-6">
                     <details class="p-4 border rounded-lg group">
                         <summary
                             class="text-lg font-semibold text-gray-800 cursor-pointer"
@@ -99,7 +183,7 @@
         <section class="py-20 bg-white">
             <div class="max-w-4xl px-4 mx-auto text-center">
                 <h2 class="mb-4 text-2xl font-bold text-gray-900">
-                    WIR sind Bereit für Ihre Projekte!
+                    WIR sind bereit für Ihre Projekte!
                 </h2>
                 <Link
                     href="/kontakt"
@@ -113,14 +197,15 @@
 </template>
 
 <script setup>
-import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
-import { Head, Link } from "@inertiajs/vue3";
-import { onMounted, ref, computed, watch } from "vue";
+import { Link, router } from "@inertiajs/vue3";
+import { ref, computed } from "vue";
 
+// Props: Liste aller Services wird vom Controller übergeben
 const props = defineProps({
-    services: Array,
+    services: { type: Array, required: true },
 });
 
 const activeService = ref(null);
@@ -128,21 +213,12 @@ const selectService = (service) => {
     activeService.value = service.id;
 };
 
-const metaTitle = computed(() =>
-    activeService.value
-        ? `Leistung: ${
-              props.services.find((s) => s.id === activeService.value)?.title
-          } | ANTASUS Infra`
-        : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen"
+// Aktueller Service-Block (berechnet)
+const currentService = computed(
+    () => props.services.find((s) => s.id === activeService.value) || {}
 );
 
-const metaDescription = computed(() =>
-    activeService.value
-        ? props.services.find((s) => s.id === activeService.value)
-              ?.description ?? ""
-        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
-);
-
+// FAQs (statisch)
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
@@ -157,7 +233,7 @@ const faqs = [
     {
         frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
         antwort:
-            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
+            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
         frage: "Wer ist Ansprechpartner während der Umsetzung?",
@@ -166,56 +242,45 @@ const faqs = [
     },
 ];
 
-watch(activeService, () => {
-    const current = props.services.find((s) => s.id === activeService.value);
-    if (!current) return;
-
-    const structured = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: current.title,
-        description: current.description,
-        provider: {
-            "@type": "Organization",
-            name: "ANTASUS Infra",
-            url: "https://www.antasus.de",
-            contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+49 202 42988411",
-                mobile: "+49 176 24757616",
-                contactType: "customer support",
-            },
-        },
-        areaServed: { "@type": "Place", name: "Deutschland" },
-    };
-
-    const tag = document.createElement("script");
-    tag.type = "application/ld+json";
-    tag.dataset.dynamicLd = true;
-    tag.text = JSON.stringify(structured);
-    document
-        .querySelectorAll("script[data-dynamic-ld]")
-        .forEach((el) => el.remove());
-    document.head.appendChild(tag);
-});
-
-const structuredDataFAQ = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.frage,
-        acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.antwort,
-        },
-    })),
+// Route zum Öffnen eines Service-Items
+const openItemDetail = (item) => {
+    if (!currentService.value.slug) return;
+    const url = `/leistungen/${currentService.value.slug}/${item.slug}/${item.id}`;
+    router.push({
+        url,
+        replace: false,
+        preserveScroll: true,
+        preserveState: true,
+    });
 };
 
-onMounted(() => {
-    const faqScript = document.createElement("script");
-    faqScript.type = "application/ld+json";
-    faqScript.text = JSON.stringify(structuredDataFAQ);
-    document.head.appendChild(faqScript);
-});
+// Meta-Titel / Description (dynamisch je nach Auswahl)
+const metaTitle = computed(() =>
+    activeService.value
+        ? `Leistung: ${currentService.value.title} | ANTASUS Infra`
+        : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen"
+);
+const metaDescription = computed(() =>
+    activeService.value
+        ? currentService.value.description || ""
+        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
+);
 </script>
+
+<style scoped>
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    transition: all 0.3s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>

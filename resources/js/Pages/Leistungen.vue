@@ -166,7 +166,7 @@ const jsonLd2 = {
     "@graph": [
         {
             "@type": "Service",
-            "@id": `https://www.antasus.de/leistungen/${service.slug}#service`,
+            "@id": "https://www.antasus.de/leistungen/{{ service.slug }}#service",
             name: service.title,
             description: service.description,
             provider: {

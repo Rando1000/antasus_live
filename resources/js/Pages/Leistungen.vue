@@ -32,10 +32,10 @@
             </section>
         </template>
 
-        <!-- Services-Karten (ArticleCard übernimmt Listing) -->
+        <!-- Listing aller Services -->
         <ArticleCard :services="services" @select="selectService" />
 
-        <!-- Details-Bereich einer ausgewählten Service-Kategorie -->
+        <!-- Detailbereich für aktuell ausgewählte Service‐Kategorie -->
         <section
             v-if="activeService"
             class="py-16 bg-white border-t border-gray-100"
@@ -51,13 +51,13 @@
                         v-for="item in currentService.items"
                         :key="item.id"
                         :item="item"
-                        @select="showModal"
+                        @select="openItemDetail"
                     />
                 </div>
             </div>
         </section>
 
-        <!-- FAQ-Sektion -->
+        <!-- FAQ-Bereich -->
         <section class="py-16 bg-white border-t border-gray-100">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2
@@ -65,7 +65,7 @@
                 >
                     Häufige Fragen
                 </h2>
-                <div v-for="(faq, index) in faqs" :key="index" class="mb-6">
+                <div v-for="(faq, idx) in faqs" :key="idx" class="mb-6">
                     <details class="p-4 border rounded-lg group">
                         <summary
                             class="text-lg font-semibold text-gray-800 cursor-pointer"
@@ -101,35 +101,24 @@
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
+import { ref, computed, onMounted } from "vue";
 import { useHead } from "@vueuse/head";
-import { ref, computed, watch, onMounted } from "vue";
 
+// Props mit allen Services (Array)
 const props = defineProps({
     services: { type: Array, required: true },
 });
 
-// Zustand der gerade ausgewählten Service-Kategorie
+// Aktuell ausgewählte Service‐Kategorie (ID)
 const activeService = ref(null);
 const selectService = (service) => {
     activeService.value = service.id;
 };
 
-// Aktuelle Service-Daten (Objekt) basierend auf activeService
+// Den Service‐Eintrag anhand der ID zurückgeben
 const currentService = computed(
     () => props.services.find((s) => s.id === activeService.value) || {}
-);
-
-// Metadaten (title/description) abhängig von Auswahl oder Default
-const metaTitle = computed(() =>
-    activeService.value
-        ? `Leistung: ${currentService.value.title} | ANTASUS Infra`
-        : "Glasfaser-Tiefbau & Hausanschlüsse | ANTASUS Infra"
-);
-const metaDescription = computed(() =>
-    activeService.value
-        ? currentService.value.description || ""
-        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
 );
 
 // FAQs (statisch)
@@ -156,7 +145,23 @@ const faqs = [
     },
 ];
 
-// Structured Data: LocalBusiness (immer dabei)
+// Öffnet Detailseite eines einzelnen Service-Items (Modal oder Route)
+const openItemDetail = (item) => {
+    if (!currentService.value.slug) return;
+    const url = `/leistungen/${currentService.value.slug}/${item.slug}/${item.id}`;
+    router.push({
+        url,
+        replace: false,
+        preserveScroll: true,
+        preserveState: true,
+    });
+};
+
+//--------------
+// Structured Data via useHead
+//--------------
+
+// 1) LocalBusiness (immer einbauen)
 const localBusinessLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -191,8 +196,8 @@ const localBusinessLd = {
     ],
 };
 
-// Structured Data: Service-Kategorien (Liste von Service-Objekten)
-const servicesLd = computed(() => ({
+// 2) Alle Services als JSON-LD im Graph (jedes Service-Objekt als eigenes Service-Element)
+const servicesLd = {
     "@context": "https://schema.org",
     "@graph": props.services.map((s) => ({
         "@type": "Service",
@@ -214,9 +219,9 @@ const servicesLd = computed(() => ({
         },
         url: `https://www.antasus.de/leistungen/${s.slug}`,
     })),
-}));
+};
 
-// Structured Data: FAQPage
+// 3) FAQPage (mit allen Fragen)
 const faqPageLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -230,51 +235,23 @@ const faqPageLd = {
     })),
 };
 
-// Structured Data: Einzelner Service (wird on watch in <head> injiziert)
-watch(
-    activeService,
-    (newVal) => {
-        // Entferne vorherige <script data-service-ld> falls vorhanden
-        document
-            .querySelectorAll("script[data-service-ld]")
-            .forEach((el) => el.remove());
-
-        if (!newVal) return;
-
-        const s = currentService.value;
-        const singleServiceLd = {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            name: s.title,
-            description: s.description,
-            provider: {
-                "@type": "Organization",
-                name: "ANTASUS Infra",
-                url: "https://www.antasus.de",
-                contactPoint: {
-                    "@type": "ContactPoint",
-                    telephone: "+49 202 42988411",
-                    contactType: "customer support",
-                },
-            },
-            areaServed: { "@type": "Place", name: "Deutschland" },
-            url: `https://www.antasus.de/leistungen/${s.slug}`,
-        };
-
-        const tag = document.createElement("script");
-        tag.type = "application/ld+json";
-        tag.dataset.serviceLd = "";
-        tag.text = JSON.stringify(singleServiceLd);
-        document.head.appendChild(tag);
-    },
-    { immediate: false }
+// 4) Metadaten (Titel/Description/OG/Canonical) – statisch oder ohne activeService-Abhängigkeit
+const metaTitle = computed(() =>
+    activeService.value
+        ? `Leistung: ${currentService.value.title} | ANTASUS Infra`
+        : "Glasfaser-Tiefbau & Hausanschlüsse | ANTASUS Infra"
+);
+const metaDescription = computed(() =>
+    activeService.value
+        ? currentService.value.description || ""
+        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
 );
 
-// <head> via useHead – Titel, Meta & JSON-LD
+// Einmalig im head injizieren
 useHead({
     title: metaTitle,
     meta: [
-        { name: "description", content: metaDescription },
+        { name: "description", content: metaDescription.value },
         {
             name: "keywords",
             content:
@@ -297,7 +274,7 @@ useHead({
         },
         {
             type: "application/ld+json",
-            children: JSON.stringify(servicesLd.value),
+            children: JSON.stringify(servicesLd),
         },
         {
             type: "application/ld+json",
@@ -306,30 +283,10 @@ useHead({
     ],
 });
 
-// Modal-Logik (wie gehabt)
-function showModal(item) {
-    const url = `/leistungen/${currentService.value.slug}/${item.slug}/${item.id}`;
-    router.push({
-        url,
-        replace: false,
-        preserveScroll: true,
-        preserveState: true,
-    });
-}
-
-import { usePage, router } from "@inertiajs/vue3";
-function hideModal() {
-    activeService.value = null;
-    router.push({
-        url: "/leistungen",
-        replace: false,
-        preserveScroll: true,
-        preserveState: true,
-    });
-}
-
-// onMounted bleibt leer oder für Escape-Tasten-Handling & Initial-State (optional)
-onMounted(() => {
-    // Hier könnten Sie Escape-Key Listener einfügen, falls benötigt.
-});
+// Falls gewünscht, könnte man später bei activeService auch noch ein einzelnes Service-JSON-LD nachladen.
+// Hier haben wir allerdings bereits alle Services in servicesLd eingebaut, so dass Google sofort alle erkennt.
 </script>
+
+<style scoped>
+/* (Bereits vorhanden, keine Änderung nötig) */
+</style>

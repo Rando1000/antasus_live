@@ -200,7 +200,7 @@
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
-import { Link, router } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 
 // Props: Liste aller Services wird vom Controller übergeben

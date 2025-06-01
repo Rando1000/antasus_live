@@ -14,10 +14,6 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
-        <script>
-            :jsonLd="jsonLd"
-            :jsonLd="jsonLd2"
-        </script>
     </Head>
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>

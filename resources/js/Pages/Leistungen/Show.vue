@@ -1,31 +1,61 @@
-<!-- resources/js/Pages/Leistungen/Show.vue -->
 <template>
     <Head>
+        <!-- Basis-SEO -->
         <title>{{ service.title }} | ANTASUS Infra</title>
         <meta name="description" :content="service.description" />
         <link
             rel="canonical"
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
         />
-        <!-- OpenGraph falls gewünscht -->
-        <meta
-            property="og:title"
-            :content="service.title + ' | ANTASUS Infra'"
-        />
-        <meta property="og:description" :content="service.description" />
-        <meta property="og:type" content="website" />
-        <meta
-            property="og:url"
-            :content="`https://www.antasus.de/leistungen/${service.slug}`"
-        />
-        <!-- Wenn es ein Bild für die Übersicht gibt: -->
-        <!-- <meta property="og:image" content="https://www.antasus.de/images/og-service-overview.webp" /> -->
+
+        <!-- JSON-LD: Service (Punkt 1) und Liste aller ServiceItems (Punkt 2) -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "Service",
+                        "@id": "https://www.antasus.de/leistungen/{{ service.slug }}#service",
+                        "name": "{{ service.title }}",
+                        "description": "{{ service.description }}",
+                        "provider": {
+                            "@type": "Organization",
+                            "name": "ANTASUS Infra",
+                            "url": "https://www.antasus.de"
+                        },
+                        "areaServed": {
+                            "@type": "Place",
+                            "name": "Deutschland"
+                        },
+                        "url": "https://www.antasus.de/leistungen/{{ service.slug }}"
+                    },
+                    {% for item in service.items %}
+                    {
+                        "@type": "Service",
+                        "@id": "https://www.antasus.de/leistungen/{{ service.slug }}/{{ item.slug }}/{{ item.id }}#item",
+                        "name": "{{ item.title }}",
+                        "description": "{{ item.description }}",
+                        "provider": {
+                            "@type": "Organization",
+                            "name": "ANTASUS Infra",
+                            "url": "https://www.antasus.de"
+                        },
+                        "areaServed": {
+                            "@type": "Place",
+                            "name": "Deutschland"
+                        },
+                        "url": "https://www.antasus.de/leistungen/{{ service.slug }}/{{ item.slug }}/{{ item.id }}"
+                    }{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                ]
+            }
+        </script>
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->
         <section
-            class="w-full px-4 text-center bg-gradient-to-br from-antasus-primary ..."
+            class="w-full px-4 text-center bg-gradient-to-br from-antasus-primary via-teal-600 to-antasus-dark/90 backdrop-blur-md"
         >
             <div class="max-w-4xl py-20 mx-auto text-white">
                 <h1
@@ -68,7 +98,7 @@
             </div>
         </section>
 
-        <!-- Modal für Service-Detail (unverändert) -->
+        <!-- Modal wie gehabt -->
         <Transition name="fade-slide">
             <div
                 v-if="selectedItem"
@@ -78,7 +108,7 @@
                 <div
                     class="relative w-full max-w-2xl mx-4 bg-white rounded-lg shadow-xl animate-fade-in-up flex flex-col max-h-[90vh]"
                 >
-                    <!-- Schließen-Button -->
+                    <!-- Schließen -->
                     <button
                         @click="closeModal"
                         class="absolute text-gray-400 top-3 right-3 hover:text-gray-600"
@@ -100,7 +130,7 @@
                         />
                     </div>
 
-                    <!-- Text-Bereich -->
+                    <!-- Scrollbarer Textbereich -->
                     <div
                         class="px-6 overflow-y-auto text-gray-700 whitespace-pre-line max-h-[40vh]"
                     >
@@ -133,18 +163,18 @@
 </template>
 
 <script setup>
-import { useHead } from "@vueuse/head";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Link, usePage, router } from "@inertiajs/vue3";
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { Head, Link, usePage, router } from "@inertiajs/vue3";
+import { ref, onMounted, onUnmounted } from "vue";
 
-const props = defineProps({ service: Object });
+const props = defineProps({
+    service: Object,
+});
+
+/* Modal-Logik unverändert */
 const selectedItem = ref(null);
 const page = usePage();
 
-/**
- * Modal-Funktionen (wie gehabt)
- */
 function showModal(item) {
     selectedItem.value = item;
     router.push({
@@ -154,6 +184,7 @@ function showModal(item) {
         url: `/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
     });
 }
+
 function closeModal() {
     selectedItem.value = null;
     router.push({
@@ -163,6 +194,7 @@ function closeModal() {
         url: `/leistungen/${props.service.slug}`,
     });
 }
+
 function handleEscape(event) {
     if (event.key === "Escape" && selectedItem.value) {
         closeModal();
@@ -171,39 +203,18 @@ function handleEscape(event) {
 
 onMounted(() => {
     document.addEventListener("keydown", handleEscape);
-
-    // JSON-LD für alle Service-Items in @graph
-    const graph = props.service.items.map((item) => ({
-        "@type": "Service",
-        name: item.title,
-        description: item.description,
-        url: `https://www.antasus.de/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
-        provider: {
-            "@type": "LocalBusiness",
-            "@id": "https://www.antasus.de/#localbusiness",
-        },
-        areaServed: {
-            "@type": "GeoCircle",
-            geoMidpoint: {
-                "@type": "GeoCoordinates",
-                latitude: 51.2562,
-                longitude: 7.1508,
-            },
-            geoRadius: 150,
-        },
-    }));
-
-    useHead({
-        script: [
-            {
-                type: "application/ld+json",
-                children: JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@graph": graph,
-                }),
-            },
-        ],
-    });
+    const segments = page.url.split("/");
+    const itemId = segments.includes("item")
+        ? segments[segments.indexOf("item") + 1]
+        : null;
+    if (itemId) {
+        const item = props.service.items.find(
+            (i) => i.id.toString() === itemId
+        );
+        if (item) {
+            selectedItem.value = item;
+        }
+    }
 });
 
 onUnmounted(() => {

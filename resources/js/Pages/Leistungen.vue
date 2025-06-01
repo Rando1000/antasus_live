@@ -14,6 +14,9 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
+        <script>
+            :jsonLd="jsonLd"
+        </script>
     </Head>
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
@@ -128,20 +131,39 @@ const selectService = (service) => {
     activeService.value = service.id;
 };
 
-const metaTitle = computed(() =>
-    activeService.value
-        ? `Leistung: ${
-              props.services.find((s) => s.id === activeService.value)?.title
-          } | ANTASUS Infra`
-        : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen"
-);
-
-const metaDescription = computed(() =>
-    activeService.value
-        ? props.services.find((s) => s.id === activeService.value)
-              ?.description ?? ""
-        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
-);
+const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "ANTASUS Infra",
+    image: "https://www.antasus.de/images/antasus-logo2.svg",
+    "@id": "https://www.antasus.de",
+    url: "https://www.antasus.de",
+    telephone: "+49 176 24757616",
+    email: "info@antasus.de",
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: "Norrenbergstraße 122",
+        addressLocality: "Wuppertal",
+        postalCode: "42289",
+        addressCountry: "DE",
+    },
+    description:
+        "Ihr Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE – partnerschaftlich & termintreu.",
+    areaServed: {
+        "@type": "GeoCircle",
+        geoMidpoint: {
+            "@type": "GeoCoordinates",
+            latitude: 51.2562,
+            longitude: 7.1508,
+        },
+        geoRadius: 150,
+    },
+    priceRange: "Auf Anfrage",
+    sameAs: [
+        "https://www.linkedin.com/company/antasus",
+        "https://www.xing.com/pages/antasus-infra",
+    ],
+};
 
 const faqs = [
     {

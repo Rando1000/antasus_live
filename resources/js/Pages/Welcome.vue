@@ -1,310 +1,230 @@
 <template>
-    <GuestLayout>
-        <!-- Hero mit Fullscreen-Hintergrund und Overlay -->
-        <section
-            class="relative flex items-center justify-center max-h-screen overflow-hidden bg-gray-900"
-        >
-            <div class="absolute inset-0">
-                <img
-                    src="/images/Header_welcome.avif"
-                    alt="Glasfaser Netzwerk"
-                    class="object-cover w-full opacity-80"
-                    :jsonLd="jsonLd"
-                />
-            </div>
+    <Head>
+        <title>{{ metaTitle }}</title>
+        <meta name="description" :content="metaDescription" />
+        <meta
+            name="keywords"
+            content="Glasfaser Tiefbau, Hausanschlüsse, Subunternehmer, Generalunternehmen, DIN VDE, Glasfaserbau NRW, Partner Glasfaserprojekt"
+        />
+        <meta property="og:title" :content="metaTitle" />
+        <meta property="og:description" :content="metaDescription" />
+        <meta
+            property="og:image"
+            content="https://www.antasus.de/images/og-leistungen.webp"
+        />
+        <meta property="og:url" content="https://www.antasus.de/leistungen" />
+        <meta property="og:type" content="website" />
+    </Head>
 
-            <div class="container relative px-6 py-32 mx-auto text-center">
+    <GuestLayout :serviceArea="'dienstleistungen'">
+        <template #header>
+            <section class="w-full px-4 text-center animate-fade-in">
                 <div class="max-w-4xl mx-auto">
                     <h1
-                        class="mb-6 text-4xl font-bold leading-tight text-white md:text-6xl"
+                        class="mb-6 text-4xl font-extrabold text-white md:text-5xl drop-shadow-xl"
                     >
-                        <span
-                            class="text-transparent bg-gradient-to-r from-teal-400 to-indigo-400 bg-clip-text"
-                        >
-                            Zukunftssichere </span
-                        ><br />
-                        Glasfaserinfrastruktur
+                        <span class="relative inline-block">
+                            Unsere Leistungen
+                            <span
+                                class="absolute left-0 w-full h-1 rounded -bottom-1 bg-antasus-primary/70"
+                            ></span>
+                        </span>
                     </h1>
-
                     <p
-                        class="max-w-2xl mx-auto mb-10 text-xl font-extrabold text-white"
+                        class="mb-8 text-lg md:text-xl text-white/90 drop-shadow-md"
                     >
-                        Planung, Bau und Dokumentation nach deutschen
-                        Qualitätsstandards für maximale Zukunftssicherheit
+                        Wir bieten Komplettlösungen im Glasfaserausbau –
+                        <span class="font-semibold text-white"
+                            >fachgerecht, zuverlässig und normkonform</span
+                        >.
                     </p>
-
-                    <div class="flex flex-col justify-center gap-4 sm:flex-row">
-                        <Link
-                            href="/kontakt"
-                            class="px-8 py-4 font-medium text-white transition-all transform rounded-lg bg-gradient-to-r from-teal-600 to-indigo-600 hover:shadow-xl hover:-translate-y-1"
-                        >
-                            Projekt anfragen
-                        </Link>
-                        <Link
-                            href="/leistungen"
-                            class="px-8 py-4 text-white transition-all border rounded-lg bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20"
-                        >
-                            Leistungen entdecken
-                        </Link>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scroll Indicator -->
-            <div class="absolute transform -translate-x-1/2 bottom-10 left-1/2">
-                <div
-                    class="flex justify-center w-6 h-10 border-2 border-white rounded-full animate-bounce"
-                >
-                    <div class="w-1 h-2 mt-2 bg-white rounded-full"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Leistungen Section mit modernen Karten -->
-        <section class="py-20 bg-white">
-            <div class="container px-6 mx-auto">
-                <div class="mb-16 text-center">
-                    <span
-                        class="inline-block px-4 py-1 mb-4 text-sm font-medium text-teal-600 bg-teal-100 rounded-full"
-                    >
-                        Unsere Expertise
-                    </span>
-                    <h2
-                        class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl"
-                    >
-                        Maßgeschneiderte
-                        <span class="text-teal-600">Lösungen</span>
-                    </h2>
-                    <p class="max-w-2xl mx-auto text-gray-600">
-                        Von der Planung bis zur Dokumentation - alles aus einer
-                        Hand
-                    </p>
-                </div>
-
-                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                     <Link
-                        v-for="(leistung, index) in leistungen"
-                        :key="index"
-                        :href="`/leistungen/${leistung.slug}`"
-                        class="relative overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-lg group rounded-xl hover:shadow-xl"
+                        href="/kontakt"
+                        class="inline-block px-6 py-3 font-semibold text-white transition rounded-lg shadow-lg bg-antasus-primary hover:bg-antasus-dark"
                     >
-                        <div
-                            class="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-teal-50 to-indigo-50 group-hover:opacity-100"
-                        ></div>
-                        <div class="relative p-8">
-                            <div
-                                class="flex items-center justify-center mb-6 text-white rounded-lg w-14 h-14 bg-gradient-to-r from-teal-600 to-indigo-600"
-                            >
-                                <span class="text-2xl">{{ icons[index] }}</span>
-                            </div>
-                            <h3
-                                class="mb-3 text-xl font-semibold text-gray-900"
-                            >
-                                {{ leistung.titel }}
-                            </h3>
-                            <p class="text-gray-600">
-                                {{ leistung.beschreibung }}
-                            </p>
-                        </div>
+                        Projekt anfragen
                     </Link>
                 </div>
-            </div>
-        </section>
-        <section class="py-20 bg-white">
-            <div class="max-w-6xl px-6 mx-auto">
-                <h2 class="mb-16 text-3xl font-bold text-center text-gray-900">
-                    Warum <span class="text-teal-400">Antasus</span>?
+            </section>
+        </template>
+
+        <ArticleCard :services="services" @select="selectService" />
+
+        <section
+            v-if="activeService"
+            class="py-16 bg-white border-t border-gray-100"
+        >
+            <div class="max-w-6xl px-4 mx-auto">
+                <h2
+                    class="mb-10 text-3xl font-extrabold text-center text-gray-900"
+                >
+                    Details zu "{{
+                        services.find((s) => s.id === activeService)?.title
+                    }}"
                 </h2>
-                <div class="grid gap-8 md:grid-cols-3">
-                    <div class="p-8 text-center">
-                        <div
-                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full"
-                        >
-                            <span class="text-2xl text-indigo-600">🔧</span>
-                        </div>
-                        <h3 class="mb-3 text-lg font-semibold text-gray-900">
-                            Fachkräfte aus Deutschland
-                        </h3>
-                        <p class="text-gray-600">
-                            Muttersprachliche Kommunikation ohne Barrieren
-                        </p>
-                    </div>
-                    <div class="p-8 text-center">
-                        <div
-                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full"
-                        >
-                            <span class="text-2xl text-indigo-600">📐</span>
-                        </div>
-                        <h3 class="mb-3 text-lg font-semibold text-gray-900">
-                            DIN- & VDE-gerecht
-                        </h3>
-                        <p class="text-gray-600">
-                            Höchste Qualität durch strikte Normkonformität
-                        </p>
-                    </div>
-                    <div class="p-8 text-center">
-                        <div
-                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full"
-                        >
-                            <span class="text-2xl text-indigo-600">📋</span>
-                        </div>
-                        <h3 class="mb-3 text-lg font-semibold text-gray-900">
-                            Planungssicherheit
-                        </h3>
-                        <p class="text-gray-600">
-                            Transparente Prozesse von Anfang bis Ende
-                        </p>
-                    </div>
+                <div class="grid gap-8 md:grid-cols-2">
+                    <ServiceItemCard
+                        v-for="item in services.find(
+                            (s) => s.id === activeService
+                        )?.items || []"
+                        :key="item.id"
+                        :item="item"
+                        @select="showModal"
+                    />
                 </div>
             </div>
         </section>
 
-        <!-- Kontakt Section -->
-        <section class="relative py-24 overflow-hidden text-white bg-blue-200">
-            <div
-                class="absolute inset-0 bg-[ural('/images/contact-pattern-dark.jpg')] opacity-10"
-            ></div>
-            <div class="relative max-w-4xl px-6 mx-auto">
-                <div class="mb-16 text-center">
-                    <h2 class="mb-4 text-3xl font-bold">
-                        <span class="text-teal-400">Bereit</span> für Ihr
-                        Projekt?
-                    </h2>
-                    <p class="max-w-2xl mx-auto text-black-300">
-                        Kontaktieren Sie uns für ein unverbindliches Angebot
-                    </p>
-                </div>
-                <div class="p-8 bg-gray-800 shadow-xl rounded-xl">
-                    <div class="grid gap-8 md:grid-cols-2">
-                        <div>
-                            <h3 class="mb-6 text-xl font-semibold text-white">
-                                Kontaktdaten
-                            </h3>
-                            <address class="space-y-4 not-italic text-gray-300">
-                                <p class="flex items-start">
-                                    <span class="mt-1 mr-3">📍</span>
-                                    <span
-                                        >ANTASUS Infra<br />
-                                        Norrenbergstraße 122<br />
-                                        42289 Wuppertal</span
-                                    >
-                                </p>
-                                <p class="flex items-center">
-                                    <span class="mr-3">📞</span>
-                                    <a
-                                        href="tel:+4917624757616"
-                                        class="transition-colors hover:text-teal-400"
-                                    >
-                                        +49 202 42988411
-                                    </a>
-                                </p>
-                                <p class="flex items-center">
-                                    <span class="mr-3">📧</span>
-                                    <a
-                                        href="mailto:info@antasus.de"
-                                        class="transition-colors hover:text-teal-400"
-                                    >
-                                        info@antasus.de
-                                    </a>
-                                </p>
-                            </address>
-                        </div>
-                        <div>
-                            <h3 class="mb-6 text-xl font-semibold text-white">
-                                Schnellanfrage
-                            </h3>
-                            <Link
-                                href="/kontakt"
-                                class="inline-block w-full px-6 py-3 mb-4 font-semibold text-center text-white transition-colors bg-teal-600 rounded-lg hover:bg-teal-400 hover:text-black"
-                            >
-                                Kontaktformular
-                            </Link>
-                            <p class="text-sm text-gray-400">
-                                Wir antworten innerhalb von 24 Stunden
-                            </p>
-                        </div>
-                    </div>
+        <section class="py-16 bg-white border-t border-gray-100">
+            <div class="max-w-4xl px-4 mx-auto">
+                <h2
+                    class="mb-10 text-3xl font-extrabold text-center text-gray-900"
+                >
+                    Häufige Fragen
+                </h2>
+                <div v-for="(faq, index) in faqs" :key="index" class="mb-6">
+                    <details class="p-4 border rounded-lg group">
+                        <summary
+                            class="text-lg font-semibold text-gray-800 cursor-pointer"
+                        >
+                            {{ faq.frage }}
+                        </summary>
+                        <p class="mt-2 leading-relaxed text-gray-600">
+                            {{ faq.antwort }}
+                        </p>
+                    </details>
                 </div>
             </div>
         </section>
-        <!-- Weitere Sections bleiben ähnlich, aber mit dem neuen Designsystem -->
+
+        <section class="py-20 bg-white">
+            <div class="max-w-4xl px-4 mx-auto text-center">
+                <h2 class="mb-4 text-2xl font-bold text-gray-900">
+                    WIR sind Bereit für Ihre Projekte!
+                </h2>
+                <Link
+                    href="/kontakt"
+                    class="inline-block px-6 py-3 mt-4 text-white transition bg-teal-600 rounded-lg hover:bg-teal-700"
+                >
+                    Jetzt Kontakt aufnehmen
+                </Link>
+            </div>
+        </section>
     </GuestLayout>
 </template>
 
 <script setup>
+import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Link } from "@inertiajs/vue3";
-import { onMounted } from "vue";
+import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
+import { Head, Link } from "@inertiajs/vue3";
+import { ref, computed, watch, onMounted } from "vue";
 
-const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "ANTASUS Infra",
-    image: "https://www.antasus.de/images/antasus-logo2.svg",
-    "@id": "https://www.antasus.de",
-    url: "https://www.antasus.de",
-    telephone: "+49 176 24757616",
-    email: "info@antasus.de",
-    address: {
-        "@type": "PostalAddress",
-        streetAddress: "Norrenbergstraße 122",
-        addressLocality: "Wuppertal",
-        postalCode: "42289",
-        addressCountry: "DE",
-    },
-    description:
-        "Ihr Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE – partnerschaftlich & termintreu.",
-    areaServed: {
-        "@type": "GeoCircle",
-        geoMidpoint: {
-            "@type": "GeoCoordinates",
-            latitude: 51.2562,
-            longitude: 7.1508,
-        },
-        geoRadius: 150,
-    },
-    priceRange: "Auf Anfrage",
-    sameAs: [
-        "https://www.linkedin.com/company/antasus",
-        "https://www.xing.com/pages/antasus-infra",
-    ],
-};
-
-onMounted(() => {
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
+const props = defineProps({
+    services: Array,
 });
 
-const leistungen = [
+const activeService = ref(null);
+const selectService = (service) => {
+    activeService.value = service.id;
+};
+
+// Dynamische Titel und Beschreibungen
+const metaTitle = computed(() =>
+    activeService.value
+        ? `Leistung: ${
+              props.services.find((s) => s.id === activeService.value)?.title
+          } | ANTASUS Infra`
+        : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen"
+);
+const metaDescription = computed(() =>
+    activeService.value
+        ? props.services.find((s) => s.id === activeService.value)
+              ?.description ?? ""
+        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
+);
+
+// FAQ-Daten
+const faqs = [
     {
-        titel: "Hausanschlüsse",
-        slug: "hausanschlüsse",
-        beschreibung:
-            "Trasse, Bohrung & Innenmontage – alles aus einer Hand mit deutscher Präzision.",
+        frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
+        antwort:
+            "Die Kosten hängen von Lage, Länge der Trasse und Technik ab. Für Generalunternehmen kalkulieren wir individuell. Privatkunden erhalten ein Festpreisangebot nach Vor-Ort-Besichtigung.",
     },
     {
-        titel: "Glasfaser-Tiefbau",
-        slug: "glasfaser-tiefbau",
-        beschreibung:
-            "DIN- & VDE-gerechte Leerrohrverlegung mit höchster Qualität und Dokumentation.",
+        frage: "Wie lange dauert ein Tiefbauprojekt?",
+        antwort:
+            "Die Dauer variiert je nach Umfang. Kleinere Projekte (1–2 Hausanschlüsse) sind in 2–4 Tagen abgeschlossen. Großprojekte werden termingerecht nach Bauzeitenplan umgesetzt.",
     },
     {
-        titel: "Projektplanung & Beratung",
-        slug: "projektplanung-beratung",
-        beschreibung:
-            "Technische Planung mit Praxisbezug für Generalunternehmer und Bauherren.",
+        frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
+        antwort:
+            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
-        titel: "Dokumentation",
-        slug: "dokumentation",
-        beschreibung:
-            "Lückenlose Ausführung nach Auftraggebervorgaben & aktuellen Normen.",
+        frage: "Wer ist Ansprechpartner während der Umsetzung?",
+        antwort:
+            "Ein deutschsprachiger Bauleiter oder technischer Ansprechpartner ist während der gesamten Umsetzung für Sie erreichbar – telefonisch oder vor Ort.",
     },
 ];
 
-const icons = ["🏠", "🛠️", "📊", "📋"];
+// FAQ JSON-LD (wird bei Montage in den Head geschrieben)
+const structuredDataFAQ = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.frage,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.antwort,
+        },
+    })),
+};
+
+// Bei Änderung der aktiven Leistung Service-JSON-LD einfügen
+watch(activeService, () => {
+    const current = props.services.find((s) => s.id === activeService.value);
+    if (!current) return;
+
+    const serviceStructured = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: current.title,
+        description: current.description,
+        provider: {
+            "@type": "Organization",
+            name: "ANTASUS Infra",
+            url: "https://www.antasus.de",
+            contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+49 202 42988411",
+                contactType: "customer support",
+            },
+        },
+        areaServed: { "@type": "Place", name: "Deutschland" },
+    };
+
+    // Entferne vorherige Service-Skripte
+    document
+        .querySelectorAll("script[data-service-ld]")
+        .forEach((el) => el.remove());
+
+    // Füge neues Service-Skript ein
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.dataset.serviceLd = true;
+    tag.text = JSON.stringify(serviceStructured);
+    document.head.appendChild(tag);
+});
+
+// Beim Mounten das FAQ-Skript in den Head schreiben
+onMounted(() => {
+    const faqTag = document.createElement("script");
+    faqTag.type = "application/ld+json";
+    faqTag.text = JSON.stringify(structuredDataFAQ);
+    document.head.appendChild(faqTag);
+});
 </script>
 
 <!-- <script setup>

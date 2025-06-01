@@ -16,6 +16,7 @@
         <meta property="og:type" content="website" />
         <script>
             :jsonLd="jsonLd"
+            :jsonLd="jsonLd2"
         </script>
     </Head>
     <GuestLayout :serviceArea="'dienstleistungen'">
@@ -157,6 +158,44 @@ const jsonLd = {
     sameAs: [
         "https://www.linkedin.com/company/antasus",
         "https://www.xing.com/pages/antasus-infra",
+    ],
+};
+
+const jsonLd2 = {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "Service",
+            "@id": `https://www.antasus.de/leistungen/${service.slug}#service`,
+            name: service.title,
+            description: service.description,
+            provider: {
+                "@type": "Organization",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+            },
+            areaServed: {
+                "@type": "Place",
+                name: "Deutschland",
+                url: `https://www.antasus.de/leistungen/${service.slug}`,
+            },
+        },
+        {
+            "@type": "Service",
+            "@id": `https://www.antasus.de/leistungen/${service.slug}/${item.slug}/${item.id}#item`,
+            name: item.title,
+            description: item.description,
+            provider: {
+                "@type": "Organization",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+            },
+            areaServed: {
+                "@type": "Place",
+                name: "Deutschland",
+                url: `https://www.antasus.de/leistungen/${service.slug}/${item.slug}/${item.id}`,
+            },
+        },
     ],
 };
 

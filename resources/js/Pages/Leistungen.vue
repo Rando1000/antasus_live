@@ -1,6 +1,5 @@
 <template>
     <Head>
-        <!-- Standard-Meta-Tags -->
         <title>{{ metaTitle }}</title>
         <meta name="description" :content="metaDescription" />
         <meta
@@ -15,25 +14,7 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
-
-        <!-- Lokales Unternehmen (LocalBusiness) -->
-        <script type="application/ld+json">
-            {{ JSON.stringify(localBusinessLd, null, 2) }}
-        </script>
-
-        <!-- FAQPage (statisch für alle Leistungen) -->
-        <script type="application/ld+json">
-            {{ JSON.stringify(faqLd, null, 2) }}
-        </script>
-
-        <!-- Service-JSON-LD: Nur ausgeben, wenn activeService gesetzt ist -->
-        <template v-if="activeServiceObject">
-            <script type="application/ld+json">
-                {{ JSON.stringify(serviceLd(activeServiceObject), null, 2) }}
-            </script>
-        </template>
     </Head>
-
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">
@@ -66,10 +47,8 @@
             </section>
         </template>
 
-        <!-- Auswahl der Leistungen -->
         <ArticleCard :services="services" @select="selectService" />
 
-        <!-- Details zu einer ausgewählten Leistung -->
         <section
             v-if="activeService"
             class="py-16 bg-white border-t border-gray-100"
@@ -78,11 +57,15 @@
                 <h2
                     class="mb-10 text-3xl font-extrabold text-center text-gray-900"
                 >
-                    Details zu "{{ activeServiceObject.title }}"
+                    Details zu "{{
+                        services.find((s) => s.id === activeService)?.title
+                    }}"
                 </h2>
                 <div class="grid gap-8 md:grid-cols-2">
                     <ServiceItemCard
-                        v-for="item in activeServiceObject.items"
+                        v-for="item in services.find(
+                            (s) => s.id === activeService
+                        )?.items || []"
                         :key="item.id"
                         :item="item"
                         @select="showModal"
@@ -91,7 +74,6 @@
             </div>
         </section>
 
-        <!-- FAQ-Bereich -->
         <section class="py-16 bg-white border-t border-gray-100">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2
@@ -114,7 +96,6 @@
             </div>
         </section>
 
-        <!-- Call-to-Action -->
         <section class="py-20 bg-white">
             <div class="max-w-4xl px-4 mx-auto text-center">
                 <h2 class="mb-4 text-2xl font-bold text-gray-900">
@@ -132,13 +113,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { Head, Link } from "@inertiajs/vue3";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ArticleCard from "@/Components/ArticleCard_Slug.vue";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
+import { Head, Link } from "@inertiajs/vue3";
+import { onMounted, ref, computed, watch } from "vue";
 
-// props: Liste aller Services (aus dem Controller)
 const props = defineProps({
     services: Array,
 });
@@ -148,59 +128,21 @@ const selectService = (service) => {
     activeService.value = service.id;
 };
 
-// Hilfsfunktion, um das aktuell ausgewählte Service-Objekt zu bekommen
-const activeServiceObject = computed(() => {
-    return props.services.find((s) => s.id === activeService.value) || null;
-});
-
-// Meta-Title / Description – ändert sich auch, wenn activeService wechselt:
 const metaTitle = computed(() =>
-    activeServiceObject.value
-        ? `Leistung: ${activeServiceObject.value.title} | ANTASUS Infra`
+    activeService.value
+        ? `Leistung: ${
+              props.services.find((s) => s.id === activeService.value)?.title
+          } | ANTASUS Infra`
         : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen"
 );
+
 const metaDescription = computed(() =>
-    activeServiceObject.value
-        ? activeServiceObject.value.description
+    activeService.value
+        ? props.services.find((s) => s.id === activeService.value)
+              ?.description ?? ""
         : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich."
 );
 
-// *** 1) LocalBusiness JSON-LD (immer ausgeben) ***
-const localBusinessLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "ANTASUS Infra",
-    image: "https://www.antasus.de/images/antasus-logo2.svg",
-    "@id": "https://www.antasus.de",
-    url: "https://www.antasus.de",
-    telephone: "+49 176 24757616",
-    email: "info@antasus.de",
-    address: {
-        "@type": "PostalAddress",
-        streetAddress: "Norrenbergstraße 122",
-        addressLocality: "Wuppertal",
-        postalCode: "42289",
-        addressCountry: "DE",
-    },
-    description:
-        "Ihr Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE – partnerschaftlich & termintreu.",
-    areaServed: {
-        "@type": "GeoCircle",
-        geoMidpoint: {
-            "@type": "GeoCoordinates",
-            latitude: 51.2562,
-            longitude: 7.1508,
-        },
-        geoRadius: 150,
-    },
-    priceRange: "Auf Anfrage",
-    sameAs: [
-        "https://www.linkedin.com/company/antasus",
-        "https://www.xing.com/pages/antasus-infra",
-    ],
-};
-
-// *** 2) FAQPage JSON-LD (statisch für alle Leistungen) ***
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
@@ -215,7 +157,7 @@ const faqs = [
     {
         frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
         antwort:
-            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
+            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
         frage: "Wer ist Ansprechpartner während der Umsetzung?",
@@ -224,7 +166,40 @@ const faqs = [
     },
 ];
 
-const faqLd = {
+watch(activeService, () => {
+    const current = props.services.find((s) => s.id === activeService.value);
+    if (!current) return;
+
+    const structured = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: current.title,
+        description: current.description,
+        provider: {
+            "@type": "Organization",
+            name: "ANTASUS Infra",
+            url: "https://www.antasus.de",
+            contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+49 202 42988411",
+                mobile: "+49 176 24757616",
+                contactType: "customer support",
+            },
+        },
+        areaServed: { "@type": "Place", name: "Deutschland" },
+    };
+
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.dataset.dynamicLd = true;
+    tag.text = JSON.stringify(structured);
+    document
+        .querySelectorAll("script[data-dynamic-ld]")
+        .forEach((el) => el.remove());
+    document.head.appendChild(tag);
+});
+
+const structuredDataFAQ = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
@@ -237,30 +212,10 @@ const faqLd = {
     })),
 };
 
-// *** 3) Service JSON-LD (nur, wenn activeService gesetzt) ***
-function serviceLd(service) {
-    return {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        name: service.title,
-        description: service.description,
-        provider: {
-            "@type": "Organization",
-            name: "ANTASUS Infra",
-            url: "https://www.antasus.de",
-            contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+49 202 42988411",
-                contactType: "customer support",
-            },
-        },
-        areaServed: {
-            "@type": "Place",
-            name: "Deutschland",
-        },
-        // Hier könnte man bei Bedarf noch "url" oder "image" hinzufügen
-    };
-}
-
-// Exportiere eine Reactive-Referenz, die das Service-Objekt hält
+onMounted(() => {
+    const faqScript = document.createElement("script");
+    faqScript.type = "application/ld+json";
+    faqScript.text = JSON.stringify(structuredDataFAQ);
+    document.head.appendChild(faqScript);
+});
 </script>

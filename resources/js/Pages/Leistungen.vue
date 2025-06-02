@@ -19,9 +19,9 @@
         </script>
     </Head>
     <!-- JSON-LD für Services im Body -->
-    <div style="display: none">
+    <script type="application/ld+json">
         {{ servicesJsonLd }}
-    </div>
+    </script>
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">

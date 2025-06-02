@@ -1,55 +1,11 @@
 <template>
     <Head>
-        <!-- Basis-SEO -->
         <title>{{ service.title }} | ANTASUS Infra</title>
         <meta name="description" :content="service.description" />
         <link
             rel="canonical"
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
         />
-
-        <!-- JSON-LD: Service (Punkt 1) und Liste aller ServiceItems (Punkt 2) -->
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@graph": [
-                    {
-                        "@type": "Service",
-                        "@id": "https://www.antasus.de/leistungen/{{ service.slug }}#service",
-                        "name": "{{ service.title }}",
-                        "description": "{{ service.description }}",
-                        "provider": {
-                            "@type": "Organization",
-                            "name": "ANTASUS Infra",
-                            "url": "https://www.antasus.de"
-                        },
-                        "areaServed": {
-                            "@type": "Place",
-                            "name": "Deutschland"
-                        },
-                        "url": "https://www.antasus.de/leistungen/{{ service.slug }}"
-                    },
-                    {% for item in service.items %}
-                    {
-                        "@type": "Service",
-                        "@id": "https://www.antasus.de/leistungen/{{ service.slug }}/{{ item.slug }}/{{ item.id }}#item",
-                        "name": "{{ item.title }}",
-                        "description": "{{ item.description }}",
-                        "provider": {
-                            "@type": "Organization",
-                            "name": "ANTASUS Infra",
-                            "url": "https://www.antasus.de"
-                        },
-                        "areaServed": {
-                            "@type": "Place",
-                            "name": "Deutschland"
-                        },
-                        "url": "https://www.antasus.de/leistungen/{{ service.slug }}/{{ item.slug }}/{{ item.id }}"
-                    }{% if not loop.last %},{% endif %}
-                    {% endfor %}
-                ]
-            }
-        </script>
     </Head>
 
     <GuestLayout :serviceArea="'dienstleistungen'">
@@ -98,7 +54,7 @@
             </div>
         </section>
 
-        <!-- Modal wie gehabt -->
+        <!-- Modal -->
         <Transition name="fade-slide">
             <div
                 v-if="selectedItem"
@@ -122,6 +78,7 @@
                         <h2 class="mb-4 text-2xl font-bold text-gray-900">
                             {{ selectedItem.title }}
                         </h2>
+
                         <img
                             v-if="selectedItem.image_url"
                             :src="selectedItem.image_url"
@@ -143,7 +100,7 @@
                             class="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center"
                         >
                             <Link
-                                :href="`/leistungen/${service.slug}/${selectedItem.slug}/${selectedItem.id}`"
+                                :href="`/leistungen/${props.service.slug}/${selectedItem.slug}/${selectedItem.id}`"
                                 class="text-sm font-semibold text-teal-700 hover:underline"
                             >
                                 Vollständige Projektbeschreibung ansehen →
@@ -165,13 +122,12 @@
 <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link, usePage, router } from "@inertiajs/vue3";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 
 const props = defineProps({
     service: Object,
 });
 
-/* Modal-Logik unverändert */
 const selectedItem = ref(null);
 const page = usePage();
 
@@ -181,7 +137,7 @@ function showModal(item) {
         replace: false,
         preserveScroll: true,
         preserveState: true,
-        url: `/leistungen/${props.service.slug}/${item.slug}/${item.id}`,
+        url: `/leistungen/${props.service.slug}/item/${item.id}`,
     });
 }
 
@@ -203,10 +159,13 @@ function handleEscape(event) {
 
 onMounted(() => {
     document.addEventListener("keydown", handleEscape);
+
     const segments = page.url.split("/");
-    const itemId = segments.includes("item")
-        ? segments[segments.indexOf("item") + 1]
-        : null;
+    const itemId =
+        segments.includes("item") &&
+        segments.length > segments.indexOf("item") + 1
+            ? segments[segments.indexOf("item") + 1]
+            : null;
     if (itemId) {
         const item = props.service.items.find(
             (i) => i.id.toString() === itemId
@@ -219,6 +178,38 @@ onMounted(() => {
 
 onUnmounted(() => {
     document.removeEventListener("keydown", handleEscape);
+});
+
+watch(selectedItem, (item) => {
+    // Entferne ggf. vorhandene dynamische strukturierte Daten
+    document
+        .querySelectorAll("script[data-dynamic-ld]")
+        .forEach((el) => el.remove());
+
+    if (!item) return;
+
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: item.title,
+        description: item.description,
+        image: item.image_url,
+        provider: {
+            "@type": "Organization",
+            name: "ANTASUS Infra",
+            url: "https://www.antasus.de",
+        },
+        areaServed: {
+            "@type": "Place",
+            name: "Deutschland",
+        },
+    };
+
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.dataset.dynamicLd = true;
+    tag.text = JSON.stringify(structuredData);
+    document.head.appendChild(tag);
 });
 </script>
 

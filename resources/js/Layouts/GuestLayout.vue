@@ -16,6 +16,10 @@
         />
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="theme-color" content="#14b8a6" />
+        <meta
+            name="description"
+            content="Ihr Partner für Glasfaser-Tiefbau, Hausanschlüsse und Projektmanagement nach DIN/VDE – Antasus Infra, Wuppertal."
+        />
 
         <!-- 👇 Strukturierte LocalBusiness-Daten -->
     </Head>

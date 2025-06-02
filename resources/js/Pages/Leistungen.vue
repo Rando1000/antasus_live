@@ -14,9 +14,9 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
+        <!-- Keine JSON-LD hier im Head per :jsonLd, wir fügen die <script>-Tags per onMounted hinzu -->
     </Head>
-    <!-- JSON-LD für Services im Body -->
-    <script type="application/ld+json" v-html="servicesJsonLd"></script>
+
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">
@@ -119,18 +119,28 @@ import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
 import { Head, Link } from "@inertiajs/vue3";
-import { onMounted, computed } from "vue";
+import { onMounted, ref, computed } from "vue";
 
 const props = defineProps({
     services: Array,
 });
 
-const jsonLd = {
+const activeService = ref(null);
+const selectService = (service) => {
+    activeService.value = service.id;
+};
+
+const showModal = (/* … */) => {
+    // Deine Modal-Logik…
+};
+
+/** 1) LocalBusiness JSON-LD **/
+const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": "https://www.antasus.de/#business",
     name: "ANTASUS Infra",
     image: "https://www.antasus.de/images/antasus-logo2.svg",
-    "@id": "https://www.antasus.de",
     url: "https://www.antasus.de",
     telephone: "+49 176 24757616",
     email: "info@antasus.de",
@@ -159,13 +169,7 @@ const jsonLd = {
     ],
 };
 
-onMounted(() => {
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
-});
-
+/** 2) FAQPage JSON-LD **/
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
@@ -180,7 +184,7 @@ const faqs = [
     {
         frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
         antwort:
-            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
+            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
         frage: "Wer ist Ansprechpartner während der Umsetzung?",
@@ -189,7 +193,7 @@ const faqs = [
     },
 ];
 
-const structuredDataFAQ = {
+const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
@@ -202,126 +206,69 @@ const structuredDataFAQ = {
     })),
 };
 
-onMounted(() => {
-    const faqScript = document.createElement("script");
-    faqScript.type = "application/ld+json";
-    faqScript.text = JSON.stringify(structuredDataFAQ);
-    document.head.appendChild(faqScript);
+/** 3) Service-Schemas für alle Services (im @graph) **/
+const servicesJsonLd = computed(() => {
+    /** Beispiel-Mapping: aus dem props.services-Array bauen wir für jedes Service-Objekt einen Eintrag **/
+    const graph = props.services.map((srv) => ({
+        "@type": "Service",
+        "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
+        name: srv.title,
+        description: srv.description,
+        provider: {
+            "@type": "Organization",
+            name: "ANTASUS Infra",
+            url: "https://www.antasus.de",
+        },
+        areaServed: {
+            "@type": "Country",
+            name: "Deutschland",
+        },
+        offers: {
+            "@type": "Offer",
+            priceCurrency: "EUR",
+            // hier kannst du weitere Angebotsfelder (z. B. price, priceSpecification etc.) ergänzen
+        },
+        url: `https://www.antasus.de/leistungen/${srv.slug}`,
+    }));
+
+    return {
+        "@context": "https://schema.org",
+        "@graph": graph,
+    };
 });
 
-const servicesJsonLd = computed(() =>
-    JSON.stringify({
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Service",
-                name: "Glasfaser-Tiefbau",
-                description:
-                    "Tiefbauarbeiten für Glasfasernetze gemäß DIN EN 1610 und ZTV TKNetz 40 ",
-                provider: {
-                    "@type": "LocalBusiness",
-                    name: "Antasus Infra",
-                    url: "https://antasus.de",
-                    image: "https://antasus.de/logo.webp",
-                    address: {
-                        "@type": "PostalAddress",
-                        streetAddress: "Norrenbergstraße 122",
-                        addressLocality: "Wuppertal",
-                        postalCode: "42289",
-                        addressCountry: "DE",
-                    },
-                },
-                serviceType: "Fiber Optic Installation",
-                areaServed: {
-                    "@type": "Country",
-                    name: "Deutschland",
-                },
-                offers: {
-                    "@type": "Offer",
-                    priceCurrency: "EUR",
-                },
-            },
-            {
-                "@type": "Service",
-                name: "Hausanschlüsse",
-                description:
-                    "Installation und Montage von Glasfaser-Hausanschlüssen (FTTH) nach DIN EN 50173.",
-                provider: {
-                    "@type": "LocalBusiness",
-                    name: "Antasus Infra",
-                    url: "https://antasus.de",
-                },
-                serviceType: "Hausanschluss",
-                areaServed: {
-                    "@type": "Country",
-                    name: "Deutschland",
-                },
-            },
-            {
-                "@type": "Service",
-                name: "Projektplanung",
-                description:
-                    "Netz- und Trassenplanung für Glasfaserprojekte nach aktuellen technischen Normen und Fördervorgaben.",
-                provider: {
-                    "@type": "LocalBusiness",
-                    name: "Antasus Infra",
-                    url: "https://antasus.de",
-                },
-                serviceType: "Projektplanung",
-                areaServed: {
-                    "@type": "Country",
-                    name: "Deutschland",
-                },
-            },
-            {
-                "@type": "Service",
-                name: "Projektsteuerung",
-                description:
-                    "Ganzheitliche Steuerung und Überwachung von Glasfaserprojekten nach DIN 69901 und VOB.",
-                provider: {
-                    "@type": "LocalBusiness",
-                    name: "Antasus Infra",
-                    url: "https://antasus.de",
-                },
-                serviceType: "Projektsteuerung",
-                areaServed: {
-                    "@type": "Country",
-                    name: "Deutschland",
-                },
-            },
-            {
-                "@type": "Service",
-                name: "Projektleitung",
-                description:
-                    "Verantwortliche Leitung komplexer Glasfaserprojekte – von der Baukoordination bis zur Abnahme.",
-                provider: {
-                    "@type": "LocalBusiness",
-                    name: "Antasus Infra",
-                    url: "https://antasus.de",
-                },
-                serviceType: "Projektleitung",
-                areaServed: {
-                    "@type": "Country",
-                    name: "Deutschland",
-                },
-            },
-            {
-                "@type": "Service",
-                name: "Projektdokumentation",
-                description:
-                    "Lückenlose Dokumentation aller Bau- und Installationsleistungen gemäß DIN EN ISO 9001.",
-                provider: {
-                    "@type": "LocalBusiness",
-                    name: "Antasus Infra",
-                    url: "https://antasus.de",
-                },
-                serviceType: "Dokumentation",
-                areaServed: {
-                    "@type": "Country",
-                    name: "Deutschland",
-                },
-            },
-        ],
-    })
-);
+const metaTitle = computed(() => {
+    return activeService.value
+        ? `Leistung: ${
+              props.services.find((s) => s.id === activeService.value)?.title
+          } | ANTASUS Infra`
+        : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen";
+});
+
+const metaDescription = computed(() => {
+    return activeService.value
+        ? props.services.find((s) => s.id === activeService.value)
+              ?.description ?? ""
+        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich.";
+});
+
+onMounted(() => {
+    // 1) LocalBusiness
+    const lbTag = document.createElement("script");
+    lbTag.type = "application/ld+json";
+    lbTag.text = JSON.stringify(localBusinessJsonLd, null, 2);
+    document.head.appendChild(lbTag);
+
+    // 2) FAQPage
+    const faqTag = document.createElement("script");
+    faqTag.type = "application/ld+json";
+    faqTag.text = JSON.stringify(faqJsonLd, null, 2);
+    document.head.appendChild(faqTag);
+
+    // 3) Services im @graph
+    const svcTag = document.createElement("script");
+    svcTag.type = "application/ld+json";
+    svcTag.text = JSON.stringify(servicesJsonLd.value, null, 2);
+    document.head.appendChild(svcTag);
+});
 </script>

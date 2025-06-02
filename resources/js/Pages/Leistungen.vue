@@ -222,7 +222,7 @@ const servicesJsonLd = computed(() =>
                 "@type": "Service",
                 name: "Glasfaser-Tiefbau",
                 description:
-                    "Tiefbauarbeiten für Glasfasernetze gemäß DIN EN 1610 und ZTV TKNetz 40",
+                    "Tiefbauarbeiten für Glasfasernetze gemäß DIN EN 1610 und ZTV TKNetz 40 ",
                 provider: {
                     "@type": "LocalBusiness",
                     name: "Antasus Infra",

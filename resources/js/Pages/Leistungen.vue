@@ -209,4 +209,73 @@ onMounted(() => {
     faqScript.text = JSON.stringify(structuredDataFAQ);
     document.head.appendChild(faqScript);
 });
+const servicesSchema = computed(() => {
+    const services = [
+        {
+            "@type": "Service",
+            name: "Glasfaser-Tiefbau",
+            description:
+                "Professionelle Verlegung von Glasfaserkabeln mit grabenarmen Verfahren gemäß DIN EN 16100 und RSV 05",
+            serviceType: "https://de.wikipedia.org/wiki/Tiefbau",
+            provider: {
+                "@type": "Organization",
+                name: "Antasus Infra",
+                url: "https://antasus.de",
+                logo: "https://antasus.de/logo.png",
+            },
+            areaServed: {
+                "@type": "AdministrativeArea",
+                name: "Deutschland, Niederlande, Belgien",
+            },
+        },
+        {
+            "@type": "Service",
+            name: "Projektplanung FTTx",
+            description:
+                "GIS-basierte Netzplanung nach ETSI EN 300 019 und DIN 1998",
+            serviceType: "https://de.wikipedia.org/wiki/Glasfasernetz",
+            provider: {
+                "@type": "Organization",
+                name: "Antasus Infra",
+            },
+            hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "Planungsleistungen",
+                itemListElement: [
+                    {
+                        "@type": "Offer",
+                        itemOffered: {
+                            "@type": "Service",
+                            name: "Kapazitätsberechnung XGS-PON",
+                        },
+                    },
+                ],
+            },
+        },
+    ];
+
+    return JSON.stringify({
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "ProfessionalService",
+                name: "Antasus Infra",
+                image: "https://antasus.de/logo.png",
+                "@id": "https://antasus.de#organization",
+                url: "https://antasus.de",
+                priceRange: "$$$",
+                hasOfferCatalog: {
+                    "@type": "OfferCatalog",
+                    name: "Leistungen",
+                    itemListElement: services.map((service, index) => ({
+                        "@type": "ListItem",
+                        position: index + 1,
+                        item: service,
+                    })),
+                },
+            },
+            ...services,
+        ],
+    });
+});
 </script>

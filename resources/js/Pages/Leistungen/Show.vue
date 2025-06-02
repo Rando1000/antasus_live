@@ -8,14 +8,14 @@
         />
     </Head>
     <SeoHead
-        :title="service.title"
-        :description="service.short_description"
+        :title="item.title"
+        :description="item.short_description"
         image="https://www.antasus.de/images/services/standard.jpg"
         :json-ld="{
             '@context': 'https://schema.org',
             '@type': 'Service',
-            name: service.title,
-            description: service.short_description,
+            name: item.title,
+            description: item.short_description,
             provider: {
                 '@type': 'Organization',
                 name: 'Antasus Infra GmbH',
@@ -143,6 +143,7 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 const props = defineProps({
     service: Object,
 });
+const item = defineProps({ item: Object }).item;
 
 const selectedItem = ref(null);
 const page = usePage();

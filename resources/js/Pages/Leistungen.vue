@@ -14,8 +14,17 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
-        <script>
-            :jsonLd="jsonLd"
+        <!-- Structured Data: Unternehmen -->
+        <script type="application/ld+json">
+            {{ JSON.stringify(jsonLd) }}
+        </script>
+        <!-- Structured Data: FAQ -->
+        <script type="application/ld+json">
+            {{ JSON.stringify(structuredDataFAQ) }}
+        </script>
+        <!-- Structured Data: Services -->
+        <script type="application/ld+json">
+            {{ JSON.stringify(structuredDataServices) }}
         </script>
     </Head>
     <GuestLayout :serviceArea="'dienstleistungen'">
@@ -160,13 +169,6 @@ const jsonLd = {
     ],
 };
 
-onMounted(() => {
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
-});
-
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
@@ -203,79 +205,106 @@ const structuredDataFAQ = {
     })),
 };
 
-onMounted(() => {
-    const faqScript = document.createElement("script");
-    faqScript.type = "application/ld+json";
-    faqScript.text = JSON.stringify(structuredDataFAQ);
-    document.head.appendChild(faqScript);
-});
-const servicesSchema = computed(() => {
-    const services = [
+// Structured Data für Services/Leistungen
+const structuredDataServices = {
+    "@context": "https://schema.org",
+    "@graph": [
         {
             "@type": "Service",
             name: "Glasfaser-Tiefbau",
             description:
-                "Professionelle Verlegung von Glasfaserkabeln mit grabenarmen Verfahren gemäß DIN EN 16100 und RSV 05",
-            serviceType: "https://de.wikipedia.org/wiki/Tiefbau",
+                "Fachgerechte Verlegung von Glasfaserkabeln im Tiefbau nach DIN EN 1610 und ZTV TKNetz 40.",
             provider: {
-                "@type": "Organization",
-                name: "Antasus Infra",
-                url: "https://antasus.de",
-                logo: "https://antasus.de/logo.png",
+                "@type": "LocalBusiness",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
             },
             areaServed: {
                 "@type": "AdministrativeArea",
-                name: "Deutschland, Niederlande, Belgien",
+                name: "Deutschland",
             },
+            serviceType: "Tiefbau",
         },
         {
             "@type": "Service",
-            name: "Projektplanung FTTx",
+            name: "Hausanschlüsse",
             description:
-                "GIS-basierte Netzplanung nach ETSI EN 300 019 und DIN 1998",
-            serviceType: "https://de.wikipedia.org/wiki/Glasfasernetz",
+                "Installation und Montage von Glasfaser-Hausanschlüssen (FTTH) nach DIN EN 50173.",
             provider: {
-                "@type": "Organization",
-                name: "Antasus Infra",
+                "@type": "LocalBusiness",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
             },
-            hasOfferCatalog: {
-                "@type": "OfferCatalog",
-                name: "Planungsleistungen",
-                itemListElement: [
-                    {
-                        "@type": "Offer",
-                        itemOffered: {
-                            "@type": "Service",
-                            name: "Kapazitätsberechnung XGS-PON",
-                        },
-                    },
-                ],
+            areaServed: {
+                "@type": "AdministrativeArea",
+                name: "Deutschland",
             },
+            serviceType: "Hausanschluss",
         },
-    ];
-
-    return JSON.stringify({
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "ProfessionalService",
-                name: "Antasus Infra",
-                image: "https://antasus.de/logo.png",
-                "@id": "https://antasus.de#organization",
-                url: "https://antasus.de",
-                priceRange: "$$$",
-                hasOfferCatalog: {
-                    "@type": "OfferCatalog",
-                    name: "Leistungen",
-                    itemListElement: services.map((service, index) => ({
-                        "@type": "ListItem",
-                        position: index + 1,
-                        item: service,
-                    })),
-                },
+        {
+            "@type": "Service",
+            name: "Projektplanung",
+            description:
+                "Netz- und Trassenplanung für Glasfaserprojekte nach aktuellen technischen Normen und Fördervorgaben.",
+            provider: {
+                "@type": "LocalBusiness",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
             },
-            ...services,
-        ],
-    });
-});
+            areaServed: {
+                "@type": "AdministrativeArea",
+                name: "Deutschland",
+            },
+            serviceType: "Projektplanung",
+        },
+        {
+            "@type": "Service",
+            name: "Projektsteuerung",
+            description:
+                "Ganzheitliche Steuerung und Überwachung von Glasfaserprojekten nach DIN 69901 und VOB.",
+            provider: {
+                "@type": "LocalBusiness",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+            },
+            areaServed: {
+                "@type": "AdministrativeArea",
+                name: "Deutschland",
+            },
+            serviceType: "Projektsteuerung",
+        },
+        {
+            "@type": "Service",
+            name: "Projektleitung",
+            description:
+                "Verantwortliche Leitung komplexer Glasfaserprojekte – von der Baukoordination bis zur Abnahme.",
+            provider: {
+                "@type": "LocalBusiness",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+            },
+            areaServed: {
+                "@type": "AdministrativeArea",
+                name: "Deutschland",
+            },
+            serviceType: "Projektleitung",
+        },
+        {
+            "@type": "Service",
+            name: "Projektdokumentation",
+            description:
+                "Lückenlose Dokumentation aller Bau- und Installationsleistungen gemäß DIN EN ISO 9001.",
+            provider: {
+                "@type": "LocalBusiness",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+            },
+            areaServed: {
+                "@type": "AdministrativeArea",
+                name: "Deutschland",
+            },
+            serviceType: "Dokumentation",
+        },
+    ],
+};
 </script>

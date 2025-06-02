@@ -14,6 +14,31 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
+
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "Service",
+                "@id": "https://www.antasus.de/leistungen/hausanschlüsse#service",
+                "name": "Hausanschlüsse",
+                "description": "Trasse, Bohrung & Innenmontage – alles aus einer Hand mit deutscher Präzision.",
+                "serviceType": "Hausanschlüsse",
+                "provider": {
+                    "@type": "Organization",
+                    "name": "ANTASUS Infra",
+                    "url": "https://www.antasus.de"
+                },
+                "areaServed": {
+                    "@type": "Country",
+                    "name": "Deutschland"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "EUR"
+                },
+                "url": "https://www.antasus.de/leistungen/hausanschlüsse"
+            }
+        </script>
         <!-- Keine JSON-LD hier im Head per :jsonLd, wir fügen die <script>-Tags per onMounted hinzu -->
     </Head>
 
@@ -268,9 +293,36 @@ onMounted(() => {
     document.head.appendChild(faqTag);
 
     // 3) Services im @graph
-    const svcTag = document.createElement("script");
-    svcTag.type = "application/ld+json";
-    svcTag.text = JSON.stringify(servicesJsonLd.value, null, 2);
-    document.head.appendChild(svcTag);
+    props.services.forEach((srv) => {
+        const script = document.createElement("script");
+        script.type = "application/ld+json";
+
+        // Baue das JSON-LD-Objekt nur für diesen einen Service
+        const serviceJsonLd = {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
+            name: srv.title,
+            description: srv.description,
+            serviceType: srv.title,
+            provider: {
+                "@type": "Organization",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de",
+            },
+            areaServed: {
+                "@type": "Country",
+                name: "Deutschland",
+            },
+            offers: {
+                "@type": "Offer",
+                priceCurrency: "EUR",
+            },
+            url: `https://www.antasus.de/leistungen/${srv.slug}`,
+        };
+
+        script.text = JSON.stringify(serviceJsonLd, null, 2);
+        document.head.appendChild(script);
+    });
 });
 </script>

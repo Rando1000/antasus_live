@@ -14,14 +14,9 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
-        <script>
-            :jsonLd="jsonLd"
-        </script>
     </Head>
     <!-- JSON-LD für Services im Body -->
-    <script type="application/ld+json">
-        {{ servicesJsonLd }}
-    </script>
+    <script type="application/ld+json" v-html="servicesJsonLd"></script>
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
             <section class="w-full px-4 text-center animate-fade-in">

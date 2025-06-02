@@ -246,7 +246,86 @@ const servicesJsonLd = computed(() =>
                     priceCurrency: "EUR",
                 },
             },
-            // Weitere Services analog hinzufügen
+            {
+                "@type": "Service",
+                name: "Hausanschlüsse",
+                description:
+                    "Installation und Montage von Glasfaser-Hausanschlüssen (FTTH) nach DIN EN 50173.",
+                provider: {
+                    "@type": "LocalBusiness",
+                    name: "Antasus Infra",
+                    url: "https://antasus.de",
+                },
+                serviceType: "Hausanschluss",
+                areaServed: {
+                    "@type": "Country",
+                    name: "Deutschland",
+                },
+            },
+            {
+                "@type": "Service",
+                name: "Projektplanung",
+                description:
+                    "Netz- und Trassenplanung für Glasfaserprojekte nach aktuellen technischen Normen und Fördervorgaben.",
+                provider: {
+                    "@type": "LocalBusiness",
+                    name: "Antasus Infra",
+                    url: "https://antasus.de",
+                },
+                serviceType: "Projektplanung",
+                areaServed: {
+                    "@type": "Country",
+                    name: "Deutschland",
+                },
+            },
+            {
+                "@type": "Service",
+                name: "Projektsteuerung",
+                description:
+                    "Ganzheitliche Steuerung und Überwachung von Glasfaserprojekten nach DIN 69901 und VOB.",
+                provider: {
+                    "@type": "LocalBusiness",
+                    name: "Antasus Infra",
+                    url: "https://antasus.de",
+                },
+                serviceType: "Projektsteuerung",
+                areaServed: {
+                    "@type": "Country",
+                    name: "Deutschland",
+                },
+            },
+            {
+                "@type": "Service",
+                name: "Projektleitung",
+                description:
+                    "Verantwortliche Leitung komplexer Glasfaserprojekte – von der Baukoordination bis zur Abnahme.",
+                provider: {
+                    "@type": "LocalBusiness",
+                    name: "Antasus Infra",
+                    url: "https://antasus.de",
+                },
+                serviceType: "Projektleitung",
+                areaServed: {
+                    "@type": "Country",
+                    name: "Deutschland",
+                },
+            },
+            {
+                "@type": "Service",
+                name: "Projektdokumentation",
+                description:
+                    "Lückenlose Dokumentation aller Bau- und Installationsleistungen gemäß DIN EN ISO 9001.",
+                provider: {
+                    "@type": "LocalBusiness",
+                    name: "Antasus Infra",
+                    url: "https://antasus.de",
+                },
+                serviceType: "Dokumentation",
+                areaServed: {
+                    "@type": "Country",
+                    name: "Deutschland",
+                },
+            },
         ],
     })
 );

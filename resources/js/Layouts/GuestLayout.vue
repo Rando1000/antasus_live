@@ -16,6 +16,28 @@
         />
         <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="theme-color" content="#14b8a6" />
+
+        <!-- 👇 Strukturierte LocalBusiness-Daten -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                "name": "Antasus Infra GmbH",
+                "url": "https://www.antasus.de",
+                "logo": "https://www.antasus.de/logo.png",
+                "image": "https://www.antasus.de/images/firmensitz.jpg",
+                "description": "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Musterstraße 12",
+                    "addressLocality": "Musterstadt",
+                    "postalCode": "12345",
+                    "addressCountry": "DE"
+                },
+                "telephone": "+49 123 4567890",
+                "email": "info@antasus.de"
+            }
+        </script>
     </Head>
 
     <div class="min-h-screen bg-white">

@@ -4,8 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description"
-        content="Ihr Partner für Glasfaser-Tiefbau, Hausanschlüsse und Projektmanagement nach DIN/VDE – Antasus Infra, Wuppertal." />
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 

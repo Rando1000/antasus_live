@@ -18,28 +18,11 @@
         <meta name="theme-color" content="#14b8a6" />
 
         <!-- 👇 Strukturierte LocalBusiness-Daten -->
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "LocalBusiness",
-                "name": "Antasus Infra GmbH",
-                "url": "https://www.antasus.de",
-                "logo": "https://www.antasus.de/logo.png",
-                "image": "https://www.antasus.de/images/firmensitz.jpg",
-                "description": "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Musterstraße 12",
-                    "addressLocality": "Musterstadt",
-                    "postalCode": "12345",
-                    "addressCountry": "DE"
-                },
-                "telephone": "+49 123 4567890",
-                "email": "info@antasus.de"
-            }
-        </script>
     </Head>
-
+    <script>
+        type="application/ld+json"
+        v-html="localBusinessJsonLd"
+    </script>
     <div class="min-h-screen bg-white">
         <!-- Sticky Header mit Glaseffekt -->
 
@@ -308,7 +291,6 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { computed, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
-import { useHead } from "@vueuse/head";
 
 const page = usePage();
 const canonicalUrl = computed(() => {
@@ -316,68 +298,24 @@ const canonicalUrl = computed(() => {
     return `https://www.antasus.de${currentPath}`;
 });
 
-useHead({
-    script: [
-        // LocalBusiness
-        {
-            type: "application/ld+json",
-            children: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "LocalBusiness",
-                "@id": "https://www.antasus.de/#localbusiness",
-                name: "ANTASUS Infra",
-                url: "https://www.antasus.de",
-                logo: "https://www.antasus.de/images/antasus-logo2.svg",
-                image: "https://www.antasus.de/images/Header_welcome.webp",
-                description:
-                    "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
-                address: {
-                    "@type": "PostalAddress",
-                    streetAddress: "Norrenbergstraße 122",
-                    addressLocality: "Wuppertal",
-                    postalCode: "42289",
-                    addressCountry: "DE",
-                },
-                telephone: "+49 202 42988411",
-                email: "info@antasus.de",
-                priceRange: "Auf Anfrage",
-                areaServed: {
-                    "@type": "GeoCircle",
-                    geoMidpoint: {
-                        "@type": "GeoCoordinates",
-                        latitude: 51.2562,
-                        longitude: 7.1508,
-                    },
-                    geoRadius: 150,
-                },
-            }),
-        },
-        // Organization mit Social-Profilen
-        {
-            type: "application/ld+json",
-            children: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "@id": "https://www.antasus.de/#organization",
-                name: "ANTASUS Infra",
-                url: "https://www.antasus.de",
-                logo: "https://www.antasus.de/images/antasus-logo2.svg",
-                sameAs: [
-                    "https://www.linkedin.com/company/antasus",
-                    "https://www.xing.com/pages/antasus-infra",
-                ],
-                contactPoint: [
-                    {
-                        "@type": "ContactPoint",
-                        telephone: "+49 176 24757616",
-                        contactType: "customer service",
-                        areaServed: "DE",
-                        availableLanguage: ["de"],
-                    },
-                ],
-            }),
-        },
-    ],
+const localBusinessJsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Antasus Infra GmbH",
+    url: "https://www.antasus.de",
+    logo: "https://www.antasus.de/logo.png",
+    image: "https://www.antasus.de/images/firmensitz.jpg",
+    description:
+        "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
+    address: {
+        "@type": "PostalAddress",
+        streetAddress: "Musterstraße 12",
+        addressLocality: "Musterstadt",
+        postalCode: "12345",
+        addressCountry: "DE",
+    },
+    telephone: "+49 123 4567890",
+    email: "info@antasus.de",
 });
 
 const mobileMenuOpen = ref(false);

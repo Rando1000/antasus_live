@@ -299,7 +299,7 @@ const canonicalUrl = computed(() => {
     return `https://www.antasus.de${currentPath}`;
 });
 
-const localBusinessJsonLd = JSON.stringify({
+const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Antasus Infra GmbH",
@@ -317,10 +317,12 @@ const localBusinessJsonLd = JSON.stringify({
     },
     telephone: "+49 123 4567890",
     email: "info@antasus.de",
-});
+};
 
 const jsonLdScriptTag = `<script type="application/ld+json">${JSON.stringify(
-    localBusinessJsonLd
+    localBusinessJsonLd,
+    null,
+    2
 )}`;
 
 const mobileMenuOpen = ref(false);

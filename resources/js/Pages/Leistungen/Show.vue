@@ -7,7 +7,22 @@
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
         />
     </Head>
-
+    <SeoHead
+        :title="service.title"
+        :description="service.short_description"
+        image="https://www.antasus.de/images/services/standard.jpg"
+        :json-ld="{
+            '@context': 'https://schema.org',
+            '@type': 'Service',
+            name: service.title,
+            description: service.short_description,
+            provider: {
+                '@type': 'Organization',
+                name: 'Antasus Infra GmbH',
+                url: 'https://www.antasus.de',
+            },
+        }"
+    />
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->
         <section
@@ -120,6 +135,7 @@
 </template>
 
 <script setup>
+import SeoHead from "@/Components/SeoHead.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link, usePage, router } from "@inertiajs/vue3";
 import { ref, onMounted, onUnmounted, watch } from "vue";

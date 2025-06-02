@@ -124,7 +124,7 @@ import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
 import { Head, Link } from "@inertiajs/vue3";
-import { onMounted, ref, computed, watch } from "vue";
+import { onMounted, computed } from "vue";
 
 const props = defineProps({
     services: Array,

@@ -14,33 +14,12 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
-
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "Service",
-                "@id": "https://www.antasus.de/leistungen/hausanschlüsse#service",
-                "name": "Hausanschlüsse",
-                "description": "Trasse, Bohrung & Innenmontage – alles aus einer Hand mit deutscher Präzision.",
-                "serviceType": "Hausanschlüsse",
-                "provider": {
-                    "@type": "Organization",
-                    "name": "ANTASUS Infra",
-                    "url": "https://www.antasus.de"
-                },
-                "areaServed": {
-                    "@type": "Country",
-                    "name": "Deutschland"
-                },
-                "offers": {
-                    "@type": "Offer",
-                    "priceCurrency": "EUR"
-                },
-                "url": "https://www.antasus.de/leistungen/hausanschlüsse"
-            }
+        <script>
+            :jsonLd="jsonLd"
         </script>
-        <!-- Keine JSON-LD hier im Head per :jsonLd, wir fügen die <script>-Tags per onMounted hinzu -->
     </Head>
+    <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
+    <!-- JSON-LD für Services im Body -->
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
@@ -86,8 +65,7 @@
                 >
                     Details zu "{{
                         services.find((s) => s.id === activeService)?.title
-                    }}
-                    "
+                    }}"
                 </h2>
                 <div class="grid gap-8 md:grid-cols-2">
                     <ServiceItemCard
@@ -145,28 +123,18 @@ import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
 import { Head, Link } from "@inertiajs/vue3";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 
 const props = defineProps({
     services: Array,
 });
 
-const activeService = ref(null);
-const selectService = (service) => {
-    activeService.value = service.id;
-};
-
-const showModal = (/* … */) => {
-    // deine Modal-Logik …
-};
-
-/** 1) LocalBusiness JSON-LD **/
-const localBusinessJsonLd = {
+const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": "https://www.antasus.de/#business",
     name: "ANTASUS Infra",
     image: "https://www.antasus.de/images/antasus-logo2.svg",
+    "@id": "https://www.antasus.de",
     url: "https://www.antasus.de",
     telephone: "+49 176 24757616",
     email: "info@antasus.de",
@@ -195,7 +163,13 @@ const localBusinessJsonLd = {
     ],
 };
 
-/** 2) FAQPage JSON-LD **/
+onMounted(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+});
+
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
@@ -210,7 +184,7 @@ const faqs = [
     {
         frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
         antwort:
-            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
+            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
         frage: "Wer ist Ansprechpartner während der Umsetzung?",
@@ -219,7 +193,7 @@ const faqs = [
     },
 ];
 
-const faqJsonLd = {
+const structuredDataFAQ = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: faqs.map((faq) => ({
@@ -232,18 +206,23 @@ const faqJsonLd = {
     })),
 };
 
-/** 3) Service-Schemas für alle Services (im @graph) **/
-// HIER: Ich habe jeweils das Feld "serviceType" ergänzt
-const servicesJsonLd = computed(() => {
-    const graph = props.services.map((srv) => ({
+onMounted(() => {
+    const faqScript = document.createElement("script");
+    faqScript.type = "application/ld+json";
+    faqScript.text = JSON.stringify(structuredDataFAQ);
+    document.head.appendChild(faqScript);
+});
+
+const servicesJsonLd = computed(() => ({
+    "@context": "https://schema.org",
+    "@graph": props.services.map((srv) => ({
         "@type": "Service",
         "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
         name: srv.title,
         description: srv.description,
-        serviceType: srv.title, // ← WICHTIG: "serviceType" hinzufügen
         provider: {
             "@type": "Organization",
-            name: "ANTASUS Infra",
+            name: "Antasus Infra GmbH",
             url: "https://www.antasus.de",
         },
         areaServed: {
@@ -253,76 +232,23 @@ const servicesJsonLd = computed(() => {
         offers: {
             "@type": "Offer",
             priceCurrency: "EUR",
-            // Wenn gewünscht, Preis etc. ergänzen
+            // Bei Bedarf können hier weitere Angebotsfelder ergänzt werden:
+            // price: "0.00",
+            // priceSpecification: { … }
         },
         url: `https://www.antasus.de/leistungen/${srv.slug}`,
-    }));
+    })),
+}));
 
-    return {
-        "@context": "https://schema.org",
-        "@graph": graph,
-    };
-});
+// 2) Baue das <script>-Tag aus dem JSON-LD-Objekt zusammen
+const jsonLdScriptTag = `<script type="application/ld+json">
+${JSON.stringify(servicesJsonLd.value, null, 2)}`;
 
-const metaTitle = computed(() => {
-    return activeService.value
-        ? `Leistung: ${
-              props.services.find((s) => s.id === activeService.value)?.title
-          } | ANTASUS Infra`
-        : "Glasfaser-Tiefbau & Hausanschlüsse | Subunternehmer für Generalunternehmen";
-});
-
-const metaDescription = computed(() => {
-    return activeService.value
-        ? props.services.find((s) => s.id === activeService.value)
-              ?.description ?? ""
-        : "ANTASUS Infra ist Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und Projektabwicklung nach DIN/VDE – termintreu, normkonform und partnerschaftlich.";
-});
-
+// 3) Füge das Script bei Bedarf (z. B. in onMounted) ins <head> ein
 onMounted(() => {
-    // 1) LocalBusiness
-    const lbTag = document.createElement("script");
-    lbTag.type = "application/ld+json";
-    lbTag.text = JSON.stringify(localBusinessJsonLd, null, 2);
-    document.head.appendChild(lbTag);
-
-    // 2) FAQPage
-    const faqTag = document.createElement("script");
-    faqTag.type = "application/ld+json";
-    faqTag.text = JSON.stringify(faqJsonLd, null, 2);
-    document.head.appendChild(faqTag);
-
-    // 3) Services im @graph
-    props.services.forEach((srv) => {
-        const script = document.createElement("script");
-        script.type = "application/ld+json";
-
-        // Baue das JSON-LD-Objekt nur für diesen einen Service
-        const serviceJsonLd = {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
-            name: srv.title,
-            description: srv.description,
-            serviceType: srv.title,
-            provider: {
-                "@type": "Organization",
-                name: "ANTASUS Infra",
-                url: "https://www.antasus.de",
-            },
-            areaServed: {
-                "@type": "Country",
-                name: "Deutschland",
-            },
-            offers: {
-                "@type": "Offer",
-                priceCurrency: "EUR",
-            },
-            url: `https://www.antasus.de/leistungen/${srv.slug}`,
-        };
-
-        script.text = JSON.stringify(serviceJsonLd, null, 2);
-        document.head.appendChild(script);
-    });
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.text = JSON.stringify(servicesJsonLd.value, null, 2);
+    document.head.appendChild(tag);
 });
 </script>

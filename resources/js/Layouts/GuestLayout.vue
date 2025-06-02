@@ -23,10 +23,7 @@
 
         <!-- 👇 Strukturierte LocalBusiness-Daten -->
     </Head>
-    <script>
-        type="application/ld+json"
-        v-html="localBusinessJsonLd"
-    </script>
+    <div v-if="localBusinessJsonLd" v-html="jsonLdScriptTag" />
     <div class="min-h-screen bg-white">
         <!-- Sticky Header mit Glaseffekt -->
 
@@ -321,6 +318,10 @@ const localBusinessJsonLd = JSON.stringify({
     telephone: "+49 123 4567890",
     email: "info@antasus.de",
 });
+
+const jsonLdScriptTag = `<script type="application/ld+json">${JSON.stringify(
+    localBusinessJsonLd
+)}`;
 
 const mobileMenuOpen = ref(false);
 

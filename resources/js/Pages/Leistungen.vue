@@ -61,7 +61,8 @@
                 >
                     Details zu "{{
                         services.find((s) => s.id === activeService)?.title
-                    }}"
+                    }}
+                    "
                 </h2>
                 <div class="grid gap-8 md:grid-cols-2">
                     <ServiceItemCard
@@ -131,7 +132,7 @@ const selectService = (service) => {
 };
 
 const showModal = (/* … */) => {
-    // Deine Modal-Logik…
+    // deine Modal-Logik …
 };
 
 /** 1) LocalBusiness JSON-LD **/
@@ -207,13 +208,14 @@ const faqJsonLd = {
 };
 
 /** 3) Service-Schemas für alle Services (im @graph) **/
+// HIER: Ich habe jeweils das Feld "serviceType" ergänzt
 const servicesJsonLd = computed(() => {
-    /** Beispiel-Mapping: aus dem props.services-Array bauen wir für jedes Service-Objekt einen Eintrag **/
     const graph = props.services.map((srv) => ({
         "@type": "Service",
         "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
         name: srv.title,
         description: srv.description,
+        serviceType: srv.title, // ← WICHTIG: "serviceType" hinzufügen
         provider: {
             "@type": "Organization",
             name: "ANTASUS Infra",
@@ -226,7 +228,7 @@ const servicesJsonLd = computed(() => {
         offers: {
             "@type": "Offer",
             priceCurrency: "EUR",
-            // hier kannst du weitere Angebotsfelder (z. B. price, priceSpecification etc.) ergänzen
+            // Wenn gewünscht, Preis etc. ergänzen
         },
         url: `https://www.antasus.de/leistungen/${srv.slug}`,
     }));

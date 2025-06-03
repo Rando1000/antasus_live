@@ -26,7 +26,7 @@ const url = computed(() => usePage().url);
         <meta name="twitter:description" :content="description" />
         <meta name="twitter:image" :content="image" />
         <link rel="canonical" :href="`https://www.antasus.de${url}`" />
-        <script
+        <div
             v-if="jsonLd"
             type="application/ld+json"
             :innerHTML="JSON.stringify(jsonLd)"

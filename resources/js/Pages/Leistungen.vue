@@ -212,11 +212,11 @@ onMounted(() => {
 
 const servicesJsonLd = computed(() => ({
     "@context": "https://schema.org",
-    "@graph": props.services.map((service) => ({
+    "@graph": props.services.map((srv) => ({
         "@type": "Service",
-        "@id": `https://www.antasus.de/leistungen`,
-        name: service.title,
-        description: service.description,
+        "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
+        name: srv.title,
+        description: srv.description,
         provider: {
             "@type": "Organization",
             name: "Antasus Infra GmbH",
@@ -233,7 +233,7 @@ const servicesJsonLd = computed(() => ({
             // price: "0.00",
             // priceSpecification: { … }
         },
-        url: `https://www.antasus.de/leistungen`,
+        url: `https://www.antasus.de/leistungen/${srv.slug}`,
     })),
 }));
 

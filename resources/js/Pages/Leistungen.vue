@@ -219,7 +219,7 @@ const servicesJsonLd = computed(() => ({
         description: srv.description,
         provider: {
             "@type": "Organization",
-            name: "Antasus Infra GmbH",
+            name: "Antasus Infra",
             url: "https://www.antasus.de",
         },
         areaServed: {

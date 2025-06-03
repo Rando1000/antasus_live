@@ -8,20 +8,10 @@
         />
     </Head>
     <SeoHead
-        :title="service.title"
-        :description="service.description"
-        image="https://www.antasus.de/images/services/standard.jpg"
-        :json-ld="{
-            '@context': 'https://schema.org',
-            '@type': 'Service',
-            name: service.title,
-            description: service.description,
-            provider: {
-                '@type': 'Organization',
-                name: 'Antasus Infra GmbH',
-                url: 'https://www.antasus.de',
-            },
-        }"
+        :title="seoData.title"
+        :description="seoData.description"
+        :image="seoData.image"
+        :json-ld="seoData.jsonLd"
     />
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->
@@ -249,6 +239,71 @@ watch(selectedItem, (item) => {
             name: "Deutschland",
         },
     };
+
+    const seoData = computed(() => ({
+        title: `${props.service.title} | ANTASUS Infra`,
+        description: props.service.description.substring(0, 160), // Beschränkung auf 160 Zeichen
+        image:
+            props.service.image_url ||
+            "https://www.antasus.de/images/services/standard.jpg",
+        jsonLd: {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: props.service.title,
+            description: props.service.description,
+            serviceType: "Glasfaserinstallation",
+            provider: {
+                "@type": "Organization",
+                name: "Antasus Infra",
+                url: "https://www.antasus.de",
+                address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "Norrenbergstrasse 122",
+                    addressLocality: "Wuppertal",
+                    postalCode: "42289",
+                    addressCountry: "DE",
+                },
+                contactPoint: {
+                    "@type": "ContactPoint",
+                    telephone: "+49 176 24757616",
+                    contactType: "customer service",
+                },
+            },
+            areaServed: {
+                "@type": "Country",
+                name: "Deutschland",
+            },
+            image: props.service.image_url
+                ? [
+                      props.service.image_url,
+                      ...props.service.items.map((i) => i.image_url),
+                  ]
+                : "https://www.antasus.de/images/services/standard.jpg",
+            hasOfferCatalog: {
+                "@type": "OfferCatalog",
+                name: "Leistungspakete",
+                itemListElement: props.service.items.map((item, index) => ({
+                    "@type": "Offer",
+                    position: index + 1,
+                    name: item.title,
+                    description: item.description,
+                    image: item.image_url,
+                })),
+            },
+        },
+    }));
+
+    // Dynamische FAQ-Erweiterung (nur wenn FAQs existieren)
+    if (props.service.faqs?.length) {
+        seoData.value.jsonLd.mainEntity = props.service.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.frage,
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.antwort,
+            },
+        }));
+    }
 
     const tag = document.createElement("script");
     tag.type = "application/ld+json";

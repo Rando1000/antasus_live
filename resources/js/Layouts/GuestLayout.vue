@@ -302,7 +302,7 @@ const canonicalUrl = computed(() => {
 const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: "Antasus Infra GmbH",
+    name: "Antasus Infra",
     url: "https://www.antasus.de",
     logo: "https://www.antasus.de/logo.png",
     image: "https://www.antasus.de/images/firmensitz.jpg",

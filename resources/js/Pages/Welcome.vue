@@ -1,19 +1,30 @@
 <template>
     <GuestLayout>
+        <Head>
+            <title>
+                Zukunftssichere Glasfaserinfrastruktur & Hausanschluss | ANTASUS
+                Infra
+            </title>
+            <meta
+                name="description"
+                content="ANTASUS Infra: Ihr Spezialist für Glasfaserbau, Hausanschluss & Tiefbau. Professionelle Glasfaserinfrastruktur gemäß DIN/VDE in NRW."
+            />
+            <link rel="canonical" href="https://www.antasus.de/" />
+        </Head>
         <!-- Hero mit Fullscreen-Hintergrund und Overlay -->
-        <section
+        <header
             class="relative flex items-center justify-center max-h-screen overflow-hidden bg-gray-900"
         >
             <div class="absolute inset-0">
                 <img
                     src="/images/Header_welcome.avif"
-                    alt="Glasfaser Netzwerk"
+                    alt="Glasfaserinfrastruktur und Hausanschluss in Wuppertal"
                     class="object-cover w-full opacity-80"
                     :jsonLd="jsonLd"
                 />
             </div>
 
-            <div class="container relative px-6 py-32 mx-auto text-center">
+            <div class="container relative px-6 py-20 mx-auto text-center">
                 <div class="max-w-4xl mx-auto">
                     <h1
                         class="mb-6 text-4xl font-bold leading-tight text-white md:text-6xl"
@@ -27,10 +38,14 @@
                     </h1>
 
                     <p
-                        class="max-w-2xl mx-auto mb-10 text-xl font-extrabold text-white"
+                        class="max-w-2xl mx-auto mb-10 text-lg font-medium text-white"
                     >
-                        Planung, Bau und Dokumentation nach deutschen
-                        Qualitätsstandards für maximale Zukunftssicherheit
+                        Als Ihr Partner für <strong>Glasfaserbau</strong> &amp;
+                        <strong>Hausanschluss</strong> stehen wir für
+                        hochwertige, normgerechte
+                        <strong>Glasfaserinfrastruktur</strong> in NRW. Von der
+                        Trassenplanung bis zur Dokumentation. Wir realisieren
+                        Ihr FTTx-Projekt nach DIN VDE.
                     </p>
 
                     <div class="flex flex-col justify-center gap-4 sm:flex-row">
@@ -51,14 +66,14 @@
             </div>
 
             <!-- Scroll Indicator -->
-            <div class="absolute transform -translate-x-1/2 bottom-10 left-1/2">
+            <!-- <div class="absolute transform -translate-x-1/2 bottom-10 left-1/2">
                 <div
                     class="flex justify-center w-6 h-10 border-2 border-white rounded-full animate-bounce"
                 >
                     <div class="w-1 h-2 mt-2 bg-white rounded-full"></div>
                 </div>
-            </div>
-        </section>
+            </div> -->
+        </header>
 
         <!-- Leistungen Section mit modernen Karten -->
         <section class="py-20 bg-white">
@@ -108,6 +123,22 @@
                         </div>
                     </Link>
                 </div>
+            </div>
+        </section>
+        <section class="text-black">
+            <div class="max-w-4xl px-6 mx-auto">
+                <p class="text-lg text-center">
+                    ANTASUS Infra realisiert professionelle
+                    <strong>Glasfaser-Hausanschlüsse</strong> und
+                    <strong>Glasfaser-Tiefbauprojekte</strong> in Wuppertal
+                    &amp; Umgebung. Unser Team, aus erfahrenen deutschsprachigen
+                    Mitarbeitern und exzellenten Management, sorgt für
+                    termintreue Umsetzung nach aktuellen Normen. Erfahren Sie
+                    mehr über unsere
+                    <Link href="/leistungen" class="underline">
+                        Leistungen
+                    </Link>
+                </p>
             </div>
         </section>
         <section class="py-20 bg-white">
@@ -233,7 +264,7 @@
 
 <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { Link } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 
 const jsonLd = {

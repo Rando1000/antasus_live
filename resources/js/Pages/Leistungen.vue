@@ -14,9 +14,6 @@
         />
         <meta property="og:url" content="https://www.antasus.de/leistungen" />
         <meta property="og:type" content="website" />
-        <script>
-            :jsonLd="jsonLd"
-        </script>
     </Head>
     <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
     <!-- JSON-LD für Services im Body -->

@@ -56,7 +56,10 @@
                         <img
                             v-if="item.image_url"
                             :src="item.image_url"
-                            :alt="item.title"
+                            :alt="`${item.title} - ANTASUS Infra`"
+                            loading="lazy"
+                            decoding="async"
+                            fetchpriority="low"
                             class="object-cover w-full h-48"
                         />
                         <div class="p-5">
@@ -215,102 +218,96 @@ onUnmounted(() => {
     document.removeEventListener("keydown", handleEscape);
 });
 
-watch(selectedItem, (item) => {
-    // Entferne ggf. vorhandene dynamische strukturierte Daten
-    document
-        .querySelectorAll("script[data-dynamic-ld]")
-        .forEach((el) => el.remove());
-
-    if (!item) return;
-
-    const structuredData = {
+const seoData = computed(() => ({
+    title: `${props.service.title} | ANTASUS Infra`,
+    description: props.service.description.substring(0, 160), // Beschränkung auf 160 Zeichen
+    image:
+        props.service.image_url ||
+        "https://www.antasus.de/images/services/standard.jpg",
+    jsonLd: {
         "@context": "https://schema.org",
         "@type": "Service",
-        name: item.title,
-        description: item.description,
-        image: item.image_url,
+        name: props.service.title,
+        description: props.service.description,
+        serviceType: "Glasfaserinstallation",
         provider: {
             "@type": "Organization",
-            name: "ANTASUS Infra",
+            name: "Antasus Infra",
             url: "https://www.antasus.de",
+            address: {
+                "@type": "PostalAddress",
+                streetAddress: "Norrenbergstrasse 122",
+                addressLocality: "Wuppertal",
+                postalCode: "42289",
+                addressCountry: "DE",
+            },
+            contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+49 176 24757616",
+                contactType: "customer service",
+            },
         },
         areaServed: {
-            "@type": "Place",
+            "@type": "Country",
             name: "Deutschland",
         },
-    };
+        image: props.service.image_url
+            ? [
+                  props.service.image_url,
+                  ...props.service.items.map((i) => i.image_url),
+              ]
+            : "https://www.antasus.de/images/services/standard.jpg",
+        hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: "Leistungspakete",
+            itemListElement: props.service.items.map((item, index) => ({
+                "@type": "Offer",
+                position: index + 1,
+                name: item.title,
+                description: item.description,
+                image: item.image_url,
+            })),
+        },
+    },
+}));
 
-    const seoData = computed(() => ({
-        title: `${props.service.title} | ANTASUS Infra`,
-        description: props.service.description.substring(0, 160), // Beschränkung auf 160 Zeichen
-        image:
-            props.service.image_url ||
-            "https://www.antasus.de/images/services/standard.jpg",
-        jsonLd: {
+onMounted(() => {
+    if (props.service.items?.length) {
+        const catalogSchema = {
             "@context": "https://schema.org",
-            "@type": "Service",
-            name: props.service.title,
-            description: props.service.description,
-            serviceType: "Glasfaserinstallation",
-            provider: {
-                "@type": "Organization",
-                name: "Antasus Infra",
-                url: "https://www.antasus.de",
-                address: {
-                    "@type": "PostalAddress",
-                    streetAddress: "Norrenbergstrasse 122",
-                    addressLocality: "Wuppertal",
-                    postalCode: "42289",
-                    addressCountry: "DE",
-                },
-                contactPoint: {
-                    "@type": "ContactPoint",
-                    telephone: "+49 176 24757616",
-                    contactType: "customer service",
-                },
-            },
-            areaServed: {
-                "@type": "Country",
-                name: "Deutschland",
-            },
-            image: props.service.image_url
-                ? [
-                      props.service.image_url,
-                      ...props.service.items.map((i) => i.image_url),
-                  ]
-                : "https://www.antasus.de/images/services/standard.jpg",
-            hasOfferCatalog: {
-                "@type": "OfferCatalog",
-                name: "Leistungspakete",
-                itemListElement: props.service.items.map((item, index) => ({
-                    "@type": "Offer",
-                    position: index + 1,
+            "@type": "ItemList",
+            itemListElement: props.service.items.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                    "@type": "Service",
                     name: item.title,
                     description: item.description,
                     image: item.image_url,
-                })),
-            },
+                },
+            })),
+        };
+        // Schema dem DOM hinzufügen
+    }
+});
+
+// Dynamische FAQ-Erweiterung (nur wenn FAQs existieren)
+if (props.service.faqs?.length) {
+    seoData.value.jsonLd.mainEntity = props.service.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.frage,
+        acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.antwort,
         },
     }));
+}
 
-    // Dynamische FAQ-Erweiterung (nur wenn FAQs existieren)
-    if (props.service.faqs?.length) {
-        seoData.value.jsonLd.mainEntity = props.service.faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.frage,
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.antwort,
-            },
-        }));
-    }
-
-    const tag = document.createElement("script");
-    tag.type = "application/ld+json";
-    tag.dataset.dynamicLd = true;
-    tag.text = JSON.stringify(structuredData);
-    document.head.appendChild(tag);
-});
+const tag = document.createElement("script");
+tag.type = "application/ld+json";
+tag.dataset.dynamicLd = true;
+tag.text = JSON.stringify(structuredData);
+document.head.appendChild(tag);
 </script>
 
 <style scoped>

@@ -159,7 +159,7 @@
 import SeoHead from "@/Components/SeoHead.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link, usePage, router } from "@inertiajs/vue3";
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 
 const props = defineProps({
     service: Object,
@@ -302,12 +302,6 @@ if (props.service.faqs?.length) {
         },
     }));
 }
-
-const tag = document.createElement("script");
-tag.type = "application/ld+json";
-tag.dataset.dynamicLd = true;
-tag.text = JSON.stringify(structuredData);
-document.head.appendChild(tag);
 </script>
 
 <style scoped>

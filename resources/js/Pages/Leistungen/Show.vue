@@ -48,10 +48,10 @@
                 Unsere Expertise für
                 <strong>{{ service.title }}</strong> umfasst die komplette
                 Planung, Umsetzung und Dokumentation von
-                <em>FTTx-Anschlüssen</em> &amp; <em>POPs</em> gemäß DIN EN 1610
+                <em>FTTx Anschlüssen</em> &amp; <em>POPs</em> gemäß DIN EN 1610
                 und DIN 18015-5. Egal ob
                 <strong>Hausanschluss Glasfaser</strong> in Neubauten oder
-                <strong>Glasfaser-Netzbau</strong> in Gewerbegebieten – wir
+                <strong>Glasfaserausbau</strong> in Gewerbegebieten, wir
                 garantieren termingerechte Projektabwicklung, georeferenzierte
                 Kartierung und normgerechte Abschlusstests.
             </h2>
@@ -87,12 +87,12 @@
             >
                 <p class="mt-4 text-gray-600">
                     Unsere Teams verlegen
-                    <strong>DIN EN 50618-zertifizierte Leerrohre</strong> und
+                    <strong>DIN EN 50618 zertifizierte Leerrohre</strong> und
                     setzen modernste <strong>Pipes &amp; Conduits</strong> ein.
                     Von der <em>GPS-gestützten Trassenvermessung</em> bis zur
-                    <em>Fertigstellungsdokumentation im PDF-Format</em> – wir
+                    <em>Fertigstellungsdokumentation im PDF-Format.</em> Wir
                     kennen jeden Schritt der
-                    <strong>Glasfaser-Installation</strong> im Detail.
+                    <strong>Glasfaser-Installation</strong> im Detail!
                 </p>
             </div>
         </section>

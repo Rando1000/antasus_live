@@ -9,13 +9,13 @@
     </Head>
     <SeoHead
         :title="service.title"
-        :description="service.short_description"
+        :description="service.description"
         image="https://www.antasus.de/images/services/standard.jpg"
         :json-ld="{
             '@context': 'https://schema.org',
             '@type': 'Service',
             name: service.title,
-            description: service.short_description,
+            description: service.description,
             provider: {
                 '@type': 'Organization',
                 name: 'Antasus Infra GmbH',
@@ -41,7 +41,20 @@
         </section>
 
         <!-- Items Grid -->
-        <section class="py-20 bg-white">
+        <section class="py-12 bg-white">
+            <h2
+                class="max-w-3xl p-4 mx-auto mb-12 text-black rounded-lg border-y-4 md:grid-cols-1"
+            >
+                Unsere Expertise für
+                <strong>{{ service.title }}</strong> umfasst die komplette
+                Planung, Umsetzung und Dokumentation von
+                <em>FTTx-Anschlüssen</em> &amp; <em>POPs</em> gemäß DIN EN 1610
+                und DIN 18015-5. Egal ob
+                <strong>Hausanschluss Glasfaser</strong> in Neubauten oder
+                <strong>Glasfaser-Netzbau</strong> in Gewerbegebieten – wir
+                garantieren termingerechte Projektabwicklung, georeferenzierte
+                Kartierung und normgerechte Abschlusstests.
+            </h2>
             <div class="max-w-6xl px-4 mx-auto">
                 <div class="grid gap-8 md:grid-cols-2">
                     <div
@@ -66,6 +79,21 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+        <section class="py-12 bg-white">
+            <div
+                class="max-w-3xl p-4 mx-auto mb-12 text-black rounded-lg md:grid-cols-1"
+            >
+                <p class="mt-4 text-gray-600">
+                    Unsere Teams verlegen
+                    <strong>DIN EN 50618-zertifizierte Leerrohre</strong> und
+                    setzen modernste <strong>Pipes &amp; Conduits</strong> ein.
+                    Von der <em>GPS-gestützten Trassenvermessung</em> bis zur
+                    <em>Fertigstellungsdokumentation im PDF-Format</em> – wir
+                    kennen jeden Schritt der
+                    <strong>Glasfaser-Installation</strong> im Detail.
+                </p>
             </div>
         </section>
 

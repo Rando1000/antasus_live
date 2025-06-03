@@ -7,12 +7,7 @@
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
         />
     </Head>
-    <SeoHead
-        :title="seoData.title"
-        :description="seoData.description"
-        :image="seoData.image"
-        :json-ld="seoData.jsonLd"
-    />
+    <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->
         <section
@@ -218,77 +213,43 @@ onUnmounted(() => {
     document.removeEventListener("keydown", handleEscape);
 });
 
-const seoData = computed(() => ({
-    title: `${props.service.title} | ANTASUS Infra`,
-    description: props.service.description.substring(0, 160), // Beschränkung auf 160 Zeichen
-    image:
-        props.service.image_url ||
-        "https://www.antasus.de/images/services/standard.jpg",
-    jsonLd: {
-        "@context": "https://schema.org",
+const servicesJsonLd = computed(() => ({
+    "@context": "https://schema.org",
+    "@graph": props.services.map((srv) => ({
         "@type": "Service",
-        name: props.service.title,
-        description: props.service.description,
-        serviceType: "Glasfaserinstallation",
+        "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
+        name: srv.title,
+        description: srv.description,
         provider: {
             "@type": "Organization",
             name: "Antasus Infra",
             url: "https://www.antasus.de",
-            address: {
-                "@type": "PostalAddress",
-                streetAddress: "Norrenbergstrasse 122",
-                addressLocality: "Wuppertal",
-                postalCode: "42289",
-                addressCountry: "DE",
-            },
-            contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+49 176 24757616",
-                contactType: "customer service",
-            },
         },
         areaServed: {
             "@type": "Country",
             name: "Deutschland",
         },
-        image: props.service.image_url
-            ? [
-                  props.service.image_url,
-                  ...props.service.items.map((i) => i.image_url),
-              ]
-            : "https://www.antasus.de/images/services/standard.jpg",
-        hasOfferCatalog: {
-            "@type": "OfferCatalog",
-            name: "Leistungspakete",
-            itemListElement: props.service.items.map((item, index) => ({
-                "@type": "Offer",
-                position: index + 1,
-                name: item.title,
-                description: item.description,
-                image: item.image_url,
-            })),
+        offers: {
+            "@type": "Offer",
+            priceCurrency: "EUR",
+            // Bei Bedarf können hier weitere Angebotsfelder ergänzt werden:
+            // price: "0.00",
+            // priceSpecification: { … }
         },
-    },
+        url: `https://www.antasus.de/leistungen/${srv.slug}`,
+    })),
 }));
 
+// 2) Baue das <script>-Tag aus dem JSON-LD-Objekt zusammen
+const jsonLdScriptTag = `<script type="application/ld+json">
+${JSON.stringify(servicesJsonLd.value, null, 2)}`;
+
+// 3) Füge das Script bei Bedarf (z. B. in onMounted) ins <head> ein
 onMounted(() => {
-    if (props.service.items?.length) {
-        const catalogSchema = {
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            itemListElement: props.service.items.map((item, index) => ({
-                "@type": "ListItem",
-                position: index + 1,
-                item: {
-                    "@type": "Service",
-                    name: item.title,
-                    description: item.description,
-                    image: item.image_url,
-                },
-            })),
-        };
-        // Schema dem DOM hinzufügen
-    }
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.text = JSON.stringify(servicesJsonLd.value, null, 2);
+    document.head.appendChild(tag);
 });
 
 // Dynamische FAQ-Erweiterung (nur wenn FAQs existieren)

@@ -163,7 +163,7 @@ import { ref, onMounted, onUnmounted, computed } from "vue";
 
 const props = defineProps({
     service: Object,
-    item: Object,
+    item: Object.item,
 });
 
 const selectedItem = ref(null);

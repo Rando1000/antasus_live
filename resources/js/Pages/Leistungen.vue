@@ -35,10 +35,14 @@
                     <p
                         class="mb-8 text-lg md:text-xl text-white/90 drop-shadow-md"
                     >
-                        Wir bieten Komplettlösungen im Glasfaserausbau –
+                        Komplettlösungen im Glasfaserausbau.
                         <span class="font-semibold text-white"
-                            >fachgerecht, zuverlässig und normkonform</span
-                        >.
+                            >Fachgerecht, zuverlässig und normkonform</span
+                        >. Wir bieten <strong>Glasfaser-Tiefbau</strong>,
+                        <strong>Hausanschluss</strong> &
+                        <strong>Projektplanung inkl. Projektleitung</strong>
+                        nach DIN/VD. Termintreu, zuverlässig und
+                        partnerschaftlich.
                     </p>
                     <Link
                         href="/kontakt"
@@ -169,7 +173,7 @@ onMounted(() => {
 
 const faqs = [
     {
-        frage: "Was kostet ein Glasfaser-Hausanschluss mit Antasus?",
+        frage: "Was kostet ein Glasfaser Hausanschluss mit Antasus?",
         antwort:
             "Die Kosten hängen von Lage, Länge der Trasse und Technik ab. Für Generalunternehmen kalkulieren wir individuell. Privatkunden erhalten ein Festpreisangebot nach Vor-Ort-Besichtigung.",
     },
@@ -181,12 +185,12 @@ const faqs = [
     {
         frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
         antwort:
-            "Ja – unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z. B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
+            "Ja, unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z.B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
         frage: "Wer ist Ansprechpartner während der Umsetzung?",
         antwort:
-            "Ein deutschsprachiger Bauleiter oder technischer Ansprechpartner ist während der gesamten Umsetzung für Sie erreichbar – telefonisch oder vor Ort.",
+            "Ein deutschsprachiger Bauleiter oder technischer Ansprechpartner ist während der gesamten Umsetzung für Sie erreichbar, telefonisch oder vor Ort.",
     },
 ];
 

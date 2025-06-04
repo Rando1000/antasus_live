@@ -214,7 +214,6 @@ onUnmounted(() => {
 });
 
 const servicesJsonLd = computed(() => ({
-    "@context": "https://schema.org",
     "@type": "Service",
     title: `${props.service.title} | ANTASUS Infra`,
     description: props.service.description.substring(0, 160), // Beschränkung auf 160 Zeichen

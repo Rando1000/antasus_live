@@ -310,12 +310,12 @@ const localBusinessJsonLd = {
         "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
     address: {
         "@type": "PostalAddress",
-        streetAddress: "Musterstraße 12",
-        addressLocality: "Musterstadt",
-        postalCode: "12345",
+        streetAddress: "Norrenbergstrasse 122",
+        addressLocality: "Wuppertal",
+        postalCode: "42289",
         addressCountry: "DE",
     },
-    telephone: "+49 123 4567890",
+    telephone: "+49 176 24757616",
     email: "info@antasus.de",
 };
 

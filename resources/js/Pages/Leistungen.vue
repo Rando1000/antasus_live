@@ -26,7 +26,7 @@
                         class="mb-6 text-4xl font-extrabold text-white md:text-5xl drop-shadow-xl"
                     >
                         <span class="relative inline-block">
-                            Unsere Leistungen
+                            Unsere Glasfaser-Leistungen
                             <span
                                 class="absolute left-0 w-full h-1 rounded -bottom-1 bg-antasus-primary/70"
                             ></span>
@@ -35,14 +35,10 @@
                     <p
                         class="mb-8 text-lg md:text-xl text-white/90 drop-shadow-md"
                     >
-                        Komplettlösungen im Glasfaserausbau.
-                        <span class="font-semibold text-white"
-                            >Fachgerecht, zuverlässig und normkonform</span
-                        >. Wir bieten <strong>Glasfaser-Tiefbau</strong>,
+                        Wir bieten <strong>Glasfaser-Tiefbau</strong>,
                         <strong>Hausanschluss</strong> &
-                        <strong>Projektplanung inkl. Projektleitung</strong>
-                        nach DIN/VD. Termintreu, zuverlässig und
-                        partnerschaftlich.
+                        <strong>Projektplanung</strong> nach DIN/VDE –
+                        termintreu, zuverlässig und partnerschaftlich.
                     </p>
                     <Link
                         href="/kontakt"
@@ -54,8 +50,25 @@
             </section>
         </template>
 
+        <section class="py-12 text-white bg-gray-800 rounded-b">
+            <div class="max-w-4xl px-6 mx-auto">
+                <p class="text-lg text-center">
+                    ANTASUS Infra realisiert professionelle
+                    <strong>Glasfaser Hausanschlüsse</strong> und
+                    <strong>Glasfaser Tiefbauprojekte</strong> gemäß DIN EN 1610
+                    und DIN 18015-5 in NRW. Von der Planung über
+                    <em>GIS-Dokumentation</em> bis zur Inbetriebnahme. Hier
+                    erfahren Sie mehr über unsere
+                    <Link href="/leistungen" class="underline">
+                        Leistungen </Link
+                    >.
+                </p>
+            </div>
+        </section>
+
         <ArticleCard :services="services" @select="selectService" />
 
+        <!-- → DETAILSECTION (wenn Service ausgewählt) ← -->
         <section
             v-if="activeService"
             class="py-16 bg-white border-t border-gray-100"
@@ -68,6 +81,12 @@
                         services.find((s) => s.id === activeService)?.title
                     }}"
                 </h2>
+                <p class="mb-8 text-gray-600">
+                    {{
+                        services.find((s) => s.id === activeService)
+                            ?.description
+                    }}
+                </p>
                 <div class="grid gap-8 md:grid-cols-2">
                     <ServiceItemCard
                         v-for="item in services.find(
@@ -129,6 +148,11 @@ import { onMounted, ref, computed, watch } from "vue";
 const props = defineProps({
     services: Array,
 });
+
+const activeService = ref(null);
+const selectService = (service) => {
+    activeService.value = service.id;
+};
 
 const jsonLd = {
     "@context": "https://schema.org",

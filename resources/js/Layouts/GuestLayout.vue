@@ -239,7 +239,7 @@
 
         <header
             v-if="$slots.header"
-            class="relative w-full overflow-hidden shadow-xl h-96 rounded-xl"
+            class="relative w-full overflow-hidden rounded-t-lg shadow-xl h-96"
         >
             <!-- Bild ersetzt das CSS-Background -->
             <img

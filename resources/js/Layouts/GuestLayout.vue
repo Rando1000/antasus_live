@@ -43,13 +43,13 @@
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     ></NavLink> -->
                     <NavLink
-                        href="/History"
+                        href="/inprogress"
                         label="History"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     >
                     </NavLink>
                     <NavLink
-                        href="/leistungen"
+                        href="/in-arbeit"
                         label="Projects"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     >

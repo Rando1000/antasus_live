@@ -6,7 +6,8 @@ use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\ReferenzController;
 use App\Http\Controllers\Frontend\LeistungenController;
 use App\Http\Controllers\ServiceItemController;
-
+use App\Http\Controllers\Admin\EmailCampaignController;
+use App\Http\Controllers\Admin\EmailPromotionController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Referenz;
@@ -157,10 +158,35 @@ Route::get('/sitemap.xml', function () {
 Route::get('/in-arbeit', function () {
     return Inertia::render('InProgress');
 })->name('in-arbeit');
-
-Route::get('/{any}', function () {
+Route::get('/inprogress', function () {
     return Inertia::render('InProgress');
-})->where('any', '.*');
+})->name('inprogress');
+
+// Route::get('/{any}', function () {
+//     return Inertia::render('InProgress');
+// })->where('any', '.*');
+//------------------------------------------------------------
+//------------------------------------------------------------
+
+//------------------------------------------------------------
+//------------------------------------------------------------
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->group(function() {
+        // Seite zum Verfassen (GET) und Senden (POST) von Kampagnen-Mails
+        Route::get('emailcampaign', [EmailCampaignController::class, 'index'])
+             ->name('admin.emailcampaign.index');
+        Route::post('emailcampaign/send', [EmailCampaignController::class, 'send'])
+             ->name('admin.emailcampaign.send');
+    });
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('admin/emailkonverse', [EmailPromotionController::class, 'showForm'])
+         ->name('admin.email.form');
+    Route::post('admin/email/send',     [EmailPromotionController::class, 'send'])
+         ->name('admin.email.send');
+});
+
 //------------------------------------------------------------
 //------------------------------------------------------------
 

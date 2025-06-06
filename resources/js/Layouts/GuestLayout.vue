@@ -42,18 +42,7 @@
                         label="Über Uns"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     ></NavLink> -->
-                    <NavLink
-                        href="/inprogress"
-                        label="History"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                    </NavLink>
-                    <NavLink
-                        href="/in-arbeit"
-                        label="Projects"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                    </NavLink>
+
                     <NavLink
                         href="/leistungen"
                         label="Dienstleistungen"
@@ -66,6 +55,19 @@
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
                     >
                     </NavLink>
+                    <NavLink
+                        href="/inprogress"
+                        label="History"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                    >
+                    </NavLink>
+                    <NavLink
+                        href="/in-arbeit"
+                        label="Projects"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                    >
+                    </NavLink>
+
                     <Link
                         href="/kontakt"
                         class="px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"

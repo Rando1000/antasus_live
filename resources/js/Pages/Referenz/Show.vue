@@ -16,7 +16,7 @@
                         {{ referenz.titel }}
                     </h1>
                     <p class="text-lg text-white/90">
-                        {{ referenz.ort }} – {{ referenz.beschreibung }}
+                        {{ referenz.ort }}
                     </p>
                 </div>
             </section>

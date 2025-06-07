@@ -18,11 +18,7 @@
         <meta name="theme-color" content="#14b8a6" />
         <meta
             name="description"
-            content="ANTASUS Infra - Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse & Projektabwicklung nach DIN/VDE. Termintreu, normkonform & partnerschaftlich."
-        />
-        <meta
-            property="og:description"
-            content="ANTASUS Infra - Ihr zuverlässiger Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse & Projektabwicklung nach DIN/VDE. Termintreu, normkonform & partnerschaftlich."
+            content="Ihr Partner für Glasfaser-Tiefbau, Hausanschlüsse und Projektmanagement nach DIN/VDE. Antasus Infra, Wuppertal."
         />
 
         <!-- 👇 Strukturierte LocalBusiness-Daten -->

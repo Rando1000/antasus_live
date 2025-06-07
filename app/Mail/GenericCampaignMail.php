@@ -12,11 +12,22 @@ class GenericCampaignMail extends Mailable
 
     public string $subjectLine;
     public string $htmlBody;
+    public ?string $preheader;
+    public ?string $ctaUrl;
+    public ?string $ctaLabel;
 
-    public function __construct(string $subjectLine, string $htmlBody)
-    {
+    public function __construct(
+        string $subjectLine,
+        string $htmlBody,
+        ?string $preheader = null,
+        ?string $ctaUrl = null,
+        ?string $ctaLabel = null
+    ) {
         $this->subjectLine = $subjectLine;
         $this->htmlBody    = $htmlBody;
+        $this->preheader   = $preheader;
+        $this->ctaUrl      = $ctaUrl;
+        $this->ctaLabel    = $ctaLabel;
     }
 
     public function build()
@@ -25,7 +36,11 @@ class GenericCampaignMail extends Mailable
             ->subject($this->subjectLine)
             ->view('emails.layouts.campaign')
             ->with([
-                'htmlBody' => $this->htmlBody,
+                'subjectLine' => $this->subjectLine,
+                'htmlBody'    => $this->htmlBody,
+                'preheader'   => $this->preheader,
+                'ctaUrl'      => $this->ctaUrl,
+                'ctaLabel'    => $this->ctaLabel,
             ]);
     }
 }

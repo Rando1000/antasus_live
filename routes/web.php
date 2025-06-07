@@ -28,7 +28,7 @@ Route::get('/', function () {
 //-----Leistungen-Bereich-----------
 Route::get('/leistungen', [LeistungenController::class, 'index'])->name('leistungen.index');
 Route::get('/leistungen/{service:slug}/{item:slug}/{id}', [ServiceItemController::class, 'show'])->name('services.items.show');
-Route::get('/leistungen/{serviceSlug}/{itemSlug}/{item}', [ServiceItemShowController::class, 'show'])
+Route::get('/leistungen/{serviceSlug}/{itemSlug}/{item}', [ServiceItemController::class, 'show'])
     ->name('services.items.show.item');
 
 
@@ -176,6 +176,10 @@ Route::middleware(['auth', 'role:admin'])
         // Seite zum Verfassen (GET) und Senden (POST) von Kampagnen-Mails
         Route::get('emailcampaign', [EmailCampaignController::class, 'index'])
              ->name('admin.emailcampaign.index');
+        Route::get('emailcampaign/create', [EmailCampaignController::class, 'create'])
+             ->name('admin.emailcampaign.create');
+        Route::put('emailkonverse/{campaign}', [EmailCampaignController::class,'update'])
+            ->name('admin.email.update');
         Route::post('emailcampaign/send', [EmailCampaignController::class, 'send'])
              ->name('admin.emailcampaign.send');
     });

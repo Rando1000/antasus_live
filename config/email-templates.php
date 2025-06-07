@@ -4,8 +4,8 @@
 return [
     'vorlagen' => [
         'einladung' => [
-            'label'   => 'Einladung zu einem Gespräch',
-            'subject' => 'Einladung: Gemeinsame Glasfaser-Projektbesprechung',
+            'label'   => 'Einladung zur Zusammenarbeit',
+            'subject' => 'Einladung: Kappa-Angebot Hausanschlüsse HAS FTTH',
             'body'    => <<<'HTML'
 <p>Hallo {{ recipient_name }},</p>
 
@@ -14,12 +14,14 @@ Mit langjähriger Erfahrung als Subunternehmer für Generalunternehmen bieten wi
 
 <ul>
     <li>Professionelles Projektmanagement (Projektleitung / Bauleitung)</li>
-    <li>Normgerechte Hausanschlüsse (DIN EN 1610)</li>
+    <li>Normgerechte Hausanschlüsse (DIN 18220)</li>
     <li>Komplettdienstleistungen für Tiefbau und Planung</li>
     <li>Georeferenzierte Dokumentation und Fertigstellungstests</li>
 </ul>
 
-<p>Haben Sie Interesse an einem unverbindlichen Gespräch? Dann lassen Sie uns gern einen Termin vereinbaren.</p>
+<p>Nach durchgängigen Prozessoptimierungen, sind wir in der Lage unsere Kappazitäten noch effektiver zu steuern. Wir bieten Ihnen ein hohes Maß an Qualität und Flexibilität die Sie ab sofort für Ihre Projekte nutzen können.
+    Unser Team aus exzelenten Projektleitern, spezialisierten Bauleitern und qualifizierten deutschsprachigen Mitarbeitern, werden Ihr Projekt auf einen hören Level bringen!
+    Haben Sie Interesse an einem unverbindlichen Gespräch? Dann lassen Sie uns gern einen Termin vereinbaren.</p>
 
 <p>Beste Grüße<br>
 Ihr ANTASUS Infra Team</p>

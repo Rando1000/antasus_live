@@ -45,11 +45,12 @@
                                     />
                                 </td>
                                 <td class="px-6 py-4 space-x-2">
-                                    <button
+                                    <Link
                                         class="text-sm font-medium text-blue-600 hover:underline"
+                                        :href="`/admin/referenzen/${ref.id}/edit`"
                                     >
                                         Bearbeiten
-                                    </button>
+                                    </Link>
                                     <button
                                         class="text-sm font-medium text-red-600 hover:underline"
                                     >

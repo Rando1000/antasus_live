@@ -11,10 +11,16 @@ use App\Http\Controllers\Admin\DashboardController;
 
 //----------------Rollen-Routes------------
 Route::middleware(['auth', 'role:admin'])
-    ->prefix('admin')
-    ->name('admin.')
+    ->prefix('admin/referenzen')
+    ->name('admin.referenzen')
     ->group(function () {
-        Route::resource('referenzen', ReferenzController::class)->except('show');
+        Route::get('/', [ReferenzController::class, 'index'])->name('index');
+        Route::get('/create', [ReferenzController::class, 'create'])->name('create');
+        Route::post('/', [ReferenzController::class, 'store'])->name('store');
+        Route::get('/{referenz}/edit', [ReferenzController::class, 'edit'])->name('admin.referenzen.edit');
+        Route::put('/{referenz}', [ReferenzController::class, 'update'])->name('update');
+        Route::delete('/{referenz}', [ReferenzController::class, 'destroy'])->name('destroy');
+        // Route::resource('referenzen/edit', ReferenzController::class)->except('edit');
 
 
     });

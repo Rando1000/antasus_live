@@ -46,7 +46,9 @@ class ReferenzController extends Controller
 
     public function edit(Referenz $referenz)
     {
-        return Inertia::render('Admin/Referenzen/Edit', compact('referenz'));
+        return Inertia::render('Admin/Referenzen/Edit',  [
+            'referenz' => $referenz,
+        ]);
     }
 
     public function update(Request $request, Referenz $referenz)

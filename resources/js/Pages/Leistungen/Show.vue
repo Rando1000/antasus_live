@@ -9,8 +9,8 @@
     </Head>
 
     <!-- JSON-LD-Script für Service-Schema -->
-    <div v-if="servicesJsonLd" v-html="tag" />
-    <div v-if="howToJsonLd" v-html="howToTag" />
+    <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
+    <div v-if="howToJsonLd" v-html="jsonLdScripthoTag" />
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->

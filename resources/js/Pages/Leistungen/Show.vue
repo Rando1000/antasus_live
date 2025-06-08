@@ -10,7 +10,7 @@
 
     <!-- JSON-LD-Script für Service-Schema -->
     <!-- <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
-    <div v-if="howToJsonLd" v-html="jsonLdScripthoTag" /> -->
+    <div v-if="howToJsonLd" v-html="jsonLdScriptTag" /> -->
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->
@@ -380,18 +380,18 @@ useHead({
     ],
 });
 
-// onMounted(() => {
-//     const tag = document.createElement("script");
-//     tag.type = "application/ld+json";
-//     tag.text = JSON.stringify(servicesJsonLd.value, null, 2);
-//     document.head.appendChild(tag);
+onMounted(() => {
+    const tag = document.createElement("script");
+    tag.type = "application/ld+json";
+    tag.text = JSON.stringify(servicesJsonLd.value, null, 2);
+    document.head.appendChild(tag);
 
-//     // HowTo-Script
-//     const howToTag = document.createElement("script");
-//     howToTag.type = "application/ld+json";
-//     howToTag.text = JSON.stringify(howToJsonLd.value, null, 2);
-//     document.head.appendChild(howToTag);
-// });
+    // HowTo-Script
+    const howToTag = document.createElement("script");
+    howToTag.type = "application/ld+json";
+    howToTag.text = JSON.stringify(howToJsonLd.value, null, 2);
+    document.head.appendChild(howToTag);
+});
 
 // ### Interne Verlinkung: Liste der “Verwandten” Items (alle außer das aktuelle Detail)
 const relatedItems = computed(() =>

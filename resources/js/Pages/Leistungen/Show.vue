@@ -10,6 +10,7 @@
 
     <!-- JSON-LD-Script für Service-Schema -->
     <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
+    <div v-if="howToJsonLd" v-html="jsonLdScripthowTag" />
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Header -->
@@ -304,9 +305,73 @@ const servicesJsonLd = computed(() => ({
     },
 }));
 
+// 2) HowTo-Schema (neu)
+const howToJsonLd = computed(() => ({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `Anleitung: ${props.service.title}`,
+    description: props.service.description,
+    totalTime: "P1DT2H",
+    supply: [
+        {
+            "@type": "HowToSupply",
+            name: "Leerrohr",
+        },
+        {
+            "@type": "HowToSupply",
+            name: "Glasfaserkabel",
+        },
+    ],
+    tool: [
+        {
+            "@type": "HowToTool",
+            name: "Spaten",
+        },
+        {
+            "@type": "HowToTool",
+            name: "Einblasgerät",
+        },
+    ],
+    step: [
+        {
+            "@type": "HowToStep",
+            url: "https://www.antasus.de/leistungen/hausanschluss#step1",
+            name: "Planung & Vermessung",
+            text: "Wir prüfen die Trassenführung und holen Genehmigungen ein.",
+            image: "https://www.antasus.de/images/hausanschluss-planung.jpg",
+            position: 1,
+        },
+        {
+            "@type": "HowToStep",
+            url: "https://www.antasus.de/leistungen/hausanschluss#step2",
+            name: "Graben und Leerrohr verlegen",
+            text: "Das Leerrohr wird DIN-konform entlang der Trasse verlegt.",
+            position: 2,
+        },
+        {
+            "@type": "HowToStep",
+            url: "https://www.antasus.de/leistungen/hausanschluss#step3",
+            name: "Kabel einblasen",
+            text: "Mittels Hochdrucktechnik wird das Glasfaserkabel eingezogen.",
+            position: 3,
+        },
+        {
+            "@type": "HowToStep",
+            url: "https://www.antasus.de/leistungen/hausanschluss#step4",
+            name: "Anschluss und Test",
+            text: "Der Switch wird angeschlossen und mit einem OTDR getestet.",
+            position: 4,
+        },
+    ],
+}));
+
 // Fügt das JSON-LD ins <head> ein
 const jsonLdScriptTag = `<script type="application/ld+json">
 ${JSON.stringify(servicesJsonLd.value, null, 2)}
+/>`;
+
+const jsonLdScripthowTag = `<script type="application/ld+json">
+${JSON.stringify(howToJsonLd.value, null, 2)}
 />`;
 
 onMounted(() => {
@@ -314,6 +379,12 @@ onMounted(() => {
     tag.type = "application/ld+json";
     tag.text = JSON.stringify(servicesJsonLd.value, null, 2);
     document.head.appendChild(tag);
+
+    // HowTo-Script
+    const howToTag = document.createElement("script");
+    howToTag.type = "application/ld+json";
+    howToTag.text = JSON.stringify(howToJsonLd.value, null, 2);
+    document.head.appendChild(howToTag);
 });
 
 // ### Interne Verlinkung: Liste der “Verwandten” Items (alle außer das aktuelle Detail)

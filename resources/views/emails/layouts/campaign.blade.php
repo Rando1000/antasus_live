@@ -21,7 +21,6 @@
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10%;
         }
 
         .header {
@@ -52,7 +51,7 @@
             background: #14b8a6;
             color: #fff;
             padding: 10px 20px;
-            border-radius: 20%;
+            border-radius: 50%;
             text-decoration: none
         }
     </style>

@@ -197,6 +197,7 @@
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link, usePage, router } from "@inertiajs/vue3";
 import { ref, onMounted, onUnmounted, computed } from "vue";
+import { useHead } from "@vueuse/head";
 
 const props = defineProps({
     service: Object,
@@ -366,13 +367,18 @@ const howToJsonLd = computed(() => ({
 }));
 
 // Fügt das JSON-LD ins <head> ein
-const jsonLdScriptTag = `<script type="application/ld+json">
-${JSON.stringify(servicesJsonLd.value, null, 2)}
-/>`;
-
-const jsonLdScripthowTag = `<script type="application/ld+json">
-${JSON.stringify(howToJsonLd.value, null, 2)}
-/>`;
+useHead({
+    script: [
+        {
+            type: "application/ld+json",
+            children: JSON.stringify(servicesJsonLd.value, null, 2),
+        },
+        {
+            type: "application/ld+json",
+            children: JSON.stringify(howToJsonLd.value, null, 2),
+        },
+    ],
+});
 
 onMounted(() => {
     const tag = document.createElement("script");

@@ -15,6 +15,23 @@
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
+    @if (isset($page['props']['servicesJsonLd']))
+        <script type="application/ld+json">
+            {!! json_encode(
+                $page['props']['servicesJsonLd'],
+                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+            ) !!}
+        </script>
+    @endif
+
+    @if (isset($page['props']['howToJsonLd']))
+        <script type="application/ld+json">
+            {!! json_encode(
+                $page['props']['howToJsonLd'],
+                JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+            ) !!}
+        </script>
+    @endif
 </head>
 
 <body class="font-sans antialiased">

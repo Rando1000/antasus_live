@@ -17,8 +17,9 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .mount(el)
-            .use(head);
+            .use(head)
+            .mount(el);
+
     },
     progress: {
         color: '#4B5563',

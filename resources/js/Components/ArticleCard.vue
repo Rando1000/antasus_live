@@ -1,5 +1,5 @@
 <template>
-    <div class="grid h-64 max-w-6xl gap-10 px-4 py-20 mx-auto md:grid-cols-2">
+    <div class="grid max-w-6xl gap-10 px-4 py-20 mx-auto md:grid-cols-2">
         <article
             v-for="(leistung, index) in services"
             :key="leistung.id"
@@ -34,22 +34,23 @@
                     </p>
                 </div>
 
-                <!-- <div class="flex items-center justify-between mt-6">
+                <div class="flex items-center justify-between mt-6">
                     <p class="text-lg font-bold text-antasus-primary"></p>
-                    <button
+                    <Link
                         @click="$emit('select', leistung)"
                         class="px-5 py-2 font-semibold text-white transition-all duration-300 rounded-full shadow-md bg-antasus-primary hover:text-teal-300 hover:shadow-xl hover:-translate-y-1 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-antasus-primary"
                         :aria-labelledby="'leistung-' + index"
                     >
-                        Projekt anfragen
-                    </button>
-                </div> -->
+                        Dienstleistungen für ein Hausanschluss
+                    </Link>
+                </div>
             </div>
         </article>
     </div>
 </template>
 
 <script setup>
+import { Link } from "@inertiajs/vue3";
 import { ref } from "vue";
 
 defineProps({

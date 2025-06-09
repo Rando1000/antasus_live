@@ -33,6 +33,17 @@
                         {{ leistung.description }}
                     </p>
                 </div>
+
+                <div class="flex items-center justify-between mt-6">
+                    <p class="text-lg font-bold text-antasus-primary"></p>
+                    <PrimaryButton
+                        @click="$emit('select', leistung)"
+                        class="px-5 py-2 font-semibold text-white transition-all duration-300 rounded-full shadow-md opacity-80 bg-antasus-primary hover:text-teal-300 hover:shadow-xl hover:-translate-y-1 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-antasus-primary"
+                        :aria-labelledby="'leistung-' + index"
+                    >
+                        Dienstleistungen für {{ leistung.title }}
+                    </PrimaryButton>
+                </div>
             </div>
         </Link>
     </div>
@@ -40,6 +51,8 @@
 
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import SecondaryButton from "./SecondaryButton.vue";
+import PrimaryButton from "./PrimaryButton.vue";
 
 defineProps({
     services: Array,

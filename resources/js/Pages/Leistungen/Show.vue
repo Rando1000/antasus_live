@@ -26,17 +26,6 @@
                 <p class="text-lg md:text-xl text-white/90 drop-shadow-sm">
                     {{ service.description }}
                 </p>
-                <p class="max-w-2xl mx-auto mb-12 text-white">
-                    Unsere Expertise für
-                    <strong>{{ service.title }}</strong> umfasst die komplette
-                    Planung, Umsetzung und Dokumentation von
-                    <em>FTTx-Anschlüssen</em> &amp; <em>POPs</em> gemäß DIN EN
-                    1610 und DIN 18015-5. Egal ob
-                    <strong>Glasfaser Hausanschluss</strong> in Neubauten oder
-                    <strong>Glasfaser-Netzbau</strong> in Gewerbegebieten. Wir
-                    garantieren termingerechte Projektabwicklung,
-                    georeferenzierte Kartierung und normgerechte Abschlusstests.
-                </p>
             </div>
         </section>
 

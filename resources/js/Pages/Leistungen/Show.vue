@@ -7,6 +7,17 @@
             :href="`https://www.antasus.de/leistungen/${service.slug}`"
         />
     </Head>
+    <!-- ─── 1️⃣ Breadcrumb ──────────────────────────────────────────── -->
+    <nav class="px-4 py-2 text-sm text-gray-600">
+        <Link href="/" class="hover:underline">Home</Link>
+        <span class="mx-2">/</span>
+        <Link href="/glasfaserbau" class="font-medium hover:underline"
+            >Glasfaserbau</Link
+        >
+        <span class="mx-2">/</span>
+        <span class="font-medium">{{ service.title }}</span>
+    </nav>
+    <!-- ────────────────────────────────────────────────────────────── -->
 
     <!-- JSON-LD-Script für Service-Schema -->
     <!-- <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
@@ -32,7 +43,7 @@
         <!-- Items Grid -->
         <section class="py-12 bg-white">
             <h2
-                class="max-w-3xl p-4 mx-auto mb-12 text-black rounded-lg border-y-4 md:grid-cols-1"
+                class="max-w-3xl p-4 mx-auto mt-10 mb-20 text-black rounded-lg border-y-4 md:grid-cols-1"
             >
                 Unsere Expertise für
                 <strong>{{ service.title }}</strong> umfasst die komplette
@@ -71,11 +82,20 @@
                         </div>
                     </div>
                 </div>
+                <!-- 2️⃣ CTA nach Grid -->
             </div>
+        </section>
+        <section class="py-10 text-center">
+            <Link
+                href="/glasfaserbau#ueberblick"
+                class="inline-block px-6 py-3 text-white transition bg-teal-600 rounded-lg hover:bg-teal-700"
+            >
+                Mehr zum Glasfaserbau → Angebot anfragen
+            </Link>
         </section>
 
         <!-- Semantische Nachbarn (LSI) → hier erweitert um einen weiteren Satz -->
-        <section class="py-12 bg-white">
+        <section class="py-10 bg-white">
             <div
                 class="max-w-3xl p-4 mx-auto mb-12 text-black rounded-lg md:grid-cols-1"
             >
@@ -93,6 +113,16 @@
                     sofort starten kann!
                 </p>
             </div>
+        </section>
+
+        <!-- 3️⃣ CTA nach LSI-Text -->
+        <section class="pb-12 text-center">
+            <Link
+                href="/technologien"
+                class="inline-block px-6 py-3 text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700"
+            >
+                Technologien im Glasfaserbau entdecken
+            </Link>
         </section>
 
         <!-- Interne Verlinkung stärken: → “Weitere verwandte Leistungen” -->
@@ -179,6 +209,20 @@
                 </div>
             </div>
         </Transition>
+        <!-- 4️⃣ CTA vor Footer -->
+        <section
+            class="py-16 text-center text-white bg-gradient-to-r from-antasus-primary to-antasus-dark"
+        >
+            <h3 class="mb-4 text-2xl font-bold">
+                Bereit für Ihr Glasfaserprojekt?
+            </h3>
+            <Link
+                href="/glasfaserbau#kontakt"
+                class="inline-block px-8 py-4 font-semibold transition bg-white rounded-lg text-antasus-primary hover:opacity-90"
+            >
+                Jetzt kostenlos anfragen
+            </Link>
+        </section>
     </GuestLayout>
 </template>
 

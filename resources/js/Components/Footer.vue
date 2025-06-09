@@ -1,7 +1,7 @@
 <template>
     <footer class="text-white bg-gray-900">
         <div
-            class="grid gap-8 px-6 py-12 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-4"
+            class="grid gap-8 px-6 py-12 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-5"
         >
             <!-- Branding -->
             <div class="space-y-4">
@@ -57,6 +57,37 @@
                             href="/agb"
                             class="transition-colors hover:text-teal-300"
                             >AGB</Link
+                        >
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <h3
+                    class="mb-4 text-sm font-semibold tracking-wider text-gray-300 uppercase"
+                >
+                    Links
+                </h3>
+                <ul class="space-y-3 text-gray-400">
+                    <li>
+                        <Link
+                            href="/glasfaserbau"
+                            class="transition-colors hover:text-teal-300"
+                            >Glasfaserbau</Link
+                        >
+                    </li>
+                    <li>
+                        <Link
+                            href="/technologien"
+                            class="transition-colors hover:text-teal-300"
+                            >Technologies</Link
+                        >
+                    </li>
+                    <li>
+                        <Link
+                            href="/impressum"
+                            class="transition-colors hover:text-teal-300"
+                            >About Us</Link
                         >
                     </li>
                 </ul>

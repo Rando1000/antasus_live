@@ -41,12 +41,17 @@
                     v-if="$page.url !== '/kontakt'"
                     class="items-center hidden space-x-12 md:flex"
                 >
-                    <!-- <NavLink
-                        href="/History"
-                        label="Über Uns"
+                    <NavLink
+                        href="/technologien"
+                        label="Technologies"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    ></NavLink> -->
-
+                    ></NavLink>
+                    <NavLink
+                        href="/glasfaserbau"
+                        label="Glasfaserbau"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                    >
+                    </NavLink>
                     <NavLink
                         href="/leistungen"
                         label="Dienstleistungen"
@@ -177,6 +182,22 @@
                     <ul class="space-y-4 text-lg font-semibold text-gray-900">
                         <li>
                             <NavLink
+                                href="/technologien"
+                                label="Technologies"
+                                class="block hover:text-teal-600"
+                                >Leistungen</NavLink
+                            >
+                        </li>
+                        <li>
+                            <NavLink
+                                href="/glasfaserbau"
+                                label="Glasfaserbau"
+                                class="block hover:text-teal-600"
+                                >Leistungen</NavLink
+                            >
+                        </li>
+                        <li>
+                            <NavLink
                                 href="/leistungen"
                                 label="Dienstleistungen"
                                 class="block hover:text-teal-600"
@@ -299,6 +320,31 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { computed, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
 
+const props = defineProps({
+    title: String,
+    user: Object,
+    canLogin: {
+        type: Boolean,
+    },
+    canRegister: {
+        type: Boolean,
+    },
+    serviceArea: {
+        type: String,
+        default: "default",
+        validator: (value) =>
+            [
+                "dienstleistungen",
+                "referenz",
+                "impressum",
+                "datenschutz",
+                "agb",
+                "home",
+                "default",
+            ].includes(value),
+    },
+});
+
 const page = usePage();
 const canonicalUrl = computed(() => {
     const currentPath = page.url.replace(/\?.*$/, ""); // Strip query
@@ -337,30 +383,6 @@ function toggleMobileMenu() {
     mobileMenuOpen.value = !mobileMenuOpen.value;
 }
 const isMobile = computed(() => window.innerWidth <= 768);
-const props = defineProps({
-    title: String,
-    user: Object,
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
-    serviceArea: {
-        type: String,
-        default: "default",
-        validator: (value) =>
-            [
-                "dienstleistungen",
-                "referenz",
-                "impressum",
-                "datenschutz",
-                "agb",
-                "home",
-                "default",
-            ].includes(value),
-    },
-});
 
 const headerBackgroundImage = computed(() => {
     const map = {

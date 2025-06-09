@@ -3,11 +3,13 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactFormController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ReferenzController;
 use App\Http\Controllers\Frontend\LeistungenController;
 use App\Http\Controllers\ServiceItemController;
 use App\Http\Controllers\Admin\EmailCampaignController;
 use App\Http\Controllers\Admin\EmailPromotionController;
+use App\Http\Controllers\Frontend\TechnologienController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Referenz;
@@ -193,6 +195,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 //------------------------------------------------------------
 //------------------------------------------------------------
+
+//------------------------------------------------------------
+//-----------------------SEO-Pillar-Seite---------------------
+
+Route::get('/glasfaserbau', [SeoController::class, 'pillar'])->name('seo.pillar');
+Route::get('/technologien', [TechnologienController::class, 'index'])
+    ->name('technologien');
+
+//------------------------------------------------------------
+//-----------------SEO-Pillar-Seite-END-----------------------
+
+
 
 // back
 require __DIR__.'/backadmin.php';

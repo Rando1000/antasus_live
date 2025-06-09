@@ -65,12 +65,16 @@
                 </p>
             </div>
         </section>
-
+        <h2
+            class="pt-20 pb-10 text-4xl font-extrabold text-center underline transition place-self-center"
+        >
+            Unsere Leistungen im Überblick
+        </h2>
         <ArticleCard :services="services" @select="selectService" />
 
-        <!-- → DETAILSECTION (wenn Service ausgewählt) ← -->
+        <!-- → DETAILSECTION (wenn Service ausgewählt) ←
         <section
-            v-if="activeService"
+
             class="py-16 bg-white border-t border-gray-100"
         >
             <div class="max-w-6xl px-4 mx-auto">
@@ -98,7 +102,7 @@
                     />
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <section class="py-16 bg-white border-t border-gray-100">
             <div class="max-w-4xl px-4 mx-auto">

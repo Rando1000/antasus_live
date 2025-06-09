@@ -1,5 +1,5 @@
 <template>
-    <div class="grid max-w-6xl gap-10 px-4 py-20 mx-auto md:grid-cols-2">
+    <div class="grid max-w-6xl gap-10 px-4 pt-12 pb-20 mx-auto md:grid-cols-2">
         <Link
             v-for="(leistung, index) in services"
             :key="leistung.id"

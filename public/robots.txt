@@ -1,4 +1,9 @@
 User-agent: *
-Disallow:
+Disallow: /backadmin/
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+
+Allow: /
 
 Sitemap: https://www.antasus.de/sitemap.xml

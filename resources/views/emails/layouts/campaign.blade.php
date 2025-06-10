@@ -81,7 +81,7 @@
                     @endif
 
                     <div class="footer">
-                        <p style="margin:0 0 4px;">
+                        <p href="/" style="margin:0 0 4px;">
                             ANTASUS Infra<br>
                             Norrenbergstraße 122, 42289 Wuppertal
                         </p>

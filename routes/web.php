@@ -129,6 +129,9 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/leistungen')
             ->setPriority(0.9)
             ->setLastModificationDate(Carbon::now()->subDays(1)))
+        ->add(Url::create('/leistungen/hausanschlusse')
+            ->setPriority(0.9)
+            ->setLastModificationDate(Carbon::now()->subDays(1)))
         ->add(Url::create('/referenzen')
             ->setPriority(0.9))
         ->add(Url::create('/kontakt')
@@ -144,6 +147,14 @@ Route::get('/sitemap.xml', function () {
     Referenz::all()->each(function ($ref) use ($sitemap) {
         $sitemap->add(
             Url::create("/referenzen/{$ref->slug}")
+                ->setPriority(0.7)
+                ->setLastModificationDate($ref->updated_at ?? now())
+        );
+    });
+
+    Service::all()->each(function ($ref) use ($sitemap) {
+        $sitemap->add(
+            Url::create("/leistungen/{$ref->slug}")
                 ->setPriority(0.7)
                 ->setLastModificationDate($ref->updated_at ?? now())
         );

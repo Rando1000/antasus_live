@@ -55,8 +55,8 @@
                 <p class="text-lg text-center">
                     ANTASUS Infra realisiert professionelle
                     <strong>Glasfaser Hausanschlüsse</strong> und
-                    <strong>Glasfaser Tiefbauprojekte</strong> gemäß DIN EN 1610
-                    und DIN 18015-5 in NRW. Von der Planung über
+                    <strong>Glasfaser Tiefbauprojekte</strong> gemäß DIN 18220
+                    und DIN EN 50173 in NRW. Von der Planung über
                     <em>GIS-Dokumentation</em> bis zur Inbetriebnahme. Hier
                     erfahren Sie mehr über unsere
                     <Link href="/leistungen" class="underline">
@@ -211,9 +211,9 @@ const faqs = [
             "Die Dauer variiert je nach Umfang. Kleinere Projekte (1–2 Hausanschlüsse) sind in 2–4 Tagen abgeschlossen. Großprojekte werden termingerecht nach Bauzeitenplan umgesetzt.",
     },
     {
-        frage: "Arbeitet Antasus normkonform nach VDE & DIN?",
+        frage: "Arbeitet Antasus normkonform nach deutschen Vorgaben und Richtlinien?",
         antwort:
-            "Ja, unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z.B. DIN 18322, VDE 0100), dokumentiert nach Vorgaben der Netzbetreiber.",
+            "Ja, unsere Leistungen erfüllen die aktuellen Normen und Richtlinien (z.B. DIN EN 50173, DIN EN 61386), dokumentiert nach Vorgaben der Netzbetreiber.",
     },
     {
         frage: "Wer ist Ansprechpartner während der Umsetzung?",

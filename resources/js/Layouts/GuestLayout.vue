@@ -55,7 +55,7 @@
                     <NavLink
                         href="/leistungen"
                         label="Dienstleistungen"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        class="text-2xl font-extrabold text-gray-900 transition-colors hover:text-teal-600"
                     >
                     </NavLink>
                     <NavLink

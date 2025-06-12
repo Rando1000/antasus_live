@@ -68,14 +68,15 @@
             <td align="center">
                 <div class="wrapper">
                     <div class="header">
-                        <img src="https://www.antasus.de/images/antasus-logo2.svg" alt="ANTASUS Infra" />
+                        <img src="https://www.antasus.de/images/favicon.svg" alt="ANTASUS Infra" />
                     </div>
                     <div class="content">
                         {!! $htmlBody !!}
                     </div>
 
                     @if ($ctaUrl && $ctaLabel)
-                        <div class="content" style="text-align:center;padding-bottom:20px;">
+                        <div class="content"
+                            style="text-align:center;padding-bottom:20px;box-shadow:#333;border-radius:2rem;">
                             <a href="{{ $ctaUrl }}" class="btn" target="_blank">{{ $ctaLabel }}</a>
                         </div>
                     @endif
@@ -86,6 +87,7 @@
                             Norrenbergstraße 122, 42289 Wuppertal
                         </p>
                         <p style="margin:0;">
+                            <a href="https://www.antasus.de">ANTASUS Online</a> |
                             <a href="https://www.antasus.de/impressum">Impressum</a> |
                             <a href="https://www.antasus.de/datenschutz">Datenschutz</a>
                         </p>

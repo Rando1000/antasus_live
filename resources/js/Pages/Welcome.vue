@@ -45,7 +45,8 @@
                         hochwertige, normgerechte
                         <strong>Glasfaserinfrastruktur</strong> in NRW. Von der
                         Trassenplanung bis zur Dokumentation. Wir realisieren
-                        Ihr FTTx-Projekt nach DIN VDE.
+                        Ihr FTTx-Projekt nach DIN 18220 / DIN EN 50700 / DIN EN
+                        61386.
                     </p>
 
                     <div class="flex flex-col justify-center gap-4 sm:flex-row">

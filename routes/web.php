@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ReferenzController;
@@ -26,6 +27,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+
 
 //-----Leistungen-Bereich-----------
 Route::get('/leistungen', [LeistungenController::class, 'index'])->name('leistungen.index');
@@ -216,6 +219,20 @@ Route::get('/technologien', [TechnologienController::class, 'index'])
 
 //------------------------------------------------------------
 //-----------------SEO-Pillar-Seite-END-----------------------
+
+
+//------------------Spati_Cookies-----------------------------
+Route::post('/cookie-consent/accept', function () {
+    Cookie::queue(cookie()->forever(config('cookie-consent.cookie_name'), 'true'));
+    return back();
+})->name('cookie-consent.accept');
+
+Route::post('/cookie-consent/decline', function () {
+    return redirect()->back()
+        ->withCookie(cookie(config('cookie-consent.cookie_name'), 'declined', 60 * 24 * 365));
+})->name('cookie-consent.decline');
+
+//-----------------Spati_Cookies-END--------------------------
 
 
 

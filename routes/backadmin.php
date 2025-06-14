@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Admin\ReferenzController;
 use App\Http\Controllers\Admin\ServiceItemController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\DashboardController;
 
 
@@ -59,3 +60,11 @@ Route::middleware(['auth', 'role:admin'])
 });
 
 //------------------------------------------------------
+
+//--------------------Buchungen-------------------------
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/bookings', [MeetingController::class, 'index'])->name('bookings.index');
+});
+
+//--------------Buchungen_Ende--------------------------

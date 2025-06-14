@@ -24,5 +24,14 @@ export default defineConfig({
             '@': '/resources/js',
         },
         },
+    optimizeDeps: {
+        include: [
+            '@fullcalendar/core',
+            '@fullcalendar/vue3',
+            '@fullcalendar/daygrid',
+            '@fullcalendar/timegrid',
+            '@fullcalendar/interaction'
+        ]
+    }
 
 });

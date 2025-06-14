@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\ContactFormController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\ReferenzController;
+use App\Http\Controllers\MeetingBookingController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Frontend\LeistungenController;
 use App\Http\Controllers\ServiceItemController;
 use App\Http\Controllers\Admin\EmailCampaignController;
@@ -136,7 +138,7 @@ Route::get('/sitemap.xml', function () {
             ->setPriority(0.9)
             ->setLastModificationDate(Carbon::now()->subDays(1)))
         ->add(Url::create('/referenzen')
-            ->setPriority(0.9))
+            ->setPriority(0.8))
         ->add(Url::create('/kontakt')
             ->setPriority(0.8))
         ->add(Url::create('/impressum')
@@ -150,7 +152,7 @@ Route::get('/sitemap.xml', function () {
     Referenz::all()->each(function ($ref) use ($sitemap) {
         $sitemap->add(
             Url::create("/referenzen/{$ref->slug}")
-                ->setPriority(0.7)
+                ->setPriority(0.5)
                 ->setLastModificationDate($ref->updated_at ?? now())
         );
     });
@@ -158,7 +160,7 @@ Route::get('/sitemap.xml', function () {
     Service::all()->each(function ($ref) use ($sitemap) {
         $sitemap->add(
             Url::create("/leistungen/{$ref->slug}")
-                ->setPriority(0.7)
+                ->setPriority(0.9)
                 ->setLastModificationDate($ref->updated_at ?? now())
         );
     });
@@ -234,6 +236,14 @@ Route::post('/cookie-consent/decline', function () {
 
 //-----------------Spati_Cookies-END--------------------------
 
+
+//----------------Buchungssytem_Routes------------------------
+
+Route::post('/bookings', [MeetingBookingController::class, 'store'])->name('bookings.store');
+Route::get('/bookings/confirm/{token}', [BookingController::class, 'confirm'])->name('bookings.confirm');
+Route::get('/buchung/bestaetigen/{token}', [BookingController::class, 'confirm'])->name('booking.confirm');
+
+//----------------Buchungssystem_Ende-------------------------
 
 
 // back

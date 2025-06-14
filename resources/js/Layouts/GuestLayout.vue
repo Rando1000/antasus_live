@@ -77,12 +77,18 @@
                     >
                     </NavLink>
 
-                    <Link
-                        href="/kontakt"
-                        class="px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
+                    <button
+                        @click="showBookingModal = true"
+                        class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
                     >
                         Termin sofort buchen
-                    </Link>
+                    </button>
+                    <BookingModal
+                        v-if="showBookingModal"
+                        :open="true"
+                        @close="showBookingModal = false"
+                        @typeSelected="handleMeetingType"
+                    />
                     <Link
                         v-if="$page.url !== '/kontakt'"
                         href="/kontakt"
@@ -312,13 +318,14 @@
 </template>
 
 <script setup>
-import { Head, usePage, Link } from "@inertiajs/vue3";
+import { Head, usePage, Link, router } from "@inertiajs/vue3";
 import Footer from "@/Components/Footer.vue";
 import ApplicationLogo2 from "@/Components/ApplicationLogo2.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { computed, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
+import BookingModal from "@/Components/BookingModal.vue";
 
 const props = defineProps({
     title: String,
@@ -344,6 +351,13 @@ const props = defineProps({
             ].includes(value),
     },
 });
+
+const showBookingModal = ref(false);
+
+const handleMeetingType = (type) => {
+    showBookingModal.value = false;
+    router.visit(`/buchen?type=${type}`);
+};
 
 const page = usePage();
 const canonicalUrl = computed(() => {

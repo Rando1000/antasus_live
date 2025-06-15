@@ -3,7 +3,7 @@
     $hasConsent = request()->hasCookie($config['cookie_name']);
 @endphp
 @if (!request()->cookies->has(config('cookie-consent.cookie_name')))
-    <div x-data="{ show: @json(!$hasConsent) }" x-show="show" x-init="setTimeout(() => show = true, 300)" x-transition
+    <div x-data="{ show: true }" x-init="setTimeout(() => show = true, 10)" x-show="show" style="min-height: 80px;"
         class="fixed z-50 flex flex-col gap-4 p-6 bg-white border border-teal-500 shadow-2xl opacity-65 bottom-4 inset-x-4 rounded-xl dark:bg-gray-900 md:flex-row md:items-center md:justify-between">
         <div class="text-sm text-gray-700 dark:text-gray-200">
             <p>

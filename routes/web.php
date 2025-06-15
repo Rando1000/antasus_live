@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\TechnologienController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use App\Models\Referenz;
+use App\Models\Service;
 use Carbon\Carbon;
 use Inertia\Inertia;
 
@@ -126,44 +127,45 @@ Route::middleware(['auth'])->get('/redirect-after-login', function () {
 Route::get('/sitemap.xml', function () {
     $sitemap = Sitemap::create();
 
-    // Statische Seiten (SEO-Priorität & optional: Änderungsdatum)
-    $sitemap
-        ->add(Url::create('/')
-            ->setPriority(1.0)
-            ->setLastModificationDate(Carbon::now()->subDays(1)))
-        ->add(Url::create('/leistungen')
-            ->setPriority(0.9)
-            ->setLastModificationDate(Carbon::now()->subDays(1)))
-        ->add(Url::create('/leistungen/hausanschlusse')
-            ->setPriority(0.9)
-            ->setLastModificationDate(Carbon::now()->subDays(1)))
-        ->add(Url::create('/referenzen')
-            ->setPriority(0.8))
-        ->add(Url::create('/kontakt')
-            ->setPriority(0.8))
-        ->add(Url::create('/impressum')
-            ->setPriority(0.5))
-        ->add(Url::create('/datenschutz')
-            ->setPriority(0.5))
-        ->add(Url::create('/agb')
-            ->setPriority(0.5));
+    try {
+        // Statische Seiten
+        $sitemap
+            ->add(Url::create('/')
+                ->setPriority(1.0)
+                ->setLastModificationDate(Carbon::now()->subDay()))
+            ->add(Url::create('/leistungen')->setPriority(0.9))
+            ->add(Url::create('/leistungen/hausanschlusse')->setPriority(0.9))
+            ->add(Url::create('/referenzen')->setPriority(0.8))
+            ->add(Url::create('/kontakt')->setPriority(0.8))
+            ->add(Url::create('/impressum')->setPriority(0.5))
+            ->add(Url::create('/datenschutz')->setPriority(0.5))
+            ->add(Url::create('/agb')->setPriority(0.5));
 
-    // 🔄 Dynamisch: einzelne Referenzen
-    Referenz::all()->each(function ($ref) use ($sitemap) {
-        $sitemap->add(
-            Url::create("/referenzen/{$ref->slug}")
-                ->setPriority(0.5)
-                ->setLastModificationDate($ref->updated_at ?? now())
-        );
-    });
+        // Dynamische Referenzen
+        Referenz::all()->each(function ($ref) use ($sitemap) {
+            if ($ref->slug) {
+                $sitemap->add(
+                    Url::create("/referenzen/{$ref->slug}")
+                        ->setPriority(0.5)
+                        ->setLastModificationDate($ref->updated_at ?? now())
+                );
+            }
+        });
 
-    Service::all()->each(function ($ref) use ($sitemap) {
-        $sitemap->add(
-            Url::create("/leistungen/{$ref->slug}")
-                ->setPriority(0.9)
-                ->setLastModificationDate($ref->updated_at ?? now())
-        );
-    });
+        // Dynamische Services
+        Service::all()->each(function ($service) use ($sitemap) {
+            if ($service->slug) {
+                $sitemap->add(
+                    Url::create("/leistungen/{$service->slug}")
+                        ->setPriority(0.9)
+                        ->setLastModificationDate($service->updated_at ?? now())
+                );
+            }
+        });
+    } catch (\Throwable $e) {
+        \Log::error('Fehler in der Sitemap: ' . $e->getMessage());
+        abort(500, 'Sitemap-Generierung fehlgeschlagen.');
+    }
 
     return $sitemap->toResponse(request());
 });

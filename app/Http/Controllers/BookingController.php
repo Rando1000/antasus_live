@@ -13,24 +13,7 @@ use Inertia\Inertia;
 
 class BookingController extends Controller
 {
-    public function confirm($token)
-    {
-        $pending = PendingBooking::where('token', $token)->firstOrFail();
 
-        // Buchung in finaler Tabelle speichern
-        MeetingBooking::create([
-            'type' => $pending->type,
-            'start' => $pending->start,
-            'end' => $pending->end,
-            'name' => $pending->name,
-            'email' => $pending->email,
-            'topic' => $pending->topic,
-        ]);
-
-        $pending->delete();
-
-        return Inertia::render('Booking/ConfirmationSuccess'); // Optional: Danke-Seite
-    }
 
     public function storePending(Request $request)
     {
@@ -53,5 +36,25 @@ class BookingController extends Controller
         Mail::to($pending->email)->send(new BookingConfirmationMail($pending));
 
         return response()->json(['message' => 'Confirmation sent']);
+    }
+
+    public function confirm($token)
+    {
+        $pending = PendingBooking::where('token', $token)->firstOrFail();
+
+        // Buchung in finaler Tabelle speichern
+        MeetingBooking::create([
+            'type' => $pending->type,
+            'start' => $pending->start,
+            'end' => $pending->end,
+            'name' => $pending->name,
+            'email' => $pending->email,
+            'topic' => $pending->topic,
+            'confirmation_token' => $pending->token,
+        ]);
+
+        $pending->delete();
+
+        return Inertia::render('Booking/ConfirmationSuccess'); // Optional: Danke-Seite
     }
 }

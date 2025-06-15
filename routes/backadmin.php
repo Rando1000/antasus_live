@@ -65,6 +65,8 @@ Route::middleware(['auth', 'role:admin'])
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/bookings', [MeetingController::class, 'index'])->name('bookings.index');
+    Route::put('/bookings/{booking}/status', [MeetingController::class, 'updateStatus'])->name('bookings.updateStatus');
+    Route::delete('/bookings/{booking}', [MeetingController::class, 'destroy'])->name('bookings.destroy');
 });
 
 //--------------Buchungen_Ende--------------------------

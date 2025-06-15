@@ -241,7 +241,7 @@ Route::post('/cookie-consent/decline', function () {
 
 Route::post('/bookings', [MeetingBookingController::class, 'store'])->name('bookings.store');
 Route::get('/bookings/confirm/{token}', [BookingController::class, 'confirm'])->name('bookings.confirm');
-Route::get('/buchung/bestaetigen/{token}', [BookingController::class, 'confirm'])->name('booking.confirm');
+Route::get('/buchung/bestaetigen/{token}', [MeetingBookingController::class, 'confirm'])->name('booking.confirm');
 
 //----------------Buchungssystem_Ende-------------------------
 

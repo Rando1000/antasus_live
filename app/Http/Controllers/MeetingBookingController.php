@@ -80,7 +80,8 @@ public function confirm($token)
             'end' => $pending->end,
             'name' => $pending->name,
             'email' => $pending->email,
-            'subject' => $pending->subject,
+            'topic' => $pending->topic,
+            'confirmation_token' => $pending->token,
         ]);
 
         $pending->delete();

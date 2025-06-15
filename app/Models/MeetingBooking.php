@@ -13,6 +13,7 @@ class MeetingBooking extends Model
         'name',
         'email',
         'topic',
+        'status',
         'confirmation_token',
     ];
 

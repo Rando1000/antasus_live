@@ -19,7 +19,9 @@
                 <img
                     src="/images/Header_welcome.avif"
                     alt="Glasfaserinfrastruktur und Hausanschluss in Wuppertal"
-                    class="object-cover w-full opacity-80"
+                    class="absolute inset-0 object-cover w-full h-full opacity-80"
+                    loading="eager"
+                    fetchpriority="high"
                     :jsonLd="jsonLd"
                 />
             </div>

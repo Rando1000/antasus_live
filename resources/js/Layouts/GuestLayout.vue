@@ -34,7 +34,7 @@
         <div class="container px-4 mx-auto my-auto">
             <div class="flex items-center justify-between h-16 md:h-36">
                 <Link href="/" class="flex items-center h-40">
-                    <ApplicationLogo2 class="h-36 md:h-80" />
+                    <ApplicationLogo class="h-36 md:h-80" />
                 </Link>
 
                 <nav
@@ -326,6 +326,7 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import { computed, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
 import BookingModal from "@/Components/BookingModal.vue";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 
 const props = defineProps({
     title: String,

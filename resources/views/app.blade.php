@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
-    <link rel="preload" as="image" href="/images/hero.avif" fetchpriority="high">
+    <link rel="preload" as="image" href="/images/Header_welcome.avif" fetchpriority="high">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     <link rel="preload" as="font" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"

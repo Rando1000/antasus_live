@@ -83,12 +83,7 @@
                     >
                         Termin sofort buchen
                     </button>
-                    <BookingModal
-                        v-if="showBookingModal"
-                        :open="true"
-                        @close="showBookingModal = false"
-                        @typeSelected="handleMeetingType"
-                    />
+
                     <Link
                         href="/kontakt"
                         class="px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-teal-600 to-indigo-600 hover:shadow-lg"
@@ -112,13 +107,6 @@
                     >
                         Termin sofort buchen
                     </button>
-                    <BookingModal
-                        v-if="showBookingModal2"
-                        :open="true"
-                        @close="showBookingModal2 = false"
-                        @typeSelected="handleMeetingType2"
-                    />
-
                     <Link
                         href="/kontakt"
                         class="px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-teal-600 to-indigo-600 hover:shadow-lg"
@@ -171,12 +159,6 @@
                     >
                         Termin sofort buchen
                     </button>
-                    <BookingModal
-                        v-if="showBookingModal3"
-                        :open="true"
-                        @close="showBookingModal3 = false"
-                        @typeSelected="handleMeetingType3"
-                    />
                 </nav>
             </div>
 
@@ -268,35 +250,20 @@
                     <div class="mt-10">
                         <button
                             @click="showBookingModal = true"
-                            class="w-full px-4 py-3 text-center text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
+                            class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
                         >
                             Termin sofort buchen
                         </button>
-                        <BookingModal
-                            v-if="showBookingModal4"
-                            :open="true"
-                            @close="showBookingModal4 = false"
-                            @typeSelected="handleMeetingType4"
-                        />
                     </div>
                 </nav>
             </Transition>
-        </div>
-
-        <!-- <header class="relative overflow-hidden shadow-xl h-96 rounded-xl">
-            <img
-                src="/images/leistungheader.webp"
-                alt="Header Bild"
-                class="absolute inset-0 object-cover w-full h-full"
+            <BookingModal
+                v-if="showBookingModal"
+                :open="true"
+                @close="showBookingModal = false"
+                @typeSelected="handleMeetingType"
             />
-            <div class="absolute inset-0 bg-black/30 backdrop-blur-sm"></div>
-
-            <div
-                class="relative z-10 flex flex-col items-center justify-center h-full px-4 text-center text-white"
-            >
-                <slot name="header" />
-            </div>
-        </header> -->
+        </div>
 
         <header
             v-if="$slots.header"
@@ -385,24 +352,6 @@ const showBookingModal = ref(false);
 
 const handleMeetingType = (type) => {
     showBookingModal.value = false;
-    router.visit(`/buchen?type=${type}`);
-};
-const showBookingModal2 = ref(false);
-
-const handleMeetingType2 = (type) => {
-    showBookingModal2.value = false;
-    router.visit(`/buchen?type=${type}`);
-};
-const showBookingModal3 = ref(false);
-
-const handleMeetingType3 = (type) => {
-    showBookingModal3.value = false;
-    router.visit(`/buchen?type=${type}`);
-};
-const showBookingModal4 = ref(false);
-
-const handleMeetingType4 = (type) => {
-    showBookingModal4.value = false;
     router.visit(`/buchen?type=${type}`);
 };
 

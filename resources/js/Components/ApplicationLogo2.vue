@@ -1,9 +1,9 @@
 <template>
     <img
-        src="/images/antasus-logo2.svg"
+        src="/images/antasus-logo.png"
         alt="Antasus Infra Logo"
         width="300"
         height="200"
-        class="w-auto h-36 md:h-80"
+        class="w-auto"
     />
 </template>

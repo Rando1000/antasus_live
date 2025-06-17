@@ -32,14 +32,20 @@
         <!-- Sticky Header mit Glaseffekt -->
 
         <div class="container px-4 mx-auto my-auto">
-            <div class="flex items-center justify-between h-16 md:h-36">
-                <Link href="/" class="flex items-center h-40">
-                    <ApplicationLogo class="h-36 md:h-80" />
+            <div
+                class="flex items-center justify-between min-h-[5rem] md:min-h-[9rem]"
+            >
+                <!-- Logo optimiert auf alle Größen -->
+                <Link href="/" class="flex items-center">
+                    <ApplicationLogo2
+                        class="w-auto h-24 sm:h-28 md:h-32 lg:h-36 xl:h-40 2xl:h-36"
+                    />
                 </Link>
 
+                <!-- Desktop Navigation -->
                 <nav
                     v-if="$page.url !== '/kontakt'"
-                    class="items-center hidden space-x-12 md:flex"
+                    class="items-center hidden space-x-6 xl:flex 2xl:space-x-10"
                 >
                     <NavLink
                         href="/technologien"
@@ -50,33 +56,27 @@
                         href="/glasfaserbau"
                         label="Glasfaserbau"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                    </NavLink>
+                    ></NavLink>
                     <NavLink
                         href="/leistungen"
                         label="Dienstleistungen"
                         class="text-2xl font-extrabold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                    </NavLink>
+                    ></NavLink>
                     <NavLink
                         href="/referenzen"
                         label="Referenzen"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                    </NavLink>
+                    ></NavLink>
                     <NavLink
                         href="/inprogress"
                         label="History"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                    </NavLink>
+                    ></NavLink>
                     <NavLink
                         href="/in-arbeit"
                         label="Projects"
                         class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                    </NavLink>
-
+                    ></NavLink>
                     <button
                         @click="showBookingModal = true"
                         class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
@@ -90,49 +90,44 @@
                         @typeSelected="handleMeetingType"
                     />
                     <Link
-                        v-if="$page.url !== '/kontakt'"
                         href="/kontakt"
                         class="px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-teal-600 to-indigo-600 hover:shadow-lg"
+                        >Kontakt</Link
                     >
-                        Kontakt
-                    </Link>
                 </nav>
 
-                <!-- Kontakt-Seite Navigationsleiste ohne Kontakt Button -->
-
+                <!-- Reduzierte Navigation unter xl -->
                 <nav
-                    v-if="$page.url === '/kontakt'"
-                    class="items-center hidden space-x-12 md:flex"
+                    v-if="$page.url !== '/kontakt'"
+                    class="items-center hidden space-x-4 md:flex xl:hidden"
                 >
-                    <ResponsiveNavLink
+                    <NavLink
                         href="/leistungen"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                        Projects
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink
-                        href="/leistungen"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                        Leistungen
-                    </ResponsiveNavLink>
-                    <ResponsiveNavLink
-                        href="/referenzen"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    >
-                        Referenzen
-                    </ResponsiveNavLink>
-                    <Link
-                        href="/kontakt"
-                        class="px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
+                        label="Dienstleistungen"
+                        class="text-2xl font-extrabold text-gray-900 transition-colors hover:text-teal-600"
+                    ></NavLink>
+                    <button
+                        @click="showBookingModal = true"
+                        class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
                     >
                         Termin sofort buchen
-                    </Link>
-                </nav>
+                    </button>
+                    <BookingModal
+                        v-if="showBookingModal2"
+                        :open="true"
+                        @close="showBookingModal2 = false"
+                        @typeSelected="handleMeetingType2"
+                    />
 
-                <!-- Mobile Menu Button -->
+                    <Link
+                        href="/kontakt"
+                        class="px-4 py-2 text-white transition-all rounded-lg bg-gradient-to-r from-teal-600 to-indigo-600 hover:shadow-lg"
+                        >Kontakt</Link
+                    >
+                </nav>
+                <!-- Mobile Menu Button sichtbar unterhalb xl -->
                 <button
-                    class="text-gray-900 md:hidden"
+                    class="text-gray-900 xl:hidden"
                     @click="toggleMobileMenu"
                     aria-label="Menü öffnen/schließen"
                 >
@@ -150,12 +145,46 @@
                         />
                     </svg>
                 </button>
+                <!-- Kontakt-Seite Navigation -->
+                <nav
+                    v-if="$page.url === '/kontakt'"
+                    class="items-center hidden space-x-4 md:flex xl:space-x-8"
+                >
+                    <ResponsiveNavLink
+                        href="/leistungen"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        >Projects</ResponsiveNavLink
+                    >
+                    <ResponsiveNavLink
+                        href="/leistungen"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        >Leistungen</ResponsiveNavLink
+                    >
+                    <ResponsiveNavLink
+                        href="/referenzen"
+                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        >Referenzen</ResponsiveNavLink
+                    >
+                    <button
+                        @click="showBookingModal = true"
+                        class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
+                    >
+                        Termin sofort buchen
+                    </button>
+                    <BookingModal
+                        v-if="showBookingModal3"
+                        :open="true"
+                        @close="showBookingModal3 = false"
+                        @typeSelected="handleMeetingType3"
+                    />
+                </nav>
             </div>
 
+            <!-- Mobile Navigation -->
             <Transition name="slide-fade">
                 <nav
                     v-if="mobileMenuOpen"
-                    class="fixed inset-0 z-50 flex flex-col px-6 py-8 bg-white md:hidden"
+                    class="fixed inset-0 z-50 flex flex-col px-6 py-8 bg-white xl:hidden"
                     role="dialog"
                     aria-label="Hauptmenü"
                 >
@@ -191,7 +220,7 @@
                                 href="/technologien"
                                 label="Technologies"
                                 class="block hover:text-teal-600"
-                                >Leistungen</NavLink
+                                >Technologies</NavLink
                             >
                         </li>
                         <li>
@@ -199,23 +228,7 @@
                                 href="/glasfaserbau"
                                 label="Glasfaserbau"
                                 class="block hover:text-teal-600"
-                                >Leistungen</NavLink
-                            >
-                        </li>
-                        <li>
-                            <NavLink
-                                href="/leistungen"
-                                label="Dienstleistungen"
-                                class="block hover:text-teal-600"
-                                >Leistungen</NavLink
-                            >
-                        </li>
-                        <li>
-                            <NavLink
-                                href="/leistungen"
-                                label="Projects"
-                                class="block hover:text-teal-600"
-                                >Leistungen</NavLink
+                                >Glasfaserbau</NavLink
                             >
                         </li>
                         <li>
@@ -228,16 +241,24 @@
                         </li>
                         <li>
                             <NavLink
-                                href="/leistungen"
+                                href="/inprogress"
                                 label="History"
                                 class="block hover:text-teal-600"
-                                >Leistungen</NavLink
+                                >History</NavLink
+                            >
+                        </li>
+                        <li>
+                            <NavLink
+                                href="/in-arbeit"
+                                label="Projects"
+                                class="block hover:text-teal-600"
+                                >Projects</NavLink
                             >
                         </li>
                         <li>
                             <NavLink
                                 href="/kontakt"
-                                label="kontakt"
+                                label="Kontakt"
                                 class="block hover:text-teal-600"
                                 >Kontakt</NavLink
                             >
@@ -245,16 +266,23 @@
                     </ul>
 
                     <div class="mt-10">
-                        <Link
-                            href="/kontakt"
-                            class="block w-full px-6 py-3 text-center text-white rounded-lg shadow bg-gradient-to-r from-teal-600 to-black hover:opacity-90"
+                        <button
+                            @click="showBookingModal = true"
+                            class="w-full px-4 py-3 text-center text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
                         >
                             Termin sofort buchen
-                        </Link>
+                        </button>
+                        <BookingModal
+                            v-if="showBookingModal4"
+                            :open="true"
+                            @close="showBookingModal4 = false"
+                            @typeSelected="handleMeetingType4"
+                        />
                     </div>
                 </nav>
             </Transition>
         </div>
+
         <!-- <header class="relative overflow-hidden shadow-xl h-96 rounded-xl">
             <img
                 src="/images/leistungheader.webp"
@@ -357,6 +385,24 @@ const showBookingModal = ref(false);
 
 const handleMeetingType = (type) => {
     showBookingModal.value = false;
+    router.visit(`/buchen?type=${type}`);
+};
+const showBookingModal2 = ref(false);
+
+const handleMeetingType2 = (type) => {
+    showBookingModal2.value = false;
+    router.visit(`/buchen?type=${type}`);
+};
+const showBookingModal3 = ref(false);
+
+const handleMeetingType3 = (type) => {
+    showBookingModal3.value = false;
+    router.visit(`/buchen?type=${type}`);
+};
+const showBookingModal4 = ref(false);
+
+const handleMeetingType4 = (type) => {
+    showBookingModal4.value = false;
     router.visit(`/buchen?type=${type}`);
 };
 

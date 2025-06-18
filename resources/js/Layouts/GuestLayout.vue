@@ -367,7 +367,7 @@ const localBusinessJsonLd = {
     name: "Antasus Infra",
     url: "https://www.antasus.de",
     logo: "https://www.antasus.de/logo.png",
-    image: "https://www.antasus.de/images/firmensitz.jpg",
+    image: "https://www.antasus.de/images/favicon.svg",
     description:
         "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
     address: {
@@ -379,6 +379,37 @@ const localBusinessJsonLd = {
     },
     telephone: "+49 176 24757616",
     email: "info@antasus.de",
+    makesOffer: {
+        "@type": "Offer",
+        itemOffered: {
+            "@type": "Service",
+            name: "Online-Terminbuchung",
+            description:
+                "Buchen Sie jetzt online einen Termin für Glasfaser-Tiefbau, Hausanschluss oder Projektberatung.",
+            provider: {
+                "@type": "LocalBusiness",
+                name: "Antasus Infra",
+            },
+        },
+        availability: "https://schema.org/InStock",
+        url: "https://www.antasus.de",
+    },
+    potentialAction: {
+        "@type": "ReserveAction",
+        target: {
+            "@type": "EntryPoint",
+            urlTemplate: "https://www.antasus.de",
+            inLanguage: "de",
+            actionPlatform: [
+                "http://schema.org/DesktopWebPlatform",
+                "http://schema.org/MobileWebPlatform",
+            ],
+        },
+        result: {
+            "@type": "Reservation",
+            name: "Terminbuchung",
+        },
+    },
 };
 
 const jsonLdScriptTag = `<script type="application/ld+json">${JSON.stringify(

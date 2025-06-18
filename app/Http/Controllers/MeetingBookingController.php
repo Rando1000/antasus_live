@@ -20,7 +20,7 @@ class MeetingBookingController extends Controller
     public function store(Request $request)
 {
     $data = $request->validate([
-        'type' => 'required|in:online,praesenz',
+        'type' => 'required|in:beratung,hausanschluss,projektplanung',
         'start_time' => 'required|date',
         'end_time' => 'required|date|after:start_time',
         'name' => 'required|string',
@@ -49,7 +49,8 @@ class MeetingBookingController extends Controller
 public function storePending(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required|in:online,praesenz',
+            'type' => 'required|in:beratung,hausanschluss,projektplanung',
+            'mode' => 'required|in:online,praesenz',
             'start' => 'required|date',
             'end' => 'required|date|after:start',
             'name' => 'required|string',
@@ -76,6 +77,7 @@ public function confirm($token)
         // Buchung in finaler Tabelle speichern
         MeetingBooking::create([
             'type' => $pending->type,
+            'mode' => $pending->mode,
             'start' => $pending->start,
             'end' => $pending->end,
             'name' => $pending->name,

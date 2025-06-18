@@ -8,6 +8,7 @@ class PendingBooking extends Model
 {
     protected $fillable = [
         'type',
+        'mode',
         'start',
         'end',
         'name',

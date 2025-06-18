@@ -32,6 +32,9 @@ class MeetingController extends Controller
         if ($to = $request->input('to')) {
             $query->whereDate('end', '<=', $to);
         }
+        if ($request->filled('mode')) {
+            $query->where('mode', $request->mode);
+        }
 
         $bookings = $query->orderBy('start', 'desc')->paginate(20)->withQueryString();
 
@@ -42,6 +45,7 @@ class MeetingController extends Controller
                 'status' => $status,
                 'from' => $request->input('from'),
                 'to' => $request->input('to'),
+                'mode',
             ],
         ]);
     }

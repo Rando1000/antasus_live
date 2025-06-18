@@ -13,13 +13,14 @@
             <select
                 v-model="filters.status"
                 @change="applyFilters"
-                class="px-3 py-2 border rounded"
+                class="py-2 border rounded"
             >
                 <option value="">Alle Status</option>
                 <option value="neu">Neu</option>
                 <option value="bearbeitet">Bearbeitet</option>
                 <option value="abgesagt">Abgesagt</option>
             </select>
+
             <input
                 type="date"
                 v-model="filters.from"
@@ -32,6 +33,15 @@
                 class="px-3 py-2 border rounded"
                 @change="applyFilters"
             />
+            <select
+                v-model="filters.mode"
+                @change="applyFilters"
+                class="py-2 border rounded"
+            >
+                <option value="">Alle Modi</option>
+                <option value="online">Online</option>
+                <option value="praesenz">Präsenz</option>
+            </select>
             <button
                 @click="resetFilters"
                 class="text-sm text-gray-500 hover:underline"
@@ -66,6 +76,11 @@
                         <th
                             class="px-4 py-3 text-xs font-medium text-left text-gray-500 uppercase"
                         >
+                            Meeting-Mode
+                        </th>
+                        <th
+                            class="px-4 py-3 text-xs font-medium text-left text-gray-500 uppercase"
+                        >
                             Name
                         </th>
                         <th
@@ -91,6 +106,9 @@
                             {{ formatTimeRange(booking.start, booking.end) }}
                         </td>
                         <td class="px-4 py-2 capitalize">{{ booking.type }}</td>
+                        <td class="px-4 py-2 capitalize">
+                            {{ booking.mode ?? "–" }}
+                        </td>
                         <td class="px-4 py-2">{{ booking.name }}</td>
                         <td class="px-4 py-2">{{ booking.email }}</td>
                         <td class="px-4 py-2">{{ booking.topic ?? "–" }}</td>
@@ -135,6 +153,7 @@ const filters = reactive({
     status: props.filters.status || "",
     from: props.filters.from || "",
     to: props.filters.to || "",
+    mode: props.filters.mode || "",
 });
 
 function applyFilters() {

@@ -1,9 +1,10 @@
 <template>
     <div class="p-4">
-        <FullCalendar
-            :options="calendarOptions"
-            class="z-50 rounded-lg shadow"
-        />
+        <FullCalendar :options="calendarOptions" class="z-50 rounded-lg shadow">
+            <template v-slot:eventContent="arg">
+                <b>{{ arg.event.title }}</b>
+            </template>
+        </FullCalendar>
     </div>
 </template>
 

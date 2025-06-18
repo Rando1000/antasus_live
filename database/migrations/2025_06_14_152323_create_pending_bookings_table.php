@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('pending_bookings', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['online', 'praesenz']);
+            $table->enum('type', ['beratung', 'angebot', 'hausanschluss', 'projektplanung']);
+            $table->enum('mode', ['online', 'praesenz']);
             $table->timestamp('start');
             $table->timestamp('end');
             $table->string('name');

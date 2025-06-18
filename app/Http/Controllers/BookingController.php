@@ -13,12 +13,39 @@ use Inertia\Inertia;
 
 class BookingController extends Controller
 {
+    public function availableSlots(Request $request)
+{
+    $request->validate([
+        'type' => 'required|string',
+        'start' => 'required|date',
+        'end' => 'required|date|after_or_equal:start',
+    ]);
+
+    $start = $request->start;
+    $end = $request->end;
+
+    // Alle bereits gebuchten Termine im gewählten Zeitraum
+    $booked = \App\Models\MeetingBooking::whereBetween('start', [$start, $end])
+        ->get(['start', 'end']);
+
+    // Belegte Zeiten an FullCalendar zurückgeben
+    return response()->json(
+        $booked->map(fn ($b) => [
+            'title' => 'Belegt',
+            'start' => $b->start,
+            'end' => $b->end,
+            'display' => 'background',
+            'color' => '#ccc',
+        ])
+    );
+}
 
 
     public function storePending(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required|in:online,praesenz',
+            'type' => 'required|in:beratung,angebot,hausanschluss,projektplanung',
+            'mode' => 'required|in:online,praesenz',
             'start' => 'required|date',
             'end' => 'required|date|after:start',
             'name' => 'required|string',

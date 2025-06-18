@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('meeting_bookings', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['beratung', 'angebot', 'hausanschluss', 'projektplanung']);
-            $table->enum('mode', ['online', 'praesenz']);
+            $table->enum('type', ['online', 'praesenz']);
             $table->dateTime('start');
             $table->dateTime('end');
             $table->string('name');

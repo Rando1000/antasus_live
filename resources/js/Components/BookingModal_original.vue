@@ -24,7 +24,7 @@
                                 Terminart wählen
                             </DialogTitle>
                             <p class="mt-2 text-sm text-gray-600">
-                                Bitte wähle aus, wie du das Meeting führen
+                                Bitte wählen Sie aus, wie Sie das Meeting führen
                                 möchtest.
                             </p>
                             <div class="flex flex-col gap-4 mt-6">

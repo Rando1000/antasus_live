@@ -1,5 +1,6 @@
 import './bootstrap';
 import '../css/app.css';
+import '../css/vendor/fullcalendar/calendar.css';
 
 import { createApp, h } from 'vue';
 import { createHead } from '@vueuse/head'

@@ -104,7 +104,7 @@
             </div>
         </section> -->
 
-        <section class="py-16 bg-white border-t border-gray-100">
+        <section class="py-16 border-t border-gray-100 bg-gray-50">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2
                     class="mb-10 text-3xl font-extrabold text-center text-gray-900"
@@ -151,6 +151,15 @@ import { onMounted, ref, computed, watch } from "vue";
 
 const props = defineProps({
     services: Array,
+    metaTitle: {
+        type: String,
+        default: "Unsere Glasfaser-Leistungen – Antasus Infra",
+    },
+    metaDescription: {
+        type: String,
+        default:
+            "Erfahren Sie alles über Glasfaser-Tiefbau, Hausanschlüsse und Projektplanung von Antasus Infra – professionell, termintreu.",
+    },
 });
 
 const activeService = ref(null);

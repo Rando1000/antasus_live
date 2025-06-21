@@ -112,7 +112,7 @@ Route::middleware(['auth', 'role:kunde'])->group(function () {
 //     Route::get('/admin', fn () => Inertia::render('Admin/Dashboard'))->name('admin.dashboard');
 // });
 
-Route::middleware(['auth'])->get('/redirect-after-login', function () {
+Route::middleware(['auth', 'role:admin'])->get('/redirect-after-login', function () {
     if (auth()->user()->role === 'admin') {
         return redirect()->route('admin.dashboard');
     }

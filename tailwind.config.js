@@ -17,7 +17,7 @@ export default {
         extend: {
             colors: {
                 antasus: {
-                primary: '#14B8A6', // Teal 500
+                primary: '#14B8A6', // Teal 500 original-> #00fdcf
                 dark: '#0F766E',    // Teal 700
                 light: '#CCFBF1',   // Teal 100
                 neutral: '#F8FAFC', // z. B. Hintergrund

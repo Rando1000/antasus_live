@@ -51,15 +51,17 @@
                 <li class="font-semibold" aria-current="page">FTTH</li>
             </ol>
         </nav>
- <article class="container px-4 py-16 mx-auto prose prose-lg dark:prose-invert">
+        <article
+            class="container px-4 py-16 mx-auto prose prose-lg dark:prose-invert"
+        >
             <header class="mb-12 space-y-10 text-center">
-                <h1 class="mb-4 text-4xl font-extrabold md:text-5xl dark:text-white">
+                <h1
+                    class="mb-4 text-4xl font-extrabold md:text-5xl dark:text-white"
+                >
                     FTTH - Glasfaser bis ins Haus:<br />
                     <span class="gradient-text">Der ultimative Leitfaden</span>
                 </h1>
                 <p class="text-gray-600 dark:text-gray-400">
-
-
                     <time :datetime="publishedAt">{{
                         formatDate(publishedAt)
                     }}</time>
@@ -69,139 +71,271 @@
             <!-- 🌟 Hauptartikel mit Storytelling-Ansatz -->
             <div class="space-y-8">
                 <!-- 🔍 **Was ist FTTH? – Der digitale Superhighway** -->
-                <section class="p-8 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
-                    <h2 class="mb-6 text-3xl font-bold text-center">🚀 Der digitale Superhighway</h2>
-                    <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                        Stellen Sie sich vor: Sie surfen mit **1 Gbit/s Upload** wie in einer Cloud, streamen 8K-Videos wie im Kino und halten Videokonferenzen ohne Ruckeln. <strong>FTTH</strong> macht das möglich – ohne Kupfer, komplett aus Glas.
+                <section
+                    class="p-8 bg-white shadow-lg dark:bg-gray-800 rounded-2xl"
+                >
+                    <h2 class="mb-6 text-3xl font-bold text-center">
+                        🚀 Der digitale Superhighway
+                    </h2>
+                    <p
+                        class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"
+                    >
+                        Stellen Sie sich vor: Sie surfen mit **1 Gbit/s Upload**
+                        wie in einer Cloud, streamen 8K-Videos wie im Kino und
+                        halten Videokonferenzen ohne Ruckeln.
+                        <strong>FTTH</strong> macht das möglich – ohne Kupfer,
+                        komplett aus Glas.
                     </p>
-                    <div class="p-6 mt-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                        <p class="font-semibold text-blue-600 dark:text-blue-400">
+                    <div
+                        class="p-6 mt-4 bg-gray-50 dark:bg-gray-700 rounded-xl"
+                    >
+                        <div
+                            class="font-semibold text-blue-600 dark:text-blue-400"
+                        >
                             📌 Warum FTTH revolutioniert:
                             <ul class="mt-2 space-y-2 list-disc list-inside">
-                                <li>Symmetrische Geschwindigkeiten (gleich schnell up- und download)</li>
-                                <li>99,9% Ausfallsicherheit dank Lichtwellen</li>
+                                <li>
+                                    Symmetrische Geschwindigkeiten (gleich
+                                    schnell up- und download)
+                                </li>
+                                <li>
+                                    99,9% Ausfallsicherheit dank Lichtwellen
+                                </li>
                                 <li>Fürs Homeoffice, Smart Home und Gaming</li>
                             </ul>
-                        </p>
+                        </div>
                     </div>
                 </section>
 
                 <!-- ⚙️ **Technischer Aufbau – Von der Leitung ins Haus** -->
                 <section>
-                    <h2 class="mb-6 text-3xl font-bold text-center">🔧 So kommt das Licht ins Haus</h2>
+                    <h2 class="mb-6 text-3xl font-bold text-center">
+                        🔧 So kommt das Licht ins Haus
+                    </h2>
                     <div class="grid gap-8 md:grid-cols-2">
-                        <div class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-2xl">
-                            <h3 class="mb-4 text-xl font-semibold">📍 Schritt 1: Leitungsverlegung</h3>
+                        <div
+                            class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-2xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                📍 Schritt 1: Leitungsverlegung
+                            </h3>
                             <p class="text-gray-700 dark:text-gray-300">
-                                Expertenteams legen die Glasfaser **ohne Tiefbau** per Erdrakete oder Micro-Trenching.
-                                <strong>Vorteil:</strong> Keine Straßensperrungen, keine Lärmbelästigung.
+                                Expertenteams legen die Glasfaser **ohne
+                                Tiefbau** per Erdrakete oder Micro-Trenching.
+                                <strong>Vorteil:</strong> Keine
+                                Straßensperrungen, keine Lärmbelästigung.
                             </p>
                         </div>
-                        <div class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-2xl">
-                            <h3 class="mb-4 text-xl font-semibold">🏠 Schritt 2: Hausanschluss</h3>
+                        <div
+                            class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-2xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                🏠 Schritt 2: Hausanschluss
+                            </h3>
                             <p class="text-gray-700 dark:text-gray-300">
-                                Die Faser wird **dicht an Ihr Haus** geführt – durch wasserdichte Hülle und in Leerrohren für zukünftige Upgrades.
+                                Die Faser wird **dicht an Ihr Haus** geführt –
+                                durch wasserdichte Hülle und in Leerrohren für
+                                zukünftige Upgrades.
                             </p>
                         </div>
                     </div>
                 </section>
 
                 <!-- 💶 **Kosten & Förderung – Wo sparen Sie** -->
-                <section class="p-8 shadow-lg bg-gray-50 dark:bg-gray-700 rounded-2xl">
-                    <h2 class="mb-6 text-3xl font-bold text-center">💡 Investition mit Rückenwind</h2>
+                <section
+                    class="p-8 shadow-lg bg-gray-50 dark:bg-gray-700 rounded-2xl"
+                >
+                    <h2 class="mb-6 text-3xl font-bold text-center">
+                        💡 Investition mit Rückenwind
+                    </h2>
                     <div class="grid gap-8 md:grid-cols-2">
-                        <div class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl">
-                            <h3 class="mb-4 text-xl font-semibold">📉 Kosten im Überblick</h3>
+                        <div
+                            class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                📉 Kosten im Überblick
+                            </h3>
                             <div class="space-y-4">
                                 <p class="flex justify-between">
-                                    <span class="font-medium">Grundinstallation</span>
-                                    <span class="text-blue-600 dark:text-blue-400">800–2.500 €</span>
+                                    <span class="font-medium"
+                                        >Grundinstallation</span
+                                    >
+                                    <span
+                                        class="text-blue-600 dark:text-blue-400"
+                                        >800–2.500 €</span
+                                    >
                                 </p>
                                 <p class="flex justify-between">
                                     <span class="font-medium">Förderung</span>
-                                    <span class="text-green-600 dark:text-green-400">50–90%</span>
+                                    <span
+                                        class="text-green-600 dark:text-green-400"
+                                        >50–90%</span
+                                    >
                                 </p>
                                 <p class="flex justify-between">
-                                    <span class="font-medium">Dauerhaft ersparte Kosten</span>
-                                    <span class="text-red-600 dark:text-red-400">Kupfermiete</span>
+                                    <span class="font-medium"
+                                        >Dauerhaft ersparte Kosten</span
+                                    >
+                                    <span class="text-red-600 dark:text-red-400"
+                                        >Kupfermiete</span
+                                    >
                                 </p>
                             </div>
                         </div>
-                        <div class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl">
-                            <h3 class="mb-4 text-xl font-semibold">🔑 Förder-Tipp</h3>
-                            <p class="text-gray-700 dark:text-gray-300">
-                                <strong>Wichtig:</strong> Beantragen Sie die Förderung **vor** der Installation!
-                                <ul class="mt-2 space-y-2 list-disc list-inside">
+                        <div
+                            class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                🔑 Förder-Tipp
+                            </h3>
+                            <div class="text-gray-700 dark:text-gray-300">
+                                <strong>Wichtig:</strong> Beantragen Sie die
+                                Förderung **vor** der Installation!
+                                <ul
+                                    class="mt-2 space-y-2 list-disc list-inside"
+                                >
                                     <li>Bundesförderung (BAFA)</li>
                                     <li>Landesprogramme</li>
                                     <li>Kommunale Zuschüsse</li>
                                 </ul>
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 <!-- ⏱️ **Installationsablauf – Schritt für Schritt** -->
                 <section>
-                    <h2 class="mb-6 text-3xl font-bold text-center">🔧 Ihr FTTH-Checkliste</h2>
+                    <h2 class="mb-6 text-3xl font-bold text-center">
+                        🔧 Ihr FTTH-Checkliste
+                    </h2>
                     <div class="grid gap-6 md:grid-cols-3">
-                        <div class="p-6 text-center bg-white shadow-md dark:bg-gray-800 rounded-xl">
-                            <h3 class="mb-4 text-xl font-semibold">📅 1. Terminvereinbarung</h3>
+                        <div
+                            class="p-6 text-center bg-white shadow-md dark:bg-gray-800 rounded-xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                📅 1. Terminvereinbarung
+                            </h3>
                             <p class="text-gray-700 dark:text-gray-300">
                                 Vor-Ort-Check + individuelles Angebot
-                                <span class="text-blue-600 dark:text-blue-400">Kostenlos</span>
+                                <span class="text-blue-600 dark:text-blue-400"
+                                    >Kostenlos</span
+                                >
                             </p>
                         </div>
-                        <div class="p-6 text-center bg-white shadow-md dark:bg-gray-800 rounded-xl">
-                            <h3 class="mb-4 text-xl font-semibold">🛠️ 2. Installation</h3>
+                        <div
+                            class="p-6 text-center bg-white shadow-md dark:bg-gray-800 rounded-xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                🛠️ 2. Installation
+                            </h3>
                             <p class="text-gray-700 dark:text-gray-300">
                                 1–3 Tage ohne Tiefbau
-                                <span class="text-green-600 dark:text-green-400">Sofort einsatzbereit</span>
+                                <span class="text-green-600 dark:text-green-400"
+                                    >Sofort einsatzbereit</span
+                                >
                             </p>
                         </div>
-                        <div class="p-6 text-center bg-white shadow-md dark:bg-gray-800 rounded-xl">
-                            <h3 class="mb-4 text-xl font-semibold">📈 3. Inbetriebnahme</h3>
+                        <div
+                            class="p-6 text-center bg-white shadow-md dark:bg-gray-800 rounded-xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                📈 3. Inbetriebnahme
+                            </h3>
                             <p class="text-gray-700 dark:text-gray-300">
                                 Speedtest + Dokumentation
-                                <span class="text-red-600 dark:text-red-400">Garantie inklusive</span>
+                                <span class="text-red-600 dark:text-red-400"
+                                    >Garantie inklusive</span
+                                >
                             </p>
                         </div>
                     </div>
                 </section>
 
                 <!-- ✅ **Vorteile – Warum FTTH lohnt sich** -->
-                <section class="p-8 bg-gray-100 shadow-lg dark:bg-gray-900 rounded-2xl">
-                    <h2 class="mb-6 text-3xl font-bold text-center">🏆 Ihre Vorteile im Überblick</h2>
+                <section
+                    class="p-8 bg-gray-100 shadow-lg dark:bg-gray-900 rounded-2xl"
+                >
+                    <h2 class="mb-6 text-3xl font-bold text-center">
+                        🏆 Ihre Vorteile im Überblick
+                    </h2>
                     <div class="grid gap-8 md:grid-cols-2">
-                        <div class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl">
-                            <h3 class="mb-4 text-xl font-semibold">🌐 Für Privatnutzer</h3>
+                        <div
+                            class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                🌐 Für Privatnutzer
+                            </h3>
                             <div class="space-y-4">
                                 <p class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                    <svg
+                                        class="w-5 h-5 mr-2 text-green-500 dark:text-green-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                                        ></path>
                                     </svg>
                                     <span>8K-Streaming ohne Buffering</span>
                                 </p>
                                 <p class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    <svg
+                                        class="w-5 h-5 mr-2 text-green-500 dark:text-green-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                        ></path>
                                     </svg>
                                     <span>Smart Home-Steuerung</span>
                                 </p>
                             </div>
                         </div>
-                        <div class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl">
-                            <h3 class="mb-4 text-xl font-semibold">🏢 Für Unternehmen</h3>
+                        <div
+                            class="p-6 bg-white shadow-md dark:bg-gray-800 rounded-xl"
+                        >
+                            <h3 class="mb-4 text-xl font-semibold">
+                                🏢 Für Unternehmen
+                            </h3>
                             <div class="space-y-4">
                                 <p class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    <svg
+                                        class="w-5 h-5 mr-2 text-green-500 dark:text-green-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                                        ></path>
                                     </svg>
                                     <span>Cloud-Backups in Echtzeit</span>
                                 </p>
                                 <p class="flex items-center">
-                                    <svg class="w-5 h-5 mr-2 text-green-500 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    <svg
+                                        class="w-5 h-5 mr-2 text-green-500 dark:text-green-400"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                        ></path>
                                     </svg>
                                     <span>Latenciearmes Online-Meeting</span>
                                 </p>
@@ -211,29 +345,37 @@
                 </section>
 
                 <!-- 🚀 **Fazit – Ihr nächster Schritt** -->
-                <section class="p-8 bg-white shadow-lg dark:bg-gray-800 rounded-2xl">
-                    <h2 class="mb-6 text-3xl font-bold text-center">🚀 Machen Sie den Schritt ins Gigabit-Zeitalter</h2>
+                <section
+                    class="p-8 bg-white shadow-lg dark:bg-gray-800 rounded-2xl"
+                >
+                    <h2 class="mb-6 text-3xl font-bold text-center">
+                        🚀 Machen Sie den Schritt ins Gigabit-Zeitalter
+                    </h2>
                     <div class="max-w-2xl mx-auto text-center">
-                        <p class="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-                            FTTH ist kein optionaler Upgrade – es ist die Grundlage für Ihr digitales Leben.
-                            <strong>Warum warten?</strong> Mit unserer Expertise und den aktuellen Förderprogrammen wird Ihre Glasfaser-Installation zum Kinderspiel.
+                        <p
+                            class="mb-8 text-lg leading-relaxed text-gray-700 dark:text-gray-300"
+                        >
+                            FTTH ist kein optionaler Upgrade – es ist die
+                            Grundlage für Ihr digitales Leben.
+                            <strong>Warum warten?</strong> Mit unserer Expertise
+                            und den aktuellen Förderprogrammen wird Ihre
+                            Glasfaser-Installation zum Kinderspiel.
                         </p>
                         <button
-                            class="btn-xl"
                             @click="showBookingModal = true"
+                            class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
                         >
                             Jetzt FTTH-Anschluss sichern
                         </button>
                     </div>
                     <BookingModal
-                    v-if="showBookingModal"
-                    :open="true"
-                    @close="showBookingModal = false"
-                    @typeSelected="handleMeetingType"
-                />
+                        v-if="showBookingModal"
+                        :open="true"
+                        @close="showBookingModal = false"
+                        @typeSelected="handleMeetingType"
+                    />
                 </section>
             </div>
-
         </article>
 
         <!-- FAQ -->
@@ -372,6 +514,4 @@ onMounted(() => {
     -webkit-background-clip: text;
     color: transparent;
 }
-
 </style>
-

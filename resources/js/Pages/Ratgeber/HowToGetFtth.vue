@@ -225,24 +225,16 @@
                             Jetzt FTTH-Anschluss sichern
                         </button>
                     </div>
+                    <BookingModal
+                    v-if="showBookingModal"
+                    :open="true"
+                    @close="showBookingModal = false"
+                    @typeSelected="handleMeetingType"
+                />
                 </section>
             </div>
 
-            <!-- FAQ-Bereich bleibt unverändert -->
-            <BookingModal
-                v-if="showBookingModal"
-                :open="true"
-                @close="showBookingModal = false"
-                @typeSelected="handleMeetingType"
-            />
         </article>
-
-        <BookingModal
-            v-if="showBookingModal"
-            :open="true"
-            @close="showBookingModal = false"
-            @typeSelected="handleMeetingType"
-        />
 
         <!-- FAQ -->
         <section class="py-16 mb-10 border-t border-gray-100 bg-gray-50">
@@ -286,10 +278,10 @@ import { Inertia } from "@inertiajs/inertia";
 
 const showBookingModal = ref(false);
 
-function handleMeetingType(type) {
+const handleMeetingType = (type) => {
     showBookingModal.value = false;
-    Inertia.visit(`/buchen?type=${type}`);
-}
+    router.visit(`/buchen?type=${type}`);
+};
 
 const publishedAt = ref("2025-06-22");
 const formatDate = (d) => format(new Date(d), "d. MMMM yyyy", { locale: de });
@@ -380,17 +372,6 @@ onMounted(() => {
     -webkit-background-clip: text;
     color: transparent;
 }
-.btn-xl {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    color: #fff;
-    background: linear-gradient(135deg, #00fdcf, #000);
-    border-radius: 0.375rem;
-    transition: opacity 0.2s;
-}
-.btn-xl:hover {
-    opacity: 0.9;
-}
+
 </style>
 

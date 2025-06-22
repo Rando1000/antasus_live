@@ -10,6 +10,12 @@
                 content="ANTASUS Infra: Ihr Spezialist für Glasfaserbau, Hausanschluss & Tiefbau. Professionelle Glasfaserinfrastruktur gemäß DIN/VDE in NRW."
             />
             <link rel="canonical" href="https://www.antasus.de/" />
+            <link
+                rel="preload"
+                as="image"
+                href="/images/Header_welcome.avif"
+                fetchpriority="high"
+            />
         </Head>
         <!-- Hero mit Fullscreen-Hintergrund und Overlay -->
         <header

@@ -215,14 +215,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 //------------------------------------------------------------
 
 //------------------------------------------------------------
-//-----------------------SEO-Pillar-Seite---------------------
 
-Route::get('/glasfaserbau', [SeoController::class, 'pillar'])->name('seo.pillar');
-Route::get('/technologien', [TechnologienController::class, 'index'])
-    ->name('technologien');
-
-//------------------------------------------------------------
-//-----------------SEO-Pillar-Seite-END-----------------------
 
 
 //------------------Spati_Cookies-----------------------------
@@ -247,6 +240,30 @@ Route::get('/buchung/bestaetigen/{token}', [MeetingBookingController::class, 'co
 
 //----------------Buchungssystem_Ende-------------------------
 
+//------------------Google-AI-SEO_Ratgeberseiten--------------
 
+Route::get('/ratgeber', function () {
+    return Inertia::render('Ratgeber/Index');
+})->name('ratgeber');
+
+Route::get('/ratgeber/glasfaser', function () {
+    return Inertia::render('Ratgeber/WasIstGlasfaser');
+})->name('ratgeber.glasfaser');
+Route::get('/ratgeber/dsl-vs-glasfaser', function () {
+    return Inertia::render('Ratgeber/DslVsGlasfaser');
+})->name('ratgeber.dslvsglasfaser');
+Route::get('/ratgeber/ftth-fiber-to-the-home', function () {
+    return Inertia::render('Ratgeber/FtthFiberToTheHome');
+})->name('ratgeber.ftthfibertothehome');
+//-----------------------SEO-Pillar-Seite---------------------
+
+Route::get('/glasfaserbau', [SeoController::class, 'pillar'])->name('seo.pillar');
+Route::get('/technologien', [TechnologienController::class, 'index'])
+    ->name('technologien');
+
+
+//-----------------SEO-Pillar-Seite-END-----------------------
+//------------------------------------------------------------
+//----------------Google-AI-SEO_Ratgeberseiten----------------
 // back
 require __DIR__.'/backadmin.php';

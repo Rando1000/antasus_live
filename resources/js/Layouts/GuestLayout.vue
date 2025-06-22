@@ -343,6 +343,7 @@ const props = defineProps({
                 "datenschutz",
                 "agb",
                 "home",
+                "ratgeber",
                 "default",
             ].includes(value),
     },

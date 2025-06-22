@@ -131,14 +131,14 @@ const articles = [
         title: "Glasfaserbau: Tiefbau, Hausanschluss & Infrastruktur",
         excerpt:
             "Einblick in den Glasfaser-Tiefbau: Trassen, Hausanschlüsse und Koordination großer Projekte.",
-        url: "/ratgeber/glasfaserbau",
+        url: "/glasfaserbau",
     },
     {
         slug: "technologien",
         title: "Technologien im Glasfaserbau: Standards & Methoden",
         excerpt:
             "Übersicht der wichtigsten Normen, Werkzeuge und Technologien im modernen Glasfaserbau.",
-        url: "/ratgeber/technologien",
+        url: "/technologien",
     },
 ];
 

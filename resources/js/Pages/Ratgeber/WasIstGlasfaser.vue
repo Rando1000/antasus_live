@@ -174,14 +174,24 @@
                 <p>
                     Führende Anbieter sind Telekom, Deutsche Glasfaser,
                     Vodafone, 1&1 & Co., ergänzt durch kommunale Ausbauten und
+                    Förderprogramme.
                 </p>
 
-                <h2>🚀 Jetzt Glasfaser buchen!</h2>
-                <p class="text-center">
-                    <Link href="/kontakt" class="btn-xl">
+                <h2 class="text-center">🚀 Jetzt Glasfaser buchen!</h2>
+                <div class="text-center">
+                    <button
+                        @click="showBookingModal = true"
+                        class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
+                    >
                         Jetzt Betriebs-Anschluss sichern
-                    </Link>
-                </p>
+                    </button>
+                </div>
+                <BookingModal
+                    v-if="showBookingModal"
+                    :open="true"
+                    @close="showBookingModal = false"
+                    @typeSelected="handleMeetingType"
+                />
             </section>
         </article>
         <section class="py-16 mb-10 border-t border-gray-100 bg-gray-50">
@@ -229,8 +239,17 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
+import BookingModal from "@/Components/BookingModal.vue";
+import NavLink from "@/Components/NavLink.vue";
 
 const publishedAt = ref("2025-06-21");
+
+const showBookingModal = ref(false);
+
+const handleMeetingType = (type) => {
+    showBookingModal.value = false;
+    router.visit(`/buchen?type=${type}`);
+};
 
 function formatDate(d) {
     return format(new Date(d), "d. MMMM yyyy", { locale: de });

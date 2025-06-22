@@ -45,17 +45,17 @@
                 <!-- Desktop Navigation -->
                 <nav
                     v-if="$page.url !== '/kontakt'"
-                    class="items-center hidden space-x-6 xl:flex 2xl:space-x-10"
+                    class="items-center hidden space-x-6 xl:flex 2xl:space-x-4"
                 >
                     <NavLink
                         href="/technologien"
                         label="Technologies"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        class="text-xl font-bold text-gray-900 transition-colors hover:text-teal-600"
                     ></NavLink>
                     <NavLink
                         href="/glasfaserbau"
                         label="Glasfaserbau"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        class="text-xl font-bold text-gray-900 transition-colors hover:text-teal-600"
                     ></NavLink>
                     <NavLink
                         href="/leistungen"
@@ -65,17 +65,17 @@
                     <NavLink
                         href="/referenzen"
                         label="Referenzen"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        class="text-xl font-bold text-gray-900 transition-colors hover:text-teal-600"
+                    ></NavLink>
+                    <NavLink
+                        href="/ratgeber"
+                        label="Glasfaser Ratgeber"
+                        class="text-xl font-bold text-gray-900 transition-colors hover:text-teal-600"
                     ></NavLink>
                     <NavLink
                         href="/inprogress"
                         label="History"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
-                    ></NavLink>
-                    <NavLink
-                        href="/in-arbeit"
-                        label="Projects"
-                        class="font-bold text-gray-900 transition-colors hover:text-teal-600"
+                        class="text-xl font-bold text-gray-900 transition-colors hover:text-teal-600"
                     ></NavLink>
                     <button
                         @click="showBookingModal = true"

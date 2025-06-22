@@ -1,16 +1,14 @@
 <template>
     <Head>
-        <title>
-            DSL vs. Glasfaser: Speed, Stabilität & Kosten im Vergleich – Antasus
-        </title>
+        <title>DSL vs. Glasfaser: Speed, Stabilität & Kosten – Antasus</title>
         <meta
             name="description"
-            content="Vergleich von DSL und Glasfaser: Bandbreite, Latenz, Kosten, Energieeffizienz & Anwendungs­szenarien. Finden Sie die richtige Technik für Ihr Unternehmen."
+            content="Vergleich von DSL und Glasfaser: Bandbreite, Latenz, Kosten, Energieeffizienz & Anwendungsszenarien für Unternehmen."
         />
         <meta name="robots" content="index,follow" />
         <meta
             name="keywords"
-            content="DSL vs Glasfaser, Bandbreite Vergleich, Latenz, Internet Technik, Antasus Ratgeber"
+            content="DSL vs Glasfaser, Bandbreite, Latenz, Internet Technik, Antasus Ratgeber"
         />
         <meta property="og:type" content="article" />
         <meta
@@ -23,7 +21,7 @@
         />
         <meta
             property="og:description"
-            content="Erfahren Sie, wie sich DSL und Glasfaser in Speed, Latenz, Stabilität, Kosten und Energie­effizienz unterscheiden."
+            content="Erfahren Sie, wie sich DSL und Glasfaser in Speed, Latenz, Stabilität, Kosten und Energieeffizienz unterscheiden."
         />
         <meta
             property="og:image"
@@ -32,24 +30,46 @@
     </Head>
 
     <GuestLayout serviceArea="ratgeber">
-        <article class="container px-4 py-16 mx-auto">
-            <header class="max-w-4xl mx-auto text-center">
+        <!-- Breadcrumb -->
+        <nav
+            aria-label="Breadcrumb"
+            class="mb-6 text-sm text-gray-600 dark:text-gray-400"
+        >
+            <ol class="inline-flex space-x-2">
+                <li>
+                    <Link href="/" class="hover:underline">Startseite</Link>
+                </li>
+                <li>/</li>
+                <li>
+                    <Link href="/ratgeber" class="hover:underline"
+                        >Ratgeber</Link
+                    >
+                </li>
+                <li>/</li>
+                <li class="font-semibold" aria-current="page">
+                    DSL vs. Glasfaser
+                </li>
+            </ol>
+        </nav>
+
+        <article
+            class="container px-4 py-16 mx-auto prose prose-lg dark:prose-invert"
+        >
+            <header class="text-center">
                 <h1
                     class="mb-4 text-4xl font-extrabold md:text-5xl dark:text-white"
                 >
                     DSL vs. Glasfaser<br />
                     <span class="gradient-text">Welcher Anschluss passt?</span>
                 </h1>
-                <p class="mb-8 text-gray-600 dark:text-gray-400">
+                <p class="text-gray-600 dark:text-gray-400">
                     <time :datetime="publishedAt">{{
                         formatDate(publishedAt)
                     }}</time>
                 </p>
             </header>
 
-            <section
-                class="max-w-4xl mx-auto space-y-8 prose prose-lg dark:prose-invert"
-            >
+            <section class="mt-12 space-y-8">
                 <h2>🔍 Warum dieser Vergleich?</h2>
                 <p>
                     Ob Home-Office, 4K-Streaming oder Unternehmens-VPN – die
@@ -59,10 +79,9 @@
 
                 <h2>⚙️ Technische Grundlagen</h2>
                 <p>
-                    <strong>DSL</strong> überträgt Daten elektrisch über Kupfer,
-                    typisch bis 250 Mbit/s. <strong>Glasfaser</strong> nutzt
-                    Lichtimpulse in Glasfaserkabeln, heute bis zu 1 Gbit/s und
-                    mehr.
+                    <strong>DSL</strong> überträgt Daten elektrisch über Kupfer
+                    (bis ~250 Mbit/s). <strong>Glasfaser</strong> nutzt
+                    Lichtimpulse in Glasfaserkabeln (bis > 1 Gbit/s).
                 </p>
 
                 <h2>🚀 Bandbreite & Latenz</h2>
@@ -71,15 +90,15 @@
                         <strong>DSL:</strong> max. 250 Mbit/s, Ping ~20–50 ms
                     </li>
                     <li>
-                        <strong>Glasfaser:</strong> bis 1 Gbit/s+, Ping &lt;5 ms
+                        <strong>Glasfaser:</strong> bis > 1 Gbit/s, Ping < 5 ms
                     </li>
                 </ul>
 
                 <h2>💰 Kosten & Betrieb</h2>
                 <ul>
                     <li>
-                        <strong>Installations­kosten:</strong> DSL oft
-                        günstiger, Glasfaser oft förderfähig
+                        <strong>Installationskosten:</strong> DSL oft günstiger,
+                        Glasfaser förderfähig
                     </li>
                     <li>
                         <strong>Betriebskosten:</strong> Glasfaser langlebiger,
@@ -93,38 +112,44 @@
                     deutlich weniger Strom pro übertragenem Gigabit.
                 </p>
 
-                <h2>🏢 Anwendungs­szenarien</h2>
+                <h2>🏢 Anwendungsszenarien</h2>
                 <ul>
                     <li>
-                        <strong>Home-Office:</strong> Glasfaser für stabile
-                        Video­konferenzen
+                        <strong>Home-Office:</strong> stabile Videokonferenzen
                     </li>
+                    <li><strong>Gaming:</strong> niedrige Latenz</li>
                     <li>
-                        <strong>Gaming:</strong> Geringe Latenz nur per
-                        Glasfaser erreichbar
-                    </li>
-                    <li>
-                        <strong>Enterprise:</strong> Hohe Bandbreiten für
+                        <strong>Enterprise:</strong> große Bandbreiten für
                         Cloud-Services
                     </li>
                 </ul>
 
                 <h2>🔗 Entscheidungshilfe</h2>
                 <p>
-                    Für einfache Office-Aufgaben reicht DSL oft aus. Für
-                    zukunftssichere High-Performance empfiehlt sich Glasfaser.
+                    Für einfache Office-Aufgaben reicht DSL. Für zukunftssichere
+                    High-Performance empfiehlt sich Glasfaser.
                 </p>
 
-                <h2>🚀 Jetzt Glasfaser buchen!</h2>
-                <p class="text-center">
-                    <Link href="/kontakt" class="btn-xl">
+                <div class="text-center">
+                    <button
+                        @click="showBookingModal = true"
+                        class="btn-xl focus:outline-none focus:ring-2 focus:ring-[#00fdcf]"
+                    >
                         Beratung & Angebot anfragen
-                    </Link>
-                </p>
+                    </button>
+                </div>
             </section>
         </article>
 
-        <section class="py-16 bg-gray-50">
+        <BookingModal
+            v-if="showBookingModal"
+            :open="true"
+            @close="showBookingModal = false"
+            @typeSelected="handleMeetingType"
+        />
+
+        <!-- FAQ -->
+        <section class="py-16 mb-10 border-t border-gray-100 bg-gray-50">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2
                     class="mb-10 text-3xl font-extrabold text-center text-gray-900"
@@ -133,8 +158,8 @@
                 </h2>
                 <div class="space-y-4">
                     <details
-                        v-for="(item, i) in faqItems"
-                        :key="i"
+                        v-for="(item, index) in faqItems"
+                        :key="index"
                         class="p-4 bg-white border rounded-lg group dark:bg-gray-800"
                     >
                         <summary
@@ -142,52 +167,117 @@
                         >
                             {{ item.q }}
                         </summary>
-                        <div class="mt-2 text-gray-600 dark:text-gray-300">
+                        <div
+                            class="mt-2 leading-relaxed text-gray-600 dark:text-gray-300"
+                        >
                             {{ item.a }}
                         </div>
                     </details>
                 </div>
             </div>
         </section>
+        <section class="pb-12 text-center">
+            <Link
+                href="/technologien"
+                class="inline-block px-6 py-3 text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700"
+            >
+                Technologien im Glasfaserbau entdecken
+            </Link>
+        </section>
     </GuestLayout>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
+import GuestLayout from "@/Layouts/GuestLayout.vue";
+import BookingModal from "@/Components/BookingModal.vue";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
+import { Inertia } from "@inertiajs/inertia";
+
+const showBookingModal = ref(false);
+
+function handleMeetingType(type) {
+    showBookingModal.value = false;
+    Inertia.visit(`/buchen?type=${type}`);
+}
 
 const publishedAt = ref("2025-06-22");
-function formatDate(d) {
-    return format(new Date(d), "d. MMMM yyyy", { locale: de });
-}
+const formatDate = (d) => format(new Date(d), "d. MMMM yyyy", { locale: de });
 
 const faqItems = [
     {
         q: "Lohnt sich Glasfaser für kleine Unternehmen?",
-        a: "Ja – bereits 100 Mbit/s Glasfaser bieten spürbar stabilere Verbindungen als DSL.",
+        a: "Ja – bereits 100 Mbit/s Glasfaser bieten stabilere Verbindungen als DSL.",
     },
     {
         q: "Wie schnell ist mein Ping bei Glasfaser?",
-        a: "In der Regel unter 5 ms, ideal für Echt­zeit­Anwendungen wie Video­calls oder Gaming.",
+        a: "Unter 5 ms, ideal für Echtzeit-Anwendungen.",
     },
     {
         q: "Kann ich DSL und Glasfaser kombinieren?",
-        a: "Hybrid-Anschlüsse sind möglich, bringen aber meist keinen Mehrwert gegenüber reinen Glasfaser-Leitungen.",
+        a: "Hybrid-Anschlüsse sind möglich, bringen aber selten Mehrwert.",
     },
 ];
 
 onMounted(() => {
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faqItems.map(({ q, a }) => ({
-            "@type": "Question",
-            name: q,
-            acceptedAnswer: { "@type": "Answer", text: a },
-        })),
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                    {
+                        "@type": "ListItem",
+                        position: 1,
+                        name: "Startseite",
+                        item: "https://www.antasus.de/",
+                    },
+                    {
+                        "@type": "ListItem",
+                        position: 2,
+                        name: "Ratgeber",
+                        item: "https://www.antasus.de/ratgeber",
+                    },
+                    {
+                        "@type": "ListItem",
+                        position: 3,
+                        name: "DSL vs. Glasfaser",
+                        item: "https://www.antasus.de/ratgeber/dsl-vs-glasfaser",
+                    },
+                ],
+            },
+            {
+                "@type": "Article",
+                mainEntityOfPage: {
+                    "@type": "WebPage",
+                    "@id": "https://www.antasus.de/ratgeber/dsl-vs-glasfaser",
+                },
+                headline:
+                    "DSL vs. Glasfaser: Speed, Stabilität & Kosten im Vergleich – Antasus",
+                description:
+                    "Vergleich von DSL und Glasfaser in Speed, Latenz, Stabilität, Kosten & Energieeffizienz.",
+                datePublished: publishedAt.value,
+                author: { "@type": "Person", name: "Sandra Plett" },
+                publisher: {
+                    "@type": "Organization",
+                    name: "ANTASUS Infra",
+                    logo: {
+                        "@type": "ImageObject",
+                        url: "https://www.antasus.de/images/antasus-logo2.svg",
+                    },
+                },
+            },
+            {
+                "@type": "FAQPage",
+                mainEntity: faqItems.map(({ q, a }) => ({
+                    "@type": "Question",
+                    name: q,
+                    acceptedAnswer: { "@type": "Answer", text: a },
+                })),
+            },
+        ],
     };
     const s = document.createElement("script");
     s.type = "application/ld+json";
@@ -203,7 +293,15 @@ onMounted(() => {
     color: transparent;
 }
 .btn-xl {
-    @apply inline-block px-6 py-3 font-semibold text-white rounded-lg transition;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    color: #fff;
     background: linear-gradient(135deg, #00fdcf, #000);
+    border-radius: 0.375rem;
+    transition: opacity 0.2s;
+}
+.btn-xl:hover {
+    opacity: 0.9;
 }
 </style>

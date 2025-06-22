@@ -36,10 +36,10 @@
         <template #header>
             <section>
                 <div class="max-w-4xl px-4 mx-auto text-center">
-                    <h1 class="mb-4 font-extrabold text-white text-7xl">
+                    <h1 class="mb-4 text-4xl font-extrabold">
                         Unsere Referenzen
                     </h1>
-                    <p class="text-3xl text-white">
+                    <p class="max-w-2xl mx-auto">
                         Ausgewählte Projekte aus dem Bereich Glasfaser-Tiefbau &
                         Infrastruktur
                     </p>

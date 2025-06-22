@@ -255,6 +255,9 @@ Route::get('/ratgeber/dsl-vs-glasfaser', function () {
 Route::get('/ratgeber/ftth-fiber-to-the-home', function () {
     return Inertia::render('Ratgeber/FtthFiberToTheHome');
 })->name('ratgeber.ftthfibertothehome');
+Route::get('/ratgeber/how-to-get-ftth', function () {
+    return Inertia::render('Ratgeber/HowToGetFtth');
+})->name('ratgeber.howtogetftth');
 //-----------------------SEO-Pillar-Seite---------------------
 
 Route::get('/glasfaserbau', [SeoController::class, 'pillar'])->name('seo.pillar');

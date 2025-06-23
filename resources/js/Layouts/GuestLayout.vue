@@ -318,7 +318,7 @@ import Footer from "@/Components/Footer.vue";
 import ApplicationLogo2 from "@/Components/ApplicationLogo2.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import MobileNav from "@/Components/MobileNav.vue";
 import BookingModal from "@/Components/BookingModal.vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
@@ -443,6 +443,24 @@ const headerBackgroundImage = computed(() => {
         agb: "agb.avif",
     };
     return `/images/${map[props.serviceArea] || map.default}`;
+});
+
+onMounted(() => {
+    // 1. gtag.js laden
+    const s1 = document.createElement("script");
+    s1.src = "https://www.googletagmanager.com/gtag/js?id=G-WFXB4YWS1W";
+    s1.async = true;
+    document.head.appendChild(s1);
+
+    // 2. initialisieren
+    const s2 = document.createElement("script");
+    s2.innerHTML = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-WFXB4YWS1W', { send_page_view: false });
+  `;
+    document.head.appendChild(s2);
 });
 </script>
 

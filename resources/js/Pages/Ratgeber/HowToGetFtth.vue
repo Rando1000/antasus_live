@@ -35,9 +35,9 @@
         <!-- Breadcrumb -->
         <nav
             aria-label="Breadcrumb"
-            class="mb-6 text-sm text-gray-600 dark:text-gray-400"
+            class="container px-4 py-4 mx-auto text-sm text-gray-600 dark:text-gray-400"
         >
-            <ol class="inline-flex space-x-2">
+            <ol class="inline-flex space-x-1">
                 <li>
                     <Link href="/" class="hover:underline">Startseite</Link>
                 </li>
@@ -52,7 +52,7 @@
             </ol>
         </nav>
         <article
-            class="container px-4 py-16 mx-auto prose prose-lg dark:prose-invert"
+            class="container px-4 py-8 mx-auto prose prose-lg dark:prose-invert"
         >
             <header class="mb-12 space-y-10 text-center">
                 <h1

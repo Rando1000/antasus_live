@@ -36,6 +36,26 @@
     </Head>
 
     <GuestLayout serviceArea="ratgeber">
+        <!-- Breadcrumb -->
+        <nav
+            aria-label="Breadcrumb"
+            class="container px-4 py-4 mx-auto text-sm text-gray-600 dark:text-gray-400"
+        >
+            <ol class="inline-flex space-x-1">
+                <li>
+                    <Link href="/" class="hover:underline">Startseite</Link>
+                </li>
+                <li>/</li>
+                <li>
+                    <Link href="/ratgeber" class="hover:underline"
+                        >Ratgeber</Link
+                    >
+                </li>
+                <li>/</li>
+                <li class="font-semibold" aria-current="page">Glasfaser</li>
+            </ol>
+        </nav>
+
         <article class="container px-4 py-16 mx-auto">
             <header class="max-w-3xl mx-auto text-center">
                 <h1
@@ -300,9 +320,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.container {
-    max-width: 800px;
-}
 .gradient-text {
     background: linear-gradient(135deg, #00fdcf, #000);
     -webkit-background-clip: text;

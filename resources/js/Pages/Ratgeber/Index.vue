@@ -1,7 +1,7 @@
 <template>
     <Head>
         <!-- Basic SEO -->
-        <title>Ratgeber &amp; Wissen – Antasus Infra</title>
+        <title>Ratgeber &amp; Wissen - Antasus Infra</title>
         <meta
             name="description"
             content="Ihr Wissenspool zu Glasfaser-Technologien: Grundlagen, Vergleiche, FTTH & Co. Jetzt im Antasus-Ratgeber lesen."
@@ -15,7 +15,7 @@
         <meta property="og:url" content="https://www.antasus.de/ratgeber" />
         <meta
             property="og:title"
-            content="Ratgeber &amp; Wissen – Antasus Infra"
+            content="Ratgeber &amp; Wissen - Antasus Infra"
         />
         <meta
             property="og:description"
@@ -26,7 +26,7 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta
             name="twitter:title"
-            content="Ratgeber &amp; Wissen – Antasus Infra"
+            content="Ratgeber &amp; Wissen - Antasus Infra"
         />
         <meta
             name="twitter:description"

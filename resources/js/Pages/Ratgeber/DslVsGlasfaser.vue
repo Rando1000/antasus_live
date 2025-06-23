@@ -259,7 +259,7 @@ onMounted(() => {
                 description:
                     "Vergleich von DSL und Glasfaser in Speed, Latenz, Stabilität, Kosten & Energieeffizienz.",
                 datePublished: publishedAt.value,
-                author: { "@type": "Person", name: "Sandra Plett" },
+                author: { "@type": "Person", name: "R. Jouini" },
                 publisher: {
                     "@type": "Organization",
                     name: "ANTASUS Infra",

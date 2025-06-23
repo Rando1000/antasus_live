@@ -339,7 +339,7 @@ onMounted(() => {
                 description:
                     "Alles zu FTTH: Aufbau, Kosten, Förderprogramme und Praxis­tipps für Glasfaser bis ins Gebäude.",
                 datePublished: publishedAt.value,
-                author: { "@type": "Person", name: "Sandra Plett" },
+                author: { "@type": "Person", name: "R. Jouini" },
                 publisher: {
                     "@type": "Organization",
                     name: "ANTASUS Infra",

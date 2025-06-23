@@ -1,9 +1,10 @@
+# robots.txt für https://www.antasus.de
 User-agent: *
 Disallow: /backadmin/
 Disallow: /admin/
 Disallow: /login
 Disallow: /register
-
 Allow: /
 
+# XML-Sitemap
 Sitemap: https://www.antasus.de/sitemap.xml

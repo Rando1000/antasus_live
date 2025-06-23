@@ -197,6 +197,14 @@
                     </div>
                 </div>
             </div>
+            <div class="max-w-4xl px-4 mx-auto text-center">
+                <Link
+                    href="/ratgeber/glasfaser"
+                    class="inline-block px-6 py-3 mt-6 font-semibold text-white rounded-lg shadow-lg bg-gradient-to-r from-antasus-primary to-antasus-dark hover:from-antasus-dark hover:to-antasus-primary"
+                >
+                    Mehr zu Glasfaseranschluss erfahren
+                </Link>
+            </div>
         </section>
 
         <!-- Kontakt Section -->

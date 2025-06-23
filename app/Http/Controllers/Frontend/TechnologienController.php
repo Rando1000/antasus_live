@@ -10,7 +10,7 @@ class TechnologienController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Leistungen/Technologien', [
+        return Inertia::render('Ratgeber/Technologien', [
             'metaTitle'       => 'Technologien im Glasfaser-Hausanschluss & Tiefbau | ANTASUS Infra',
             'metaDescription' => 'Erfahren Sie alles über modernste Technologien für Glasfaser-Hausanschlüsse und Tiefbauverfahren. Von Bohr- & Einblasverfahren bis GPS-Vermessung.',
         ]);

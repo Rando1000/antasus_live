@@ -376,6 +376,51 @@
                     />
                 </section>
             </div>
+            <section class="pt-8 mt-16 border-t">
+                <h3 class="mb-4 text-xl font-semibold">Weitere Ratgeber</h3>
+                <ul class="space-y-2">
+                    <li>
+                        <Link
+                            href="/ratgeber/ftth-fiber-to-the-home"
+                            class="text-antasus-primary hover:underline"
+                        >
+                            FTTH - Glasfaser bis ins Haus: Technik & Förderung
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/ratgeber/glasfaser"
+                            class="text-antasus-primary hover:underline"
+                        >
+                            FTTH - Glasfaser Tiefbau und mehr
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/glasfaserbau"
+                            class="text-antasus-primary hover:underline"
+                        >
+                            Glasfaserbau: Tiefbau & Infrastruktur
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/ratgeber/dsl-vs-glasfaser"
+                            class="text-antasus-primary hover:underline"
+                        >
+                            DSL vs. Glasfaser: Speed, Stabilität & Kosten
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            href="/ratgeber/technologien"
+                            class="text-antasus-primary hover:underline"
+                        >
+                            Techniken und Technologien Im FTTX
+                        </Link>
+                    </li>
+                </ul>
+            </section>
         </article>
 
         <!-- FAQ -->

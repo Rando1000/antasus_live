@@ -154,7 +154,7 @@ const articles = [
         title: "Technologien im Glasfaserbau: Standards & Methoden",
         excerpt:
             "Übersicht der wichtigsten Normen, Werkzeuge und Technologien im modernen Glasfaserbau.",
-        url: "/technologien",
+        url: "/ratgeber/technologien",
     },
 ];
 

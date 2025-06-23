@@ -48,7 +48,7 @@
                     class="items-center hidden space-x-6 xl:flex 2xl:space-x-4"
                 >
                     <NavLink
-                        href="/technologien"
+                        href="/ratgeber/technologien"
                         label="Technologies"
                         class="text-xl font-bold text-gray-900 transition-colors hover:text-teal-600"
                     ></NavLink>
@@ -199,7 +199,7 @@
                     <ul class="space-y-4 text-lg font-semibold text-gray-900">
                         <li>
                             <NavLink
-                                href="/technologien"
+                                href="/ratgeber/technologien"
                                 label="Technologies"
                                 class="block hover:text-teal-600"
                                 >Technologies</NavLink

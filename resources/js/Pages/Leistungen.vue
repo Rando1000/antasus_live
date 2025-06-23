@@ -72,6 +72,18 @@
         </h2>
         <ArticleCard :services="services" @select="selectService" />
 
+        <div class="p-6 mt-12 text-center rounded-lg bg-antasus-primary/10">
+            <p class="mb-4 font-medium">
+                Sie möchten tiefer ins Thema Glasfaser eintauchen?
+            </p>
+            <Link
+                href="/ratgeber/glasfaser"
+                class="px-5 py-2 font-semibold text-white rounded-lg bg-antasus-primary hover:bg-antasus-dark"
+            >
+                Zum Ratgeber & Wissen
+            </Link>
+        </div>
+
         <!-- → DETAILSECTION (wenn Service ausgewählt) ←
         <section
 

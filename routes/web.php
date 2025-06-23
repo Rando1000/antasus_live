@@ -281,7 +281,7 @@ Route::get('/ratgeber/how-to-get-ftth', function () {
 //-----------------------SEO-Pillar-Seite---------------------
 
 Route::get('/glasfaserbau', [SeoController::class, 'pillar'])->name('seo.pillar');
-Route::get('/technologien', [TechnologienController::class, 'index'])
+Route::get('ratgeber/technologien', [TechnologienController::class, 'index'])
     ->name('technologien');
 
 

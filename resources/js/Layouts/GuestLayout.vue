@@ -390,6 +390,13 @@ const localBusinessJsonLd = {
             provider: {
                 "@type": "LocalBusiness",
                 name: "Antasus Infra",
+                address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "Norrenbergstrasse 122",
+                    addressLocality: "Wuppertal",
+                    postalCode: "42289",
+                    addressCountry: "DE",
+                },
             },
         },
         availability: "https://schema.org/InStock",

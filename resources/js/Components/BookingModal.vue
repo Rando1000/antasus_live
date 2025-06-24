@@ -283,7 +283,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onUnmounted, nextTick } from "vue";
 import {
     TransitionRoot,
     Dialog,
@@ -294,6 +294,17 @@ import Calendar from "@/Components/Booking/Calendar.vue";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import axios from "axios";
+
+// Analytics-Helper für GA4
+const trackEvent = (name, params = {}) => {
+    if (window.gtag) {
+        window.gtag("event", name, {
+            ...params,
+            // optional: immer die gleiche Dimension mitgeben
+            service_area: "ratgeber",
+        });
+    }
+};
 
 const props = defineProps({
     open: Boolean,
@@ -370,10 +381,20 @@ const formatDate = (date) => format(date, "EEEE, d. MMMM yyyy", { locale: de });
 const formatTime = (date) => format(date, "HH:mm", { locale: de });
 
 const selectType = (type) => {
+    // Event senden, bevor wir den Typ setzen
+    trackEvent("select_type", {
+        category: "Booking",
+        label: type,
+    });
     selectedType.value = type;
-    trackEvent("booking_type_selected", { booking_type: type });
 };
-const selectMode = (mode) => (selectedMode.value = mode);
+const selectMode = (mode) => {
+    trackEvent("select_mode", {
+        category: "Booking",
+        label: mode,
+    });
+    selectedMode.value = mode;
+};
 const handleDateSelection = ({ start }) =>
     (selectedDate.value = new Date(start));
 
@@ -395,6 +416,11 @@ const submitBooking = async () => {
     try {
         await axios.post("/api/bookings/pending", bookingData.value);
         submitSuccess.value = true;
+        trackEvent("booking_submit", {
+            type: selectedType.value,
+            mode: selectedMode.value,
+        });
+
         setTimeout(() => emit("close"), 2000);
     } catch (e) {
         submitError.value = "Es ist ein Fehler aufgetreten.";

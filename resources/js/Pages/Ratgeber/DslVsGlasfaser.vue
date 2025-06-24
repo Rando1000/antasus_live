@@ -132,7 +132,9 @@
 
                 <div class="text-center">
                     <button
-                        @click="showBookingModal = true"
+                        @click="
+                            onCtaClick('DSL vs. Glasfaser – Beratung & Angebot')
+                        "
                         class="btn-xl focus:outline-none focus:ring-2 focus:ring-[#00fdcf]"
                     >
                         Beratung & Angebot anfragen
@@ -242,6 +244,19 @@ import { de } from "date-fns/locale";
 import { Inertia } from "@inertiajs/inertia";
 
 const showBookingModal = ref(false);
+// Neuer Tracking-Handler
+function onCtaClick(label) {
+    // 1) GA4 Event feuern
+    if (window.gtag) {
+        window.gtag("event", "cta_click", {
+            category: "Ratgeber",
+            label: "DSL vs. Glasfaser - Beratung & Angebot",
+            service_area: "ratgeber",
+        });
+    }
+    // 2) Modal öffnen
+    showBookingModal.value = true;
+}
 
 function handleMeetingType(type) {
     showBookingModal.value = false;

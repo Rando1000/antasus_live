@@ -223,16 +223,16 @@
                         </li>
                         <li>
                             <NavLink
-                                href="/inprogress"
+                                href="/ratgeber"
                                 label="History"
                                 class="block hover:text-teal-600"
-                                >History</NavLink
+                                >Glasfaser Ratgeber</NavLink
                             >
                         </li>
                         <li>
                             <NavLink
-                                href="/in-arbeit"
-                                label="Projects"
+                                href="/inprogress"
+                                label="History"
                                 class="block hover:text-teal-600"
                                 >Projects</NavLink
                             >
@@ -356,6 +356,7 @@ const props = defineProps({
                 "default",
             ].includes(value),
     },
+    TrackEvent,
 });
 
 const showBookingModal = ref(false);

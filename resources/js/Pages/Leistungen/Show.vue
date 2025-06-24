@@ -118,7 +118,7 @@
         <!-- 3️⃣ CTA nach LSI-Text -->
         <section class="pb-12 text-center">
             <Link
-                href="/technologien"
+                href="/ratgeber/technologien"
                 class="inline-block px-6 py-3 text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700"
             >
                 Technologien im Glasfaserbau entdecken

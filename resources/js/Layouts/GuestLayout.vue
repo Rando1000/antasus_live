@@ -249,7 +249,16 @@
 
                     <div class="mt-10">
                         <button
-                            @click="showBookingModal = true"
+                            @click="
+                                () => {
+                                    gtag('event', 'conversion', {
+                                        send_to: 'G-WFXB4YWS1W/aβy123',
+                                        event_category: 'Booking',
+                                        event_label: 'Jetzt Anschluss sichern',
+                                    });
+                                    showBookingModal = true;
+                                }
+                            "
                             class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
                         >
                             Termin sofort buchen
@@ -458,7 +467,7 @@ onMounted(() => {
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
     gtag('js', new Date());
-    gtag('config', 'G-WFXB4YWS1W', { send_page_view: false });
+    gtag('config', 'G-WFXB4YWS1W');
   `;
     document.head.appendChild(s2);
 });

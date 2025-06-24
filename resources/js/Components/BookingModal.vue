@@ -369,7 +369,10 @@ const modeLabels = {
 const formatDate = (date) => format(date, "EEEE, d. MMMM yyyy", { locale: de });
 const formatTime = (date) => format(date, "HH:mm", { locale: de });
 
-const selectType = (type) => (selectedType.value = type);
+const selectType = (type) => {
+    selectedType.value = type;
+    trackEvent("booking_type_selected", { booking_type: type });
+};
 const selectMode = (mode) => (selectedMode.value = mode);
 const handleDateSelection = ({ start }) =>
     (selectedDate.value = new Date(start));

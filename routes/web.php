@@ -229,6 +229,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
          ->name('admin.email.form');
     Route::post('admin/email/send',     [EmailPromotionController::class, 'send'])
          ->name('admin.email.send');
+    Route:: post('/bookings/multi', [BookingController::class, 'storeMulti'])->name('bookings.storeMulti');
 });
 
 //------------------------------------------------------------

@@ -154,7 +154,9 @@
                                 :typeLabels="typeLabels"
                                 :modeLabels="modeLabels"
                                 :slotDuration="slotDuration"
+                                :admin="isAdmin"
                                 @dateSelected="handleDateSelection"
+                                @slotsSelected="handleSlotsSelection"
                                 @back="() => (selectedMode = null)"
                             />
 
@@ -274,6 +276,86 @@
                                     {{ submitError }}
                                 </div>
                             </form>
+                            <!-- Admin: Ausgewählte Slots + Pflichtfelder -->
+                            <div
+                                v-if="isAdmin && selectedSlots"
+                                class="space-y-4"
+                            >
+                                <h4 class="font-medium">
+                                    Ausgewählte Slots (Admin):
+                                </h4>
+                                <ul class="ml-5 list-disc">
+                                    <li
+                                        v-for="(s, i) in selectedSlots"
+                                        :key="i"
+                                    >
+                                        {{ formatDate(s.start) }} –
+                                        {{ formatTime(s.end) }}
+                                    </li>
+                                </ul>
+                                <!-- Name & Email Pflicht -->
+                                <div
+                                    class="grid grid-cols-1 gap-4 sm:grid-cols-2"
+                                >
+                                    <div>
+                                        <label
+                                            for="name"
+                                            class="block text-sm font-medium"
+                                            >Name*</label
+                                        >
+                                        <input
+                                            id="name"
+                                            v-model="bookingData.name"
+                                            required
+                                            type="text"
+                                            class="w-full px-3 py-2 border rounded focus:ring-teal-500"
+                                            placeholder="Name eingeben"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            for="email"
+                                            class="block text-sm font-medium"
+                                            >E-Mail*</label
+                                        >
+                                        <input
+                                            id="email"
+                                            v-model="bookingData.email"
+                                            required
+                                            type="email"
+                                            class="w-full px-3 py-2 border rounded focus:ring-teal-500"
+                                            placeholder="E-Mail eingeben"
+                                        />
+                                    </div>
+                                </div>
+
+                                <!-- Button erst aktiv, wenn Name+E-Mail gesetzt -->
+                                <div class="flex justify-end">
+                                    <button
+                                        type="button"
+                                        @click="submitAdminBooking"
+                                        :disabled="
+                                            isSubmitting ||
+                                            !bookingData.name ||
+                                            !bookingData.email
+                                        "
+                                        class="px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700 disabled:opacity-50"
+                                    >
+                                        {{
+                                            isSubmitting
+                                                ? "Wird gesendet…"
+                                                : "Alle Slots buchen"
+                                        }}
+                                    </button>
+                                </div>
+
+                                <p v-if="submitError" class="text-red-600">
+                                    {{ submitError }}
+                                </p>
+                                <p v-if="submitSuccess" class="text-green-600">
+                                    Admin-Buchung erfolgreich!
+                                </p>
+                            </div>
                         </div>
                     </DialogPanel>
                 </div>
@@ -283,7 +365,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onUnmounted, nextTick } from "vue";
+import { ref, computed, watch, onUnmounted, nextTick } from "vue";
 import {
     TransitionRoot,
     Dialog,
@@ -294,6 +376,7 @@ import Calendar from "@/Components/Booking/Calendar.vue";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import axios from "axios";
+import { usePage } from "@inertiajs/vue3";
 
 // Analytics-Helper für GA4
 const trackEvent = (name, params = {}) => {
@@ -306,14 +389,17 @@ const trackEvent = (name, params = {}) => {
     }
 };
 
-const props = defineProps({
-    open: Boolean,
-});
+const props = defineProps({ open: Boolean });
 const emit = defineEmits(["close"]);
+
+// Admin-Check
+const page = usePage();
+const isAdmin = computed(() => page.props.isAdmin === true);
 
 const selectedType = ref(null);
 const selectedMode = ref(null);
 const selectedDate = ref(null);
+const selectedSlots = ref([]);
 const slotDuration = "00:30:00";
 const isSubmitting = ref(false);
 const submitSuccess = ref(false);
@@ -398,6 +484,11 @@ const selectMode = (mode) => {
 const handleDateSelection = ({ start }) =>
     (selectedDate.value = new Date(start));
 
+function handleSlotsSelection(slots) {
+    // for admins
+    selectedSlots.value = slots;
+}
+
 const submitBooking = async () => {
     if (!selectedDate.value || !selectedType.value || !selectedMode.value)
         return;
@@ -428,4 +519,34 @@ const submitBooking = async () => {
         isSubmitting.value = false;
     }
 };
+
+/**
+ * Direkt-Buchung für Admin: keine Pending, keine Mail
+ */
+async function submitAdminBooking() {
+    if (!isAdmin.value || !selectedSlots.value.length) return;
+    isSubmitting.value = true;
+    submitError.value = null;
+    // wir mergen einfach vom ersten bis letzten
+    const payload = {
+        type: selectedType.value,
+        mode: selectedMode.value,
+        slots: selectedSlots.value.map((s) => ({
+            start: new Date(s.start).toISOString(),
+            end: new Date(s.end).toISOString(),
+        })),
+        name: bookingData.value.name,
+        email: bookingData.value.email,
+        topic: bookingData.value.topic,
+    };
+    try {
+        await axios.post("/bookings/multi", payload);
+        submitSuccess.value = true;
+        setTimeout(() => emit("close"), 2000);
+    } catch (_) {
+        submitError.value = "Admin-Buchung fehlgeschlagen.";
+    } finally {
+        isSubmitting.value = false;
+    }
+}
 </script>

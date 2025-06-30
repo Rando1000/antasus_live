@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ServiceItemController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\BookingController;
 
 
 //----------------Rollen-Routes------------
@@ -67,6 +68,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/bookings', [MeetingController::class, 'index'])->name('bookings.index');
     Route::put('/bookings/{booking}/status', [MeetingController::class, 'updateStatus'])->name('bookings.updateStatus');
     Route::delete('/bookings/{booking}', [MeetingController::class, 'destroy'])->name('bookings.destroy');
+
 });
 
 //--------------Buchungen_Ende--------------------------

@@ -3,11 +3,10 @@
         <div class="toolbar">
             <button
                 @click="$emit('back')"
-                type="button"
                 class="btn-glass"
                 aria-label="Zurück zur Auswahl"
             >
-                ←
+                ← Zurück zur letzten Auswahl
             </button>
             <div class="current-title" aria-live="polite">
                 {{ currentTitle }}
@@ -28,12 +27,9 @@
                 role="group"
                 aria-label="Kalendernavigation"
             >
-                <button @click="goToToday" type="button" class="btn-gradient">
-                    Heute
-                </button>
+                <button @click="goToToday" class="btn-gradient">Heute</button>
                 <button
                     @click="goToPrev"
-                    type="button"
                     class="btn-glass-small"
                     aria-label="Vorheriger Zeitraum"
                 >
@@ -41,7 +37,6 @@
                 </button>
                 <button
                     @click="goToNext"
-                    type="button"
                     class="btn-glass-small"
                     aria-label="Nächster Zeitraum"
                 >
@@ -63,6 +58,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import deLocale from "@fullcalendar/core/locales/de";
 import axios from "axios";
 
+// Props
 const props = defineProps({
     type: { type: String, required: true },
     mode: { type: String, required: true },
@@ -71,106 +67,52 @@ const props = defineProps({
     initialDate: { type: String, default: null },
     initialView: { type: String, default: "timeGridWeek" },
     slotDuration: { type: String, default: "00:30:00" },
+    admin: { type: Boolean, default: false }, // hier einschalten
 });
-const emit = defineEmits(["dateSelected", "back"]);
 
+// Emits
+const emit = defineEmits([
+    "dateSelected", // für Single-Slot
+    "slotsSelected", // für Multi-Slot
+    "back", // zurück-Button
+]);
+
+// State
 const calendarRef = ref(null);
 const currentTitle = ref("");
 const isMobile = ref(false);
 const dateSelected = ref(null);
+const selectedSlots = ref([]); // sammelt für Admin
 
+// Lifecycle
 onMounted(() => {
-    updateTitle();
     detectMobile();
+    updateTitle();
     window.addEventListener("resize", detectMobile);
 });
 
-const detectMobile = () => {
+// Helpers
+function detectMobile() {
     isMobile.value = window.innerWidth < 640;
-};
-
-const updateTitle = () => {
+}
+function updateTitle() {
     const api = calendarRef.value?.getApi();
     if (api) currentTitle.value = api.view.title;
-};
-
-const goToToday = () => {
-    calendarRef.value?.getApi()?.today();
+}
+function goToToday() {
+    calendarRef.value.getApi().today();
     updateTitle();
-};
-
-const goToPrev = () => {
-    calendarRef.value?.getApi()?.prev();
+}
+function goToPrev() {
+    calendarRef.value.getApi().prev();
     updateTitle();
-};
-
-const goToNext = () => {
-    calendarRef.value?.getApi()?.next();
+}
+function goToNext() {
+    calendarRef.value.getApi().next();
     updateTitle();
-};
+}
 
-const calendarOptions = computed(() => ({
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    locale: deLocale,
-    initialView: isMobile.value ? "timeGridDay" : props.initialView,
-    initialDate: props.initialDate,
-    headerToolbar: false,
-    selectable: true,
-    editable: false,
-    selectMirror: true,
-    businessHours: {
-        daysOfWeek: [1, 2, 3, 4, 5],
-        startTime: "09:00",
-        endTime: "17:00",
-    },
-    slotMinTime: "08:00:00",
-    slotMaxTime: "18:00:00",
-    slotDuration: props.slotDuration,
-    allDaySlot: false,
-    eventLongPressDelay: 0,
-    selectLongPressDelay: 0,
-    handleWindowResize: true,
-    height: "auto",
-    events: async (info, onSuccess, onError) => {
-        try {
-            const res = await axios.get("/api/available-slots", {
-                params: {
-                    type: props.type,
-                    start: info.startStr,
-                    end: info.endStr,
-                },
-            });
-            const evs = res.data || [];
-            if (dateSelected.value) {
-                evs.push({
-                    id: "selected-slot",
-                    title: "Ausgewählt",
-                    start: dateSelected.value.start,
-                    end: dateSelected.value.end,
-                    display: "background",
-                    backgroundColor:
-                        document.documentElement.classList.contains("dark")
-                            ? "#002f2b"
-                            : "#ccffff",
-                    borderColor: "#00fdcf",
-                });
-            }
-            onSuccess(evs);
-        } catch (e) {
-            onError(e);
-        }
-    },
-    select: (info) => {
-        dateSelected.value = {
-            start: info.startStr,
-            end: info.endStr,
-        };
-        emit("dateSelected", dateSelected.value);
-        highlightSelection();
-    },
-    selectAllow: (sel) => sel.start >= new Date(),
-}));
-
+// Highlight (nur Single-Slot)
 function highlightSelection() {
     const api = calendarRef.value?.getApi();
     if (!api) return;
@@ -190,7 +132,103 @@ function highlightSelection() {
         });
     }
 }
+
+// FullCalendar-Konfiguration
+const calendarOptions = computed(() => ({
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    locale: deLocale,
+    initialView: isMobile.value ? "timeGridDay" : props.initialView,
+    initialDate: props.initialDate,
+    headerToolbar: false,
+    selectable: true,
+    selectMirror: true,
+    allDaySlot: false,
+    businessHours: {
+        daysOfWeek: [1, 2, 3, 4, 5],
+        startTime: "09:00",
+        endTime: "17:00",
+    },
+    slotMinTime: "08:00:00",
+    slotMaxTime: "18:00:00",
+    slotDuration: props.slotDuration,
+    handleWindowResize: true,
+    height: "auto",
+
+    // bereits gebuchte Slots nachladen
+    events: async (info, onSuccess, onError) => {
+        try {
+            const { data } = await axios.get("/api/available-slots", {
+                params: {
+                    type: props.type,
+                    start: info.startStr,
+                    end: info.endStr,
+                },
+            });
+            const evs = data || [];
+
+            // Admin-Selektion als Hintergrund-Events einzeichnen
+            if (props.admin && selectedSlots.value.length) {
+                selectedSlots.value.forEach((slot, i) => {
+                    evs.push({
+                        id: `admin-${i}`,
+                        title: "Ausgewählt",
+                        start: slot.start,
+                        end: slot.end,
+                        display: "background",
+                        backgroundColor:
+                            document.documentElement.classList.contains("dark")
+                                ? "#002f2b"
+                                : "#ccffff",
+                        borderColor: "#00fdcf",
+                    });
+                });
+            }
+
+            onSuccess(evs);
+        } catch (e) {
+            onError(e);
+        }
+    },
+
+    // Auswahl: Single vs. Multi
+    select: (info) => {
+        const slot = { start: info.startStr, end: info.endStr };
+        const api = calendarRef.value.getApi();
+
+        if (props.admin) {
+            // Multi-Slot: push & emit
+            selectedSlots.value.push(slot);
+            api.addEvent({
+                id: `admin-${selectedSlots.value.length - 1}`,
+                title: "Ausgewählt",
+                start: info.start,
+                end: info.end,
+                display: "background",
+                backgroundColor: document.documentElement.classList.contains(
+                    "dark"
+                )
+                    ? "#002f2b"
+                    : "#ccffff",
+                borderColor: "#00fdcf",
+            });
+            emit("slotsSelected", selectedSlots.value);
+        } else {
+            // Single-Slot
+            dateSelected.value = slot;
+            emit("dateSelected", slot);
+            highlightSelection();
+        }
+
+        api.unselect();
+    },
+
+    selectAllow: (sel) => sel.start >= new Date(),
+}));
 </script>
+
+<style scoped>
+/* ... Eure Styles wie gehabt ... */
+</style>
 
 <style scoped>
 .calendar-container {

@@ -367,10 +367,7 @@ const handleMeetingType = (type) => {
 };
 
 const page = usePage();
-const canonicalUrl = computed(() => {
-    const currentPath = page.url.replace(/\?.*$/, ""); // Strip query
-    return `https://www.antasus.de${currentPath}`;
-});
+const canonicalUrl = computed(() => `https://www.antasus.de${page.url}`);
 
 const localBusinessJsonLd = {
     "@context": "https://schema.org",

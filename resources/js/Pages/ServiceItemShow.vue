@@ -1,13 +1,13 @@
 <!-- resources/js/Pages/Leistungen/ServiceItemShow.vue -->
 <template>
     <Head>
-        <title>{{ item.title }} – {{ service.title }} | ANTASUS Infra</title>
+        <title>{{ item.title }} - {{ service.title }} | ANTASUS Infra</title>
         <meta name="description" :content="item.description" />
         <link rel="canonical" :href="fullUrl" />
         <!-- OpenGraph falls nötig: -->
         <meta
             property="og:title"
-            :content="`${item.title} – ${service.title}`"
+            :content="`${item.title} - ${service.title}`"
         />
         <meta property="og:description" :content="item.description" />
         <meta property="og:image" :content="imageUrl" />

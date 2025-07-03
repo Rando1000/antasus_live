@@ -6,7 +6,7 @@
         </title>
         <meta
             name="description"
-            content="Erleben Sie ausgewählte Projekte aus dem Bereich Glasfaser-Tiefbau, Hausanschlüsse und Projektkoordination – umgesetzt von ANTASUS Infra, Ihrem zuverlässigen Subunternehmer."
+            content="Erleben Sie ausgewählte Projekte aus dem Bereich Glasfaser-Tiefbau, Hausanschlüsse und Projektkoordination - umgesetzt von ANTASUS Infra, Ihrem zuverlässigen Subunternehmer."
         />
         <meta
             name="keywords"
@@ -16,7 +16,7 @@
         <!-- OpenGraph -->
         <meta
             property="og:title"
-            content="Erfolgreiche Projekte im Glasfaser-Tiefbau – ANTASUS Infra"
+            content="Erfolgreiche Projekte im Glasfaser-Tiefbau - ANTASUS Infra"
         />
         <meta
             property="og:description"
@@ -28,8 +28,6 @@
         />
         <meta property="og:url" content="https://www.antasus.de/referenzen" />
         <meta property="og:type" content="website" />
-
-        <link rel="canonical" href="https://www.antasus.de/referenzen" />
     </Head>
 
     <GuestLayout :serviceArea="'referenz'">

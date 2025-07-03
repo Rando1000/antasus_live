@@ -2,10 +2,6 @@
     <Head>
         <title>{{ service.title }} | ANTASUS Infra</title>
         <meta name="description" :content="service.description" />
-        <link
-            rel="canonical"
-            :href="`https://www.antasus.de/leistungen/${service.slug}`"
-        />
     </Head>
     <!-- ─── 1️⃣ Breadcrumb ──────────────────────────────────────────── -->
     <nav class="px-4 py-2 text-sm text-gray-600">
@@ -245,7 +241,7 @@ function showModal(item) {
         replace: false,
         preserveScroll: true,
         preserveState: true,
-        url: `/leistungen/${props.service.slug}/item/${item.id}`,
+        url: `/leistungen/${props.service.slug}/${props.service.items[0].slug}/${item.id}`,
     });
 }
 

@@ -9,7 +9,7 @@
                         Allgemeine Geschäftsbedingungen (AGB)
                     </h1>
                     <p class="text-lg md:text-xl text-white/90 drop-shadow-md">
-                        ANTASUS Infra – Stand: {{ new Date().getFullYear() }}
+                        ANTASUS Infra - Stand: {{ new Date().getFullYear() }}
                     </p>
                 </div>
             </section>

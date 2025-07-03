@@ -9,7 +9,7 @@
                 name="description"
                 content="ANTASUS Infra: Ihr Spezialist für Glasfaserbau, Hausanschluss & Tiefbau. Professionelle Glasfaserinfrastruktur gemäß DIN/VDE in NRW."
             />
-            <link rel="canonical" href="https://www.antasus.de/" />
+
             <link
                 rel="preload"
                 as="image"
@@ -330,7 +330,7 @@ const leistungen = [
         titel: "Hausanschlüsse",
         slug: "hausanschlüsse",
         beschreibung:
-            "Trasse, Bohrung & Innenmontage – alles aus einer Hand mit deutscher Präzision.",
+            "Trasse, Bohrung & Innenmontage - alles aus einer Hand mit deutscher Präzision.",
     },
     {
         titel: "Glasfaser-Tiefbau",

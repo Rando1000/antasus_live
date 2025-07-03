@@ -37,7 +37,7 @@
                     >
                         Wir bieten <strong>Glasfaser-Tiefbau</strong>,
                         <strong>Hausanschluss</strong> &
-                        <strong>Projektplanung</strong> nach DIN/VDE –
+                        <strong>Projektplanung</strong> nach DIN/VDE -
                         termintreu, zuverlässig und partnerschaftlich.
                     </p>
                     <Link
@@ -165,12 +165,12 @@ const props = defineProps({
     services: Array,
     metaTitle: {
         type: String,
-        default: "Unsere Glasfaser-Leistungen – Antasus Infra",
+        default: "Unsere Glasfaser-Leistungen - Antasus Infra",
     },
     metaDescription: {
         type: String,
         default:
-            "Erfahren Sie alles über Glasfaser-Tiefbau, Hausanschlüsse und Projektplanung von Antasus Infra – professionell, termintreu.",
+            "Erfahren Sie alles über Glasfaser-Tiefbau, Hausanschlüsse und Projektplanung von Antasus Infra. Professionell, termintreu.",
     },
 });
 
@@ -196,7 +196,7 @@ const jsonLd = {
         addressCountry: "DE",
     },
     description:
-        "Ihr Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE – partnerschaftlich & termintreu.",
+        "Ihr Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE - partnerschaftlich & termintreu.",
     areaServed: {
         "@type": "GeoCircle",
         geoMidpoint: {
@@ -209,7 +209,7 @@ const jsonLd = {
     priceRange: "Auf Anfrage",
     sameAs: [
         "https://www.linkedin.com/company/antasus",
-        "https://www.xing.com/pages/antasus-infra",
+        "https://www.xing.com/pages/antasus",
     ],
 };
 
@@ -229,7 +229,7 @@ const faqs = [
     {
         frage: "Wie lange dauert ein Tiefbauprojekt?",
         antwort:
-            "Die Dauer variiert je nach Umfang. Kleinere Projekte (1–2 Hausanschlüsse) sind in 2–4 Tagen abgeschlossen. Großprojekte werden termingerecht nach Bauzeitenplan umgesetzt.",
+            "Die Dauer variiert je nach Umfang. Kleinere Projekte (1-2 Hausanschlüsse) sind in 2-4 Tagen abgeschlossen. Großprojekte werden termingerecht nach Bauzeitenplan umgesetzt.",
     },
     {
         frage: "Arbeitet Antasus normkonform nach deutschen Vorgaben und Richtlinien?",
@@ -265,11 +265,11 @@ onMounted(() => {
 
 const servicesJsonLd = computed(() => ({
     "@context": "https://schema.org",
-    "@graph": props.services.map((srv) => ({
+    "@graph": props.services.map((service) => ({
         "@type": "Service",
-        "@id": `https://www.antasus.de/leistungen/${srv.slug}#service`,
-        name: srv.title,
-        description: srv.description,
+        "@id": `https://www.antasus.de/leistungen`,
+        name: service.title,
+        description: service.description,
         provider: {
             "@type": "Organization",
             name: "Antasus Infra",
@@ -286,7 +286,7 @@ const servicesJsonLd = computed(() => ({
             // price: "0.00",
             // priceSpecification: { … }
         },
-        url: `https://www.antasus.de/leistungen/${srv.slug}`,
+        url: `https://www.antasus.de/leistungen`,
     })),
 }));
 

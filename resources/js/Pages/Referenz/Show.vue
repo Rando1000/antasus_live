@@ -2,7 +2,6 @@
     <Head>
         <title>{{ referenz.titel }} | Projekt-Referenz | ANTASUS Infra</title>
         <meta name="description" :content="referenz.beschreibung" />
-        <link :rel="'canonical'" :href="canonicalUrl" />
     </Head>
 
     <GuestLayout :serviceArea="'referenz'">
@@ -84,9 +83,6 @@ import { ref, computed, onMounted } from "vue";
 const props = defineProps({
     referenz: Object,
 });
-
-const page = usePage();
-const canonicalUrl = computed(() => `https://www.antasus.de${page.url}`);
 
 const lightbox = ref({ open: false, index: 0 });
 const openLightbox = (index) => {

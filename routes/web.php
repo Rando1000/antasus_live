@@ -36,8 +36,8 @@ Route::get('/', function () {
 //-----Leistungen-Bereich-----------
 Route::get('/leistungen', [LeistungenController::class, 'index'])->name('leistungen.index');
 Route::get('/leistungen/{service:slug}/{item:slug}/{id}', [ServiceItemController::class, 'show'])->name('services.items.show');
-Route::get('/leistungen/{serviceSlug}/{itemSlug}/{item}', [ServiceItemController::class, 'show'])
-    ->name('services.items.show.item');
+// Route::get('/leistungen/{serviceSlug}/{itemSlug}/{item}', [ServiceItemController::class, 'show'])
+//     ->name('services.items.show.item');
 
 
 // Kategorieseite mit allen Items (inkl. Modal-Mechanik)
@@ -45,7 +45,7 @@ Route::get('/leistungen/{slug}', [LeistungenController::class, 'show'])->name('l
 
 
 // Detailansicht eines Items (SEO-optimiert, direkte URL)
-Route::get('/leistungen/{slug}/item/{item}', [LeistungenController::class, 'item'])->name('leistungen.item.show');
+// Route::get('/leistungen/{slug}/item/{item}', [LeistungenController::class, 'item'])->name('leistungen.item.show');
 
 //--------------------------------
 

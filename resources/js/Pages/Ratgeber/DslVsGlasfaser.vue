@@ -315,7 +315,7 @@ onMounted(() => {
                     "@id": "https://www.antasus.de/ratgeber/dsl-vs-glasfaser",
                 },
                 headline:
-                    "DSL vs. Glasfaser: Speed, Stabilität & Kosten im Vergleich – Antasus",
+                    "DSL vs. Glasfaser: Speed, Stabilität & Kosten im Vergleich - Antasus",
                 description:
                     "Vergleich von DSL und Glasfaser in Speed, Latenz, Stabilität, Kosten & Energieeffizienz.",
                 datePublished: publishedAt.value,

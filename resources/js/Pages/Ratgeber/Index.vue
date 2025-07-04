@@ -108,9 +108,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
+
 import { Head, Link } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import { useHead } from "@vueuse/head";
 
 // --- ARTICLE LIST ---
 const articles = [
@@ -193,30 +195,48 @@ const webPage = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     url: "https://www.antasus.de/ratgeber",
-    name: "Ratgeber & Wissen – Antasus Infra",
+    name: "Ratgeber & Wissen - Antasus Infra",
     description:
         "Ihr Wissenspool zu Glasfaser-Technologien: Grundlagen, Vergleiche, FTTH & Co.",
 };
 
-onMounted(() => {
-    // inject BreadcrumbList
-    const s1 = document.createElement("script");
-    s1.type = "application/ld+json";
-    s1.text = JSON.stringify(breadcrumbList, null, 2);
-    document.head.appendChild(s1);
-
-    // inject ItemList
-    const s2 = document.createElement("script");
-    s2.type = "application/ld+json";
-    s2.text = JSON.stringify(itemList, null, 2);
-    document.head.appendChild(s2);
-
-    // inject WebPage
-    const s3 = document.createElement("script");
-    s3.type = "application/ld+json";
-    s3.text = JSON.stringify(webPage, null, 2);
-    document.head.appendChild(s3);
+// inject JSON-LD mit useHead anstatt  mit onmount in den <head>
+useHead({
+    script: [
+        {
+            type: "application/ld+json",
+            children: JSON.stringify(breadcrumbList, null, 2),
+        },
+        {
+            type: "application/ld+json",
+            children: JSON.stringify(itemList, null, 2),
+        },
+        {
+            type: "application/ld+json",
+            children: JSON.stringify(webPage, null, 2),
+        },
+    ],
 });
+
+// onMounted(() => {
+//     // inject BreadcrumbList
+//     const s1 = document.createElement("script");
+//     s1.type = "application/ld+json";
+//     s1.text = JSON.stringify(breadcrumbList, null, 2);
+//     document.head.appendChild(s1);
+
+//     // inject ItemList
+//     const s2 = document.createElement("script");
+//     s2.type = "application/ld+json";
+//     s2.text = JSON.stringify(itemList, null, 2);
+//     document.head.appendChild(s2);
+
+//     // inject WebPage
+//     const s3 = document.createElement("script");
+//     s3.type = "application/ld+json";
+//     s3.text = JSON.stringify(webPage, null, 2);
+//     document.head.appendChild(s3);
+// });
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@
         <title>Glasfaserbau: Der Komplett-Leitfaden | ANTASUS Infra</title>
         <meta
             name="description"
-            content="Der umfassende Leitfaden zu Glasfaserbau: Planung, Tiefbau-verfahren, Hausanschluss, Messtechnik & Dokumentation – mit Best Practices & PDF-Download."
+            content="Der umfassende Leitfaden zu Glasfaserbau: Planung, Tiefbau-verfahren, Hausanschluss, Messtechnik & Dokumentation - mit Best Practices & PDF-Download."
         />
         <link rel="canonical" href="https://www.antasus.de/glasfaserbau" />
     </Head>
@@ -25,7 +25,7 @@
             </h1>
             <p class="max-w-3xl mx-auto text-lg">
                 Alles von Netzplanung über Tiefbau-verfahren bis zu Mess- &
-                Dokumentationsstandards – für Ingenieure & Planer.
+                Dokumentationsstandards - für Ingenieure & Planer.
             </p>
             <Link
                 href="/kontakt"
@@ -86,7 +86,7 @@
                     </li>
                     <li>
                         <strong>Spülbohrtechnik (HDD)</strong> für
-                        Gewässer­querungen
+                        Gewässerquerungen
                     </li>
                     <li>
                         <strong>Mikrotunneling</strong> für große Querschnitte &
@@ -113,19 +113,19 @@
                     3. Hausanschluss & Innenmontage
                 </h2>
                 <p class="mb-6 text-gray-700">
-                    Von Hausübergabepunkt (HÜP) bis Patchfeld – normgerecht &
+                    Von Hausübergabepunkt (HÜP) bis Patchfeld - normgerecht &
                     termingenau:
                 </p>
                 <ul class="space-y-2 text-gray-700 list-disc list-inside">
                     <li><strong>DIN 18015-5-konforme Installation</strong></li>
                     <li>
-                        <strong>Faser­spleißung</strong> (Fusion-Splicer,
+                        <strong>Faserspleißung</strong> (Fusion-Splicer,
                         mechanisch)
                     </li>
                     <li><strong>OTDR-Messung</strong> & Dämpfungsprotokoll</li>
                     <li>
-                        <strong>Übergabe­prüfung</strong> inkl.
-                        Inbetriebnahme­bericht
+                        <strong>Übergabeprüfung</strong> inkl.
+                        Inbetriebnahmebericht
                     </li>
                 </ul>
                 <Link
@@ -151,13 +151,13 @@
                         <strong>OTDR-Sweep</strong> für LWL-Strecke & Dämpfung
                     </li>
                     <li>
-                        <strong>Ein­fügungs­dämpfung (IL)</strong> &
-                        Rückfluss­dämpfung (RL)
+                        <strong>Einfügungsdämpfung (IL)</strong> &
+                        Rückflussdämpfung (RL)
                     </li>
                     <li><strong>GIS-export</strong> (Shapefile, GeoJSON)</li>
                     <li>
                         Erstellung von
-                        <strong>Netz­betriebs­handbüchern</strong>
+                        <strong>Netzbetriebshandbüchern</strong>
                     </li>
                 </ul>
                 <Link
@@ -186,7 +186,7 @@
                     <li><strong>DIN VDE 0100</strong> (Elektroinstallation)</li>
                     <li><strong>DVGW G 459-2</strong> (HÜP-Montage)</li>
                     <li>
-                        <strong>Qualitäts­kontrolle</strong> durch unabhängige
+                        <strong>Qualitätskontrolle</strong> durch unabhängige
                         Gutachter
                     </li>
                 </ul>
@@ -213,7 +213,7 @@
                                 href="/ratgeber/ftth-fiber-to-the-home"
                                 class="text-antasus-primary hover:underline"
                             >
-                                FTTH – Glasfaser bis ins Haus: Technik &
+                                FTTH - Glasfaser bis ins Haus: Technik &
                                 Förderung
                             </Link>
                         </li>

@@ -377,7 +377,7 @@ const localBusinessJsonLd = {
     logo: "https://www.antasus.de/logo.png",
     image: "https://www.antasus.de/images/favicon.svg",
     description:
-        "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte – vom Hausanschluss bis zur Projektdokumentation.",
+        "Antasus Infra ist Ihr Partner für professionelle Glasfaserprojekte - vom Hausanschluss bis zur Projektdokumentation.",
     address: {
         "@type": "PostalAddress",
         streetAddress: "Norrenbergstrasse 122",

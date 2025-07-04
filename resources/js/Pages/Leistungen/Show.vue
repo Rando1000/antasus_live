@@ -241,15 +241,14 @@ function showModal(item) {
         replace: false,
         preserveScroll: true,
         preserveState: true,
-        url: `/leistungen/${props.service.slug}/${props.service.items[0].slug}/${item.id}`,
+        url: `/leistungen/${props.service.slug}/item/${item.slug}`,
     });
 }
 
 function closeModal() {
     selectedItem.value = null;
-    router.push({
-        replace: false,
-        preserveScroll: true,
+    router.replace({
+        replace: true,
         preserveState: true,
         url: `/leistungen/${props.service.slug}`,
     });

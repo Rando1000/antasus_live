@@ -183,7 +183,7 @@ const breadcrumbList = {
 const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "@name": "Ratgeber",
+    name: "Ratgeber",
     itemListElement: articles.map((art, i) => ({
         "@type": "ListItem",
         position: i + 1,

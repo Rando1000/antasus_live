@@ -103,17 +103,73 @@
                     </li>
                 </ul>
             </section>
+            <!-- ─── AI-Widget ──────────────────────────────────────── -->
+            <section id="ai-assistant" class="py-12 my-8 bg-gray-50">
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <h3 class="text-2xl font-bold text-center">
+                        Frage unseren Ratgeber-Bot
+                    </h3>
+                    <div class="flex gap-2">
+                        <input
+                            v-model="question"
+                            @keyup.enter="askAI"
+                            type="text"
+                            placeholder="Stellen Sie hier Ihre Frage…"
+                            class="flex-1 px-4 py-2 border rounded focus:ring-2 focus:ring-antasus-primary"
+                        />
+                        <button
+                            @click="askAI"
+                            :disabled="loading"
+                            class="px-4 py-2 text-white bg-teal-600 rounded hover:bg-teal-700 disabled:opacity-50"
+                        >
+                            {{ loading ? "…arbeite" : "Fragen" }}
+                        </button>
+                    </div>
+                    <div
+                        v-if="answer"
+                        class="p-4 prose bg-white rounded shadow dark:prose-invert"
+                    >
+                        <h4>Antwort:</h4>
+                        <div v-html="answer"></div>
+                    </div>
+                </div>
+            </section>
+            <!-- ──────────────────────────────────────────────────── -->
         </main>
     </GuestLayout>
 </template>
 
 <script setup>
 import { ref } from "vue";
-
 import { Head, Link } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { useHead } from "@vueuse/head";
+import axios from "axios";
 
+const question = ref("");
+const answer = ref("");
+const loading = ref(false);
+
+async function askAI() {
+    if (!question.value.trim()) return;
+    loading.value = true;
+    answer.value = null;
+
+    try {
+        // // bei Sanctum-Projekten nötig
+        // await axios.get("/sanctum/csrf-cookie");
+        const { data } = await axios.post(
+            "/api/ai/answer",
+            { question: question.value },
+            { headers: { "Content-Type": "application/json" } }
+        );
+        answer.value = data.answer;
+    } catch (err) {
+        console.error("HF-Error:", err.response?.data || err);
+    } finally {
+        loading.value = false;
+    }
+}
 // --- ARTICLE LIST ---
 const articles = [
     {

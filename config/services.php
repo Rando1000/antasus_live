@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+        'url' => env('OPENAI_URL', 'https://api.openai.com/v1'),
+    ],
+
+    'huggingface' => [
+        'token' => env('HUGGINGFACE_TOKEN'),
+        'model' => env('HUGGINGFACE_MODEL', 'google/gemma-2-2b'),
+    ],
+
 ];

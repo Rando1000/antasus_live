@@ -1,6 +1,5 @@
 <template>
     <Head>
-        <link rel="canonical" :href="canonicalUrl" />
         <link
             rel="icon"
             type="image/png"

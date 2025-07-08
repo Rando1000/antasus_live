@@ -78,6 +78,7 @@ const emit = defineEmits([
 ]);
 
 // State
+const bookedSlots = ref([]);
 const calendarRef = ref(null);
 const currentTitle = ref("");
 const isMobile = ref(false);
@@ -164,6 +165,12 @@ const calendarOptions = computed(() => ({
                     end: info.endStr,
                 },
             });
+            // roh als Date-Objekte für Kollisionstests merken
+            bookedSlots.value = data.map((d) => ({
+                start: new Date(d.start),
+                end: new Date(d.end),
+            }));
+
             const evs = data || [];
 
             // Admin-Selektion als Hintergrund-Events einzeichnen
@@ -222,7 +229,23 @@ const calendarOptions = computed(() => ({
         api.unselect();
     },
 
-    selectAllow: (sel) => sel.start >= new Date(),
+    // keine Vergangenheit UND keine Überlappung mit einem gebuchten Slot
+    selectAllow: (sel) => {
+        const start = sel.start;
+        const end = sel.end;
+
+        // 1) nicht in der Vergangenheit
+        if (start < new Date()) return false;
+
+        // 2) Kollisionstest mit jedem bookedSlots-Eintrag
+        for (let b of bookedSlots.value) {
+            if (start < b.end && end > b.start) {
+                // Überschneidung → Auswahl nicht erlaubt
+                return false;
+            }
+        }
+        return true;
+    },
 }));
 </script>
 

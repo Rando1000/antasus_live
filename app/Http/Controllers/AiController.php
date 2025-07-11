@@ -12,48 +12,57 @@ class AiController extends Controller
     public function hfAnswer(Request $request)
     {
         $validated = $request->validate([
-            'question' => 'required|string',
+        'question' => 'required|string',
+    ]);
+
+    $hfToken = config('services.huggingface.token');
+    $hfModel = config('services.huggingface.model', 'HuggingFaceTB/SmolLM3-3B');
+
+    $response = Http::withToken($hfToken)
+        ->timeout(60)
+        ->withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])
+        ->post('https://router.huggingface.co/hf-inference/models/HuggingFaceTB/SmolLM3-3B/v1/chat/completions', [
+            'model' => $hfModel,
+            'stream' => false,
+            'messages' => [
+                [
+                    'role' => 'user',
+                    'content' => $validated['question'],
+                ],
+            ],
         ]);
 
-        $hfToken = config('services.huggingface.token');
-        $hfModel = config('services.huggingface.model');
+    if (!$response->successful()) {
+        \Log::error('HF Chat API Fehler', [
+            'status' => $response->status(),
+            'body'   => $response->body(),
+        ]);
+        return response()->json([
+            'error'   => 'HF Chat API returned error',
+            'details' => $response->body(),
+        ], 500);
+    }
 
-        // Prüfe, ob Modellname gesetzt ist
-        if (!$hfModel) {
-            return response()->json([
-                'error' => 'Huggingface Modellname fehlt!',
-            ], 500);
+    $result = $response->json();
+    $rawAnswer = data_get($result, 'choices.0.message.content') ?? json_encode($result);
+
+    // Filter: Alles ab erstem "**" (für Markdown-Antwort) oder ab "Glasfaser" oder deutschem Satz
+    if (preg_match('/(\*\*Glasfaser.+)$/s', $rawAnswer, $match)) {
+        $answer = $match[1];
+        } else if (preg_match('/(Glasfaser.+)$/s', $rawAnswer, $match)) {
+            $answer = $match[1];
+        } else if (preg_match('/([A-ZÄÖÜ][^.!?\n]+[.!?\n].*)/s', $rawAnswer, $match)) {
+            // Fallback: erster deutscher Satz (grob)
+            $answer = $match[1];
+        } else {
+            // Falls alles fehlschlägt: komplette Antwort als Fallback
+            $answer = $rawAnswer;
         }
 
-        $response = Http::withToken($hfToken)
-            ->timeout(30)
-            ->withHeaders([
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ])
-            ->post("https://api-inference.huggingface.co/models/{$hfModel}", [
-                'inputs' => $validated['question'],
-            ]);
-
-        if (!$response->successful()) {
-            Log::error('HF API Fehler', [
-                'status' => $response->status(),
-                'body'   => $response->body(),
-            ]);
-            return response()->json([
-                'error'   => 'HF API returned error',
-                'details' => $response->body(),
-            ], 500);
-        }
-
-        $result = $response->json();
-
-        // Passe das Parsing an verschiedene Modellantworten an
-        $answer = data_get($result, '0.generated_text') ??
-                  data_get($result, 'generated_text') ??
-                  json_encode($result);
-
-        return response()->json(['answer' => $answer]);
+    return response()->json(['answer' => $answer]);
     }
 
 

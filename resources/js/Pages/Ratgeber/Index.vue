@@ -104,7 +104,7 @@
                 </ul>
             </section>
             <!-- ─── AI-Widget ──────────────────────────────────────── -->
-            <!-- <section id="ai-assistant" class="py-12 my-8 bg-gray-50">
+            <section id="ai-assistant" class="py-12 my-8 bg-gray-50">
                 <div class="max-w-3xl mx-auto space-y-4">
                     <h3 class="text-2xl font-bold text-center">
                         Frage unseren Ratgeber-Bot
@@ -133,7 +133,7 @@
                         <div v-html="answer"></div>
                     </div>
                 </div>
-            </section> -->
+            </section>
             <!-- ──────────────────────────────────────────────────── -->
         </main>
     </GuestLayout>

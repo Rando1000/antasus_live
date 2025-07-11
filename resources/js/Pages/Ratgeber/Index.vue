@@ -4,7 +4,7 @@
         <title>Ratgeber &amp; Wissen - Antasus Infra</title>
         <meta
             name="description"
-            content="Ihr Wissenspool zu Glasfaser-Technologien: Grundlagen, Vergleiche, FTTH & Co. Jetzt im Antasus-Ratgeber lesen."
+            content="Ihr Wissenspool zu Glasfaser Technologien: Grundlagen, Vergleiche, FTTH & Co. Jetzt im Antasus-Ratgeber lesen."
         />
         <meta name="robots" content="index,follow" />
         <link rel="canonical" href="https://www.antasus.de/ratgeber" />
@@ -104,7 +104,7 @@
                 </ul>
             </section>
             <!-- ─── AI-Widget ──────────────────────────────────────── -->
-            <section id="ai-assistant" class="py-12 my-8 bg-gray-50">
+            <!-- <section id="ai-assistant" class="py-12 my-8 bg-gray-50">
                 <div class="max-w-3xl mx-auto space-y-4">
                     <h3 class="text-2xl font-bold text-center">
                         Frage unseren Ratgeber-Bot
@@ -112,13 +112,13 @@
                     <div class="flex gap-2">
                         <input
                             v-model="question"
-                            @keyup.enter="askAI"
+                            @keyup.enter="askAI()"
                             type="text"
                             placeholder="Stellen Sie hier Ihre Frage…"
                             class="flex-1 px-4 py-2 border rounded focus:ring-2 focus:ring-antasus-primary"
                         />
                         <button
-                            @click="askAI"
+                            @click="askAI()"
                             :disabled="loading"
                             class="px-4 py-2 text-white bg-teal-600 rounded hover:bg-teal-700 disabled:opacity-50"
                         >
@@ -133,7 +133,7 @@
                         <div v-html="answer"></div>
                     </div>
                 </div>
-            </section>
+            </section> -->
             <!-- ──────────────────────────────────────────────────── -->
         </main>
     </GuestLayout>

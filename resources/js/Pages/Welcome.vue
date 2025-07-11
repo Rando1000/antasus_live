@@ -88,17 +88,36 @@
         <section class="py-20 bg-white">
             <div class="container px-6 mx-auto">
                 <div class="mb-16 text-center">
+                    <h2
+                        class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl"
+                    >
+                        Glasfaser
+                        <span class="text-teal-600">Tiefbau</span>
+                    </h2>
+                    <p class="max-w-2xl mx-auto my-8 text-gray-600">
+                        Der Glasfaser Tiefbau bildet das Fundament für eine
+                        zukunftssichere digitale Infrastruktur. Mit modernster
+                        Technik, präziser Planung und erfahrenen Fachkräften
+                        sorgen wir dafür, dass leistungsfähige Glasfasernetze
+                        zuverlässig und effizient verlegt werden. Unser Anspruch
+                        ist es, höchste Qualitätsstandards einzuhalten und
+                        innovative Lösungen für nachhaltige Netzwerke zu bieten,
+                        damit Ihr Anschluss an die digitale Zukunft reibungslos
+                        und professionell erfolgt.
+                    </p>
+                </div>
+                <div class="mb-16 text-center">
                     <span
                         class="inline-block px-4 py-1 mb-4 text-sm font-medium text-teal-600 bg-teal-100 rounded-full"
                     >
                         Unsere Expertise
                     </span>
-                    <h2
+                    <h3
                         class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl"
                     >
                         Maßgeschneiderte
                         <span class="text-teal-600">Lösungen</span>
-                    </h2>
+                    </h3>
                     <p class="max-w-2xl mx-auto text-gray-600">
                         Von der Planung bis zur Dokumentation - alles aus einer
                         Hand

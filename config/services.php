@@ -42,7 +42,7 @@ return [
 
     'huggingface' => [
         'token' => env('HUGGINGFACE_TOKEN'),
-        'model' => env('HUGGINGFACE_MODEL', 'google/gemma-2-2b'),
+        'model' => env('HUGGINGFACE_MODEL', 'gpt2'),
     ],
 
 ];

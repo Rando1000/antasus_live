@@ -223,7 +223,7 @@
                         <li>
                             <NavLink
                                 href="/ratgeber"
-                                label="History"
+                                label="Ratgeber"
                                 class="block hover:text-teal-600"
                                 >Glasfaser Ratgeber</NavLink
                             >

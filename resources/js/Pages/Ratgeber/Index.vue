@@ -104,32 +104,35 @@
                 </ul>
             </section>
             <!-- ─── AI-Widget ──────────────────────────────────────── -->
-            <section id="ai-assistant" class="py-12 my-8 bg-gray-50">
+            <section id="ai-assistant" class="px-2 py-8 sm:py-12 bg-gray-50">
                 <div class="max-w-3xl mx-auto space-y-4">
                     <h3 class="text-2xl font-bold text-center">
                         Frage unseren Ratgeber-Bot
                     </h3>
-                    <div class="flex gap-2">
+                    <form
+                        @submit.prevent="askAI"
+                        class="flex flex-col gap-2 sm:flex-row"
+                    >
                         <input
                             v-model="question"
-                            @keyup.enter="askAI()"
                             type="text"
                             placeholder="Stellen Sie hier Ihre Frage…"
-                            class="flex-1 px-4 py-2 border rounded focus:ring-2 focus:ring-antasus-primary"
+                            class="flex-1 px-4 py-2 text-base border rounded focus:ring-2 focus:ring-antasus-primary"
+                            autocomplete="off"
                         />
                         <button
-                            @click="askAI()"
-                            :disabled="loading"
-                            class="px-4 py-2 text-white bg-teal-600 rounded hover:bg-teal-700 disabled:opacity-50"
+                            type="submit"
+                            :disabled="loading || !question.trim()"
+                            class="w-full px-4 py-2 font-semibold text-white transition bg-teal-600 rounded sm:w-auto hover:bg-teal-700 disabled:opacity-50"
                         >
                             {{ loading ? "…arbeite" : "Fragen" }}
                         </button>
-                    </div>
+                    </form>
                     <div
                         v-if="answer"
-                        class="p-4 prose bg-white rounded shadow dark:prose-invert"
+                        class="p-4 mt-2 prose break-words bg-white rounded shadow dark:prose-invert"
                     >
-                        <h4>Antwort:</h4>
+                        <h4 class="font-semibold">Antwort:</h4>
                         <div v-html="answer"></div>
                     </div>
                 </div>
@@ -306,6 +309,18 @@ useHead({
 @media (max-width: 640px) {
     ul[role="list"] {
         grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 640px) {
+    #ai-assistant input {
+        font-size: 1rem;
+    }
+    #ai-assistant form {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    #ai-assistant button {
+        width: 100%;
     }
 }
 </style>

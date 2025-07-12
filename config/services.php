@@ -42,7 +42,7 @@ return [
 
     'huggingface' => [
         'token' => env('HUGGINGFACE_TOKEN'),
-        'model' => env('HUGGINGFACE_MODEL', 'HuggingFaceTB/SmolLM3-3B'),
+        'model' => env('HUGGINGFACE_MODEL', 'accounts/fireworks/models/llama-v3p1-8b-instruct'),
     ],
 
 ];

@@ -75,7 +75,7 @@
                 >
                     <li v-for="item in articles" :key="item.slug">
                         <article
-                            class="flex flex-col h-full transition bg-white rounded-lg shadow hover:shadow-lg dark:bg-gray-800 focus-within:ring-2 focus-within:ring-antasus-primary"
+                            class="flex flex-col h-full transition rounded-lg shadow bg-gradient-to-r from-white to-cyan-50 hover:shadow-lg dark:bg-gray-800 focus-within:ring-2 focus-within:ring-antasus-primary"
                         >
                             <div class="flex-grow p-6">
                                 <h3
@@ -94,7 +94,7 @@
                             <div class="p-6 pt-0">
                                 <Link
                                     :href="item.url"
-                                    class="inline-block font-medium text-antasus-primary hover:text-antasus-dark focus:outline-none focus:ring-2 focus:ring-antasus-primary"
+                                    class="inline-block font-medium text-teal-800 hover:text-antasus-dark focus:outline-none focus:ring-2 focus:ring-antasus-primary"
                                     :aria-label="`Weiterlesen: ${item.title}`"
                                     >Weiterlesen →</Link
                                 >

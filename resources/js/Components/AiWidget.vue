@@ -1,7 +1,7 @@
 <template>
     <section
         id="ai-assistant"
-        class="ai-section bg-gradient-to-b from-white via-gray-50 to-teal-50 dark:from-black dark:via-gray-900 dark:to-[#003A37] py-10 sm:py-16"
+        class="ai-section bg-gradient-to-b rounded-xl from-white via-gray-50 to-teal-50 dark:from-black dark:via-gray-900 dark:to-[#003A37] py-10 sm:py-16"
         aria-labelledby="ai-assistant-title"
     >
         <div
@@ -14,7 +14,7 @@
             <header class="mb-3">
                 <h2
                     id="ai-assistant-title"
-                    class="text-3xl font-extrabold tracking-tight text-center md:text-4xl text-antasus-primary drop-shadow"
+                    class="text-3xl font-extrabold tracking-tight text-center text-teal-800 md:text-4xl drop-shadow"
                 >
                     <span
                         aria-hidden="true"

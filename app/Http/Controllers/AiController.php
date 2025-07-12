@@ -17,6 +17,13 @@ class AiController extends Controller
 
     $hfToken = config('services.huggingface.token');
     $hfModel = config('services.huggingface.model', 'accounts/fireworks/models/llama-v3p1-8b-instruct');
+    $systemPrompt = <<<EOT
+    Du bist ein kompetenter, professioneller Glasfaserbau-, Glasfaser Tiefbau- und Glasfaser Hausanschluss-Experte von Antasus Infra.
+    Beantworte ausschließlich Fragen zu Glasfaser, FTTx, FTTH, FTTB, Tiefbau, Hausanschlüssen, Projektmanagement im Glafaserbau und verwandten Themen.
+    Alle Antworten beziehen sich auf Antasus Infra und deren Leistungen.
+    Wenn eine Frage außerhalb dieses Bereichs liegt, antworte freundlich:
+    "Wir beantworten gerne alle Fragen rund um Glasfaser, FTTH und Hausanschlüsse. Für andere Themen wenden Sie sich bitte an die zuständige Stelle."
+    EOT;
 
     $response = Http::withToken($hfToken)
         ->timeout(60)
@@ -28,6 +35,10 @@ class AiController extends Controller
             'model' => $hfModel,
             'stream' => false,
             'messages' => [
+                [
+                    'role' => 'system',
+                    'content' => $systemPrompt, // <-- Systemanweisung!
+                ],
                 [
                     'role' => 'user',
                     'content' => $validated['question'],

@@ -104,50 +104,19 @@
                 </ul>
             </section>
             <!-- ─── AI-Widget ──────────────────────────────────────── -->
-            <section id="ai-assistant" class="px-2 py-8 sm:py-12 bg-gray-50">
-                <div class="max-w-3xl mx-auto space-y-4">
-                    <h3 class="text-2xl font-bold text-center">
-                        Frage unseren Ratgeber-Bot
-                    </h3>
-                    <form
-                        @submit.prevent="askAI"
-                        class="flex flex-col gap-2 sm:flex-row"
-                    >
-                        <input
-                            v-model="question"
-                            type="text"
-                            placeholder="Stellen Sie hier Ihre Frage…"
-                            class="flex-1 px-4 py-2 text-base border rounded focus:ring-2 focus:ring-antasus-primary"
-                            autocomplete="off"
-                        />
-                        <button
-                            type="submit"
-                            :disabled="loading || !question.trim()"
-                            class="w-full px-4 py-2 font-semibold text-white transition bg-teal-600 rounded sm:w-auto hover:bg-teal-700 disabled:opacity-50"
-                        >
-                            {{ loading ? "…arbeite" : "Fragen" }}
-                        </button>
-                    </form>
-                    <div
-                        v-if="answer"
-                        class="p-4 mt-2 prose break-words bg-white rounded shadow dark:prose-invert"
-                    >
-                        <h4 class="font-semibold">Antwort:</h4>
-                        <div v-html="answer"></div>
-                    </div>
-                </div>
-            </section>
+            <AiWidget />
             <!-- ──────────────────────────────────────────────────── -->
         </main>
     </GuestLayout>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { useHead } from "@vueuse/head";
 import axios from "axios";
+import AiWidget from "@/Components/AiWidget.vue";
 
 const question = ref("");
 const answer = ref("");
@@ -157,18 +126,19 @@ async function askAI() {
     if (!question.value.trim()) return;
     loading.value = true;
     answer.value = null;
-
     try {
-        // // bei Sanctum-Projekten nötig
-        // await axios.get("/sanctum/csrf-cookie");
-        const { data } = await axios.post(
-            "/api/ai/answer",
-            { question: question.value },
-            { headers: { "Content-Type": "application/json" } }
-        );
+        const { data } = await axios.post("/api/ai/answer", {
+            question: question.value.trim(),
+        });
         answer.value = data.answer;
+        question.value = "";
+        await nextTick();
+        // Scrollt zum AI-Widget, wenn Antwort kommt (mobile)
+        document
+            .getElementById("ai-assistant")
+            ?.scrollIntoView({ behavior: "smooth", block: "center" });
     } catch (err) {
-        console.error("HF-Error:", err.response?.data || err);
+        answer.value = "Fehler beim Abruf der Antwort.";
     } finally {
         loading.value = false;
     }
@@ -322,5 +292,21 @@ useHead({
     #ai-assistant button {
         width: 100%;
     }
+}
+
+.bg-antasus-primary {
+    background: #00fdcf !important;
+}
+.text-antasus-primary {
+    color: #00fdcf !important;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.4s;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

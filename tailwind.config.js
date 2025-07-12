@@ -23,6 +23,7 @@ export default {
                 neutral: '#F8FAFC', // z. B. Hintergrund
                 text: '#1E293B',    // Slate 800 für Lesbarkeit
                 },
+                'antasus-primary': '#00fdcf',
             },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],

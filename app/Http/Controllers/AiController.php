@@ -16,7 +16,7 @@ class AiController extends Controller
     ]);
 
     $hfToken = config('services.huggingface.token');
-    $hfModel = config('services.huggingface.model', 'HuggingFaceTB/SmolLM3-3B');
+    $hfModel = config('services.huggingface.model', 'accounts/fireworks/models/llama-v3p1-8b-instruct');
 
     $response = Http::withToken($hfToken)
         ->timeout(60)
@@ -24,7 +24,7 @@ class AiController extends Controller
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
         ])
-        ->post('https://router.huggingface.co/hf-inference/models/HuggingFaceTB/SmolLM3-3B/v1/chat/completions', [
+        ->post('https://router.huggingface.co/fireworks-ai/inference/v1/chat/completions', [
             'model' => $hfModel,
             'stream' => false,
             'messages' => [

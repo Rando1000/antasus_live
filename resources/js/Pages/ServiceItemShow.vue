@@ -20,10 +20,14 @@
         <section
             class="max-w-4xl px-4 py-20 mx-auto text-center animate-fade-in"
         >
-            <h1 class="mb-4 text-3xl font-extrabold text-gray-900">
+            <h1
+                class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-antasus-primary"
+            >
                 {{ item.title }}
             </h1>
-            <p class="mb-8 text-lg text-gray-700">{{ item.description }}</p>
+            <p class="mb-8 text-lg text-gray-700 dark:text-antasus-neutral">
+                {{ item.description }}
+            </p>
             <img
                 v-if="item.image_url"
                 :src="item.image_url"

@@ -2,14 +2,12 @@
     <GuestLayout>
         <Head>
             <title>
-                Zukunftssichere Glasfaserinfrastruktur & Hausanschluss | ANTASUS
-                Infra
+                Glasfaserinfrastruktur & Hausanschluss NRW | ANTASUS Infra
             </title>
             <meta
                 name="description"
-                content="ANTASUS Infra: Ihr Spezialist für Glasfaserbau, Hausanschluss & Tiefbau. Professionelle Glasfaserinfrastruktur gemäß DIN/VDE in NRW."
+                content="Ihr zertifizierter Glasfaserbau-Spezialist für Hausanschluss & Tiefbau. ANTASUS Infra – Zukunftssichere Glasfaserinfrastruktur, termintreu, DIN-konform, NRW."
             />
-
             <link
                 rel="preload"
                 as="image"
@@ -17,84 +15,90 @@
                 fetchpriority="high"
             />
         </Head>
-        <!-- Hero mit Fullscreen-Hintergrund und Overlay -->
+
+        <!-- HERO -->
         <header
-            class="relative flex items-center justify-center max-h-screen overflow-hidden bg-gray-900"
+            class="relative flex items-center justify-center min-h-[60vh] md:min-h-[80vh] bg-gray-900"
+            aria-labelledby="startseite-hero"
         >
-            <div class="absolute inset-0">
-                <img
-                    src="/images/Header_welcome.avif"
-                    alt="Glasfaserinfrastruktur und Hausanschluss in Wuppertal"
-                    class="absolute inset-0 object-cover w-full h-full opacity-80"
-                    loading="eager"
-                    fetchpriority="high"
-                    :jsonLd="jsonLd"
-                />
-            </div>
+            <img
+                src="/images/Header_welcome.avif"
+                alt="Glasfaserarbeiten in NRW, Glasfaser Hausanschluss und Tiefbau"
+                class="absolute inset-0 object-cover w-full h-full opacity-95"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1920"
+                height="800"
+            />
+            <div
+                class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                aria-hidden="true"
+            ></div>
 
-            <div class="container relative px-6 py-20 mx-auto text-center">
-                <div class="max-w-4xl mx-auto">
-                    <h1
-                        class="mb-6 text-4xl font-bold leading-tight text-white md:text-6xl"
-                    >
-                        <span
-                            class="text-transparent bg-gradient-to-r from-teal-400 to-indigo-400 bg-clip-text"
-                        >
-                            Zukunftssichere </span
-                        ><br />
-                        Glasfaserinfrastruktur
-                    </h1>
-
-                    <p
-                        class="max-w-2xl mx-auto mb-10 text-lg font-medium text-white"
-                    >
-                        Als Ihr Partner für <strong>Glasfaserbau</strong> &amp;
-                        <strong>Hausanschluss</strong> stehen wir für
-                        hochwertige, normgerechte
-                        <strong>Glasfaserinfrastruktur</strong> in NRW. Von der
-                        Trassenplanung bis zur Dokumentation. Wir realisieren
-                        Ihr FTTx-Projekt nach DIN 18220 / DIN EN 50700 / DIN EN
-                        61386.
-                    </p>
-
-                    <div class="flex flex-col justify-center gap-4 sm:flex-row">
-                        <Link
-                            href="/kontakt"
-                            class="px-8 py-4 font-medium text-white transition-all transform rounded-lg bg-gradient-to-r from-teal-600 to-indigo-600 hover:shadow-xl hover:-translate-y-1"
-                        >
-                            Projekt anfragen
-                        </Link>
-                        <Link
-                            href="/leistungen"
-                            class="px-8 py-4 text-white transition-all border rounded-lg bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20"
-                        >
-                            Leistungen entdecken
-                        </Link>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scroll Indicator -->
-            <!-- <div class="absolute transform -translate-x-1/2 bottom-10 left-1/2">
-                <div
-                    class="flex justify-center w-6 h-10 border-2 border-white rounded-full animate-bounce"
+            <div
+                class="container relative z-10 flex flex-col items-center px-6 py-20 mx-auto text-center"
+            >
+                <h1
+                    id="startseite-hero"
+                    class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-white drop-shadow-lg md:text-6xl"
                 >
-                    <div class="w-1 h-2 mt-2 bg-white rounded-full"></div>
-                </div>
-            </div> -->
+                    <span
+                        class="text-transparent bg-gradient-to-r from-antasus-primary to-indigo-400 bg-clip-text"
+                    >
+                        Zukunftssichere </span
+                    ><br />
+                    Glasfaserinfrastruktur
+                </h1>
+                <p
+                    class="max-w-2xl mx-auto mb-10 text-lg font-medium text-white/95"
+                >
+                    Ihr Partner für <strong>Glasfaserbau</strong> &amp;
+                    <strong>Hausanschluss</strong> - hochwertige, zertifizierte
+                    Glasfaser Infrastruktur in NRW.<br
+                        class="hidden sm:inline"
+                    />
+                    Von der Planung bis zur Abnahme - alles nach
+                    <abbr title="Deutsche Industrienorm">DIN 18220</abbr> &amp;
+                    <abbr title="Verband Deutscher Elektrotechnik">VDE</abbr>.
+                </p>
+                <nav
+                    class="flex flex-col justify-center gap-4 sm:flex-row"
+                    aria-label="Hauptaktionen"
+                >
+                    <Link
+                        href="/kontakt"
+                        class="px-8 py-4 font-medium text-white transition rounded-lg shadow-lg bg-gradient-to-r from-antasus-primary to-indigo-600 hover:opacity-90 focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary"
+                    >
+                        Projekt anfragen
+                    </Link>
+                    <Link
+                        href="/leistungen"
+                        class="px-8 py-4 text-white transition border rounded-lg shadow-lg bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary"
+                    >
+                        Leistungen entdecken
+                    </Link>
+                </nav>
+            </div>
         </header>
 
-        <!-- Leistungen Section mit modernen Karten -->
-        <section class="py-20 bg-white">
+        <!-- Leistungen -->
+        <section
+            class="py-20 bg-white dark:bg-gray-900"
+            aria-labelledby="leistungen-head"
+        >
             <div class="container px-6 mx-auto">
-                <div class="mb-16 text-center">
+                <header class="mb-16 text-center">
                     <h2
-                        class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl"
+                        id="leistungen-head"
+                        class="mb-4 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl"
                     >
                         Glasfaser
-                        <span class="text-teal-600">Tiefbau</span>
+                        <span class="text-antasus-second">Tiefbau</span>
                     </h2>
-                    <p class="max-w-2xl mx-auto my-8 text-gray-600">
+                    <p
+                        class="max-w-2xl mx-auto my-8 text-gray-700 dark:text-gray-200"
+                    >
                         Der Glasfaser Tiefbau bildet das Fundament für eine
                         zukunftssichere digitale Infrastruktur. Mit modernster
                         Technik, präziser Planung und erfahrenen Fachkräften
@@ -105,7 +109,7 @@
                         damit Ihr Anschluss an die digitale Zukunft reibungslos
                         und professionell erfolgt.
                     </p>
-                </div>
+                </header>
                 <div class="mb-16 text-center">
                     <span
                         class="inline-block px-4 py-1 mb-4 text-sm font-medium text-teal-600 bg-teal-100 rounded-full"
@@ -113,39 +117,43 @@
                         Unsere Expertise
                     </span>
                     <h3
-                        class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl"
+                        class="mb-4 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl"
                     >
                         Maßgeschneiderte
-                        <span class="text-teal-600">Lösungen</span>
+                        <span class="text-antasus-second">Lösungen</span>
                     </h3>
-                    <p class="max-w-2xl mx-auto text-gray-600">
+                    <p
+                        class="max-w-2xl mx-auto text-gray-600 dark:text-gray-200"
+                    >
                         Von der Planung bis zur Dokumentation - alles aus einer
-                        Hand
+                        Hand.
                     </p>
                 </div>
-
                 <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                     <Link
                         v-for="(leistung, index) in leistungen"
                         :key="index"
                         :href="`/leistungen/${leistung.slug}`"
-                        class="relative overflow-hidden transition-all duration-300 bg-white border border-gray-100 shadow-lg group rounded-xl hover:shadow-xl"
+                        class="relative transition-all duration-200 bg-white border border-gray-100 shadow-lg group focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary dark:border-gray-800 dark:bg-gray-900 rounded-xl hover:shadow-xl"
+                        :aria-label="`Mehr zu ${leistung.titel}`"
                     >
                         <div
-                            class="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-br from-teal-50 to-indigo-50 group-hover:opacity-100"
+                            class="absolute inset-0 transition-opacity opacity-0 group-hover:opacity-100 bg-gradient-to-br from-antasus-light/60 to-indigo-100 dark:from-gray-800/60 dark:to-indigo-900 rounded-xl"
                         ></div>
                         <div class="relative p-8">
                             <div
-                                class="flex items-center justify-center mb-6 text-white rounded-lg w-14 h-14 bg-gradient-to-r from-teal-600 to-indigo-600"
+                                class="flex items-center justify-center mb-6 text-white rounded-lg w-14 h-14 bg-gradient-to-r from-antasus-primary to-indigo-600"
                             >
-                                <span class="text-2xl">{{ icons[index] }}</span>
+                                <span class="text-2xl" aria-hidden="true">{{
+                                    icons[index]
+                                }}</span>
                             </div>
                             <h3
-                                class="mb-3 text-xl font-semibold text-gray-900"
+                                class="mb-3 text-xl font-semibold text-gray-900 dark:text-white"
                             >
                                 {{ leistung.titel }}
                             </h3>
-                            <p class="text-gray-600">
+                            <p class="text-gray-700 dark:text-gray-200">
                                 {{ leistung.beschreibung }}
                             </p>
                         </div>
@@ -153,12 +161,13 @@
                 </div>
             </div>
         </section>
-        <section class="text-black">
+
+        <section class="text-black dark:text-gray-200">
             <div class="max-w-4xl px-6 mx-auto">
                 <p class="text-lg text-center">
                     ANTASUS Infra realisiert professionelle
-                    <strong>Glasfaser-Hausanschlüsse</strong> und
-                    <strong>Glasfaser-Tiefbauprojekte</strong> in Wuppertal
+                    <strong>Glasfaser Hausanschlüsse</strong> und
+                    <strong>Glasfaser Tiefbau Projekte</strong> in Wuppertal
                     &amp; Umgebung. Unser Team, aus erfahrenen deutschsprachigen
                     Mitarbeitern und exzellenten Management, sorgt für
                     termintreue Umsetzung nach aktuellen Normen. Erfahren Sie
@@ -169,48 +178,78 @@
                 </p>
             </div>
         </section>
-        <section class="py-20 bg-white">
+
+        <!-- Warum Antasus -->
+        <section
+            class="py-20 bg-white dark:bg-gray-900"
+            aria-labelledby="warum-antasus"
+        >
             <div class="max-w-6xl px-6 mx-auto">
-                <h2 class="mb-16 text-3xl font-bold text-center text-gray-900">
-                    Warum <span class="text-teal-400">Antasus</span>?
+                <h2
+                    id="warum-antasus"
+                    class="mb-16 text-3xl font-bold text-center text-gray-900 dark:text-white"
+                >
+                    Warum
+                    <span
+                        class="font-bold underline decoration-antasus-primary dark:text-antasus-primary decoration-2 underline-offset-2"
+                        >Antasus</span
+                    >?
                 </h2>
                 <div class="grid gap-8 md:grid-cols-3">
                     <div class="p-8 text-center">
                         <div
-                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full"
+                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full dark:bg-antasus-dark"
                         >
-                            <span class="text-2xl text-indigo-600">🔧</span>
+                            <span
+                                class="text-2xl text-indigo-600 dark:text-antasus-primary"
+                                aria-hidden="true"
+                                >🔧</span
+                            >
                         </div>
-                        <h3 class="mb-3 text-lg font-semibold text-gray-900">
+                        <h3
+                            class="mb-3 text-lg font-semibold text-gray-900 dark:text-white"
+                        >
                             Fachkräfte aus Deutschland
                         </h3>
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-gray-200">
                             Muttersprachliche Kommunikation ohne Barrieren
                         </p>
                     </div>
                     <div class="p-8 text-center">
                         <div
-                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full"
+                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full dark:bg-antasus-dark"
                         >
-                            <span class="text-2xl text-indigo-600">📐</span>
+                            <span
+                                class="text-2xl text-indigo-600 dark:text-antasus-primary"
+                                aria-hidden="true"
+                                >📐</span
+                            >
                         </div>
-                        <h3 class="mb-3 text-lg font-semibold text-gray-900">
+                        <h3
+                            class="mb-3 text-lg font-semibold text-gray-900 dark:text-white"
+                        >
                             DIN- & VDE-gerecht
                         </h3>
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-gray-200">
                             Höchste Qualität durch strikte Normkonformität
                         </p>
                     </div>
                     <div class="p-8 text-center">
                         <div
-                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full"
+                            class="flex items-center justify-center w-16 h-16 mx-auto mb-6 bg-indigo-100 rounded-full dark:bg-antasus-dark"
                         >
-                            <span class="text-2xl text-indigo-600">📋</span>
+                            <span
+                                class="text-2xl text-indigo-600 dark:text-antasus-primary"
+                                aria-hidden="true"
+                                >📋</span
+                            >
                         </div>
-                        <h3 class="mb-3 text-lg font-semibold text-gray-900">
+                        <h3
+                            class="mb-3 text-lg font-semibold text-gray-900 dark:text-white"
+                        >
                             Planungssicherheit
                         </h3>
-                        <p class="text-gray-600">
+                        <p class="text-gray-600 dark:text-gray-200">
                             Transparente Prozesse von Anfang bis Ende
                         </p>
                     </div>
@@ -219,57 +258,63 @@
             <div class="max-w-4xl px-4 mx-auto text-center">
                 <Link
                     href="/ratgeber/glasfaser"
-                    class="inline-block px-6 py-3 mt-6 font-semibold text-white rounded-lg shadow-lg bg-gradient-to-r from-antasus-primary to-antasus-dark hover:from-antasus-dark hover:to-antasus-primary"
+                    class="inline-block px-6 py-3 mt-6 font-semibold text-white rounded-lg shadow-lg bg-gradient-to-r from-antasus-primary to-antasus-dark hover:from-antasus-dark hover:to-antasus-primary focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary"
                 >
                     Mehr zu Glasfaseranschluss erfahren
                 </Link>
             </div>
         </section>
 
-        <!-- Kontakt Section -->
-        <section class="relative py-24 overflow-hidden text-white bg-blue-200">
+        <!-- Kontakt -->
+        <section
+            class="relative py-24 overflow-hidden text-white bg-gradient-to-br from-antasus-dark via-indigo-900 to-black"
+            aria-labelledby="kontakt-antasus"
+        >
             <div
-                class="absolute inset-0 bg-[ural('/images/contact-pattern-dark.jpg')] opacity-10"
+                class="absolute inset-0 bg-[url('/images/baumaschinen.jpg')] opacity-20 pointer-events-none"
+                aria-hidden="true"
             ></div>
             <div class="relative max-w-4xl px-6 mx-auto">
-                <div class="mb-16 text-center">
-                    <h2 class="mb-4 text-3xl font-bold">
-                        <span class="text-teal-400">Bereit</span> für Ihr
-                        Projekt?
+                <header class="mb-16 text-center">
+                    <h2
+                        id="kontakt-antasus"
+                        class="mb-4 text-3xl font-bold text-white"
+                    >
+                        Bereit für Ihr Projekt?
                     </h2>
-                    <p class="max-w-2xl mx-auto text-black-300">
-                        Kontaktieren Sie uns für ein unverbindliches Angebot
+                    <p class="max-w-2xl mx-auto text-white/90">
+                        Kontaktieren Sie uns für ein unverbindliches Angebot.
                     </p>
-                </div>
-                <div class="p-8 bg-gray-800 shadow-xl rounded-xl">
+                </header>
+                <div class="p-8 bg-gray-800 shadow-xl bg-opacity-85 rounded-xl">
                     <div class="grid gap-8 md:grid-cols-2">
                         <div>
                             <h3 class="mb-6 text-xl font-semibold text-white">
                                 Kontaktdaten
                             </h3>
                             <address class="space-y-4 not-italic text-gray-300">
-                                <p class="flex items-start">
-                                    <span class="mt-1 mr-3">📍</span>
-                                    <span
-                                        >ANTASUS Infra<br />
+                                <p class="flex items-start gap-2">
+                                    <span aria-hidden="true">📍</span>
+                                    <span>
+                                        ANTASUS Infra<br />
                                         Norrenbergstraße 122<br />
-                                        42289 Wuppertal</span
-                                    >
+                                        42289 Wuppertal
+                                    </span>
                                 </p>
-                                <p class="flex items-center">
-                                    <span class="mr-3">📞</span>
+                                <p class="flex items-center gap-2">
+                                    <span aria-hidden="true">📞</span>
                                     <a
                                         href="tel:+4917624757616"
-                                        class="transition-colors hover:text-teal-400"
+                                        class="transition hover:text-antasus-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
                                     >
                                         +49 202 42988411
                                     </a>
                                 </p>
-                                <p class="flex items-center">
-                                    <span class="mr-3">📧</span>
+                                <p class="flex items-center gap-2">
+                                    <span aria-hidden="true">📧</span>
                                     <a
                                         href="mailto:info@antasus.de"
-                                        class="transition-colors hover:text-teal-400"
+                                        class="transition hover:text-antasus-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
                                     >
                                         info@antasus.de
                                     </a>
@@ -282,7 +327,7 @@
                             </h3>
                             <Link
                                 href="/kontakt"
-                                class="inline-block w-full px-6 py-3 mb-4 font-semibold text-center text-white transition-colors bg-teal-600 rounded-lg hover:bg-teal-400 hover:text-black"
+                                class="inline-block w-full px-6 py-3 mb-4 font-semibold text-center text-white rounded-lg bg-antasus-primary hover:bg-antasus-dark hover:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary"
                             >
                                 Kontaktformular
                             </Link>
@@ -294,7 +339,6 @@
                 </div>
             </div>
         </section>
-        <!-- Weitere Sections bleiben ähnlich, aber mit dem neuen Designsystem -->
     </GuestLayout>
 </template>
 
@@ -302,47 +346,6 @@
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { onMounted } from "vue";
-
-const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "ANTASUS Infra",
-    image: "https://www.antasus.de/images/antasus-logo2.svg",
-    "@id": "https://www.antasus.de",
-    url: "https://www.antasus.de",
-    telephone: "+49 176 24757616",
-    email: "info@antasus.de",
-    address: {
-        "@type": "PostalAddress",
-        streetAddress: "Norrenbergstraße 122",
-        addressLocality: "Wuppertal",
-        postalCode: "42289",
-        addressCountry: "DE",
-    },
-    description:
-        "Ihr Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE – partnerschaftlich & termintreu.",
-    areaServed: {
-        "@type": "GeoCircle",
-        geoMidpoint: {
-            "@type": "GeoCoordinates",
-            latitude: 51.2562,
-            longitude: 7.1508,
-        },
-        geoRadius: 150,
-    },
-    priceRange: "Auf Anfrage",
-    sameAs: [
-        "https://www.linkedin.com/company/antasus",
-        "https://www.xing.com/pages/antasus-infra",
-    ],
-};
-
-onMounted(() => {
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify(jsonLd);
-    document.head.appendChild(script);
-});
 
 const leistungen = [
     {

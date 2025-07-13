@@ -10,7 +10,7 @@
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <!-- Breadcrumb -->
-        <nav class="px-4 py-2 text-sm text-gray-600">
+        <nav class="px-4 py-2 text-sm text-gray-600 dark:text-antasus-neutral">
             <Link href="/">Home</Link>
             <span class="mx-2">/</span>
             <span class="font-medium">Glasfaserbau</span>
@@ -36,16 +36,18 @@
         </section>
 
         <!-- 1. Netzplanung & Trassenkalkulation -->
-        <section class="py-16 bg-white">
+        <section class="py-16 bg-white dark:bg-antasus-dark">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2 class="mb-4 text-3xl font-bold">
                     1. Netzplanung & Trassenkalkulation
                 </h2>
-                <p class="mb-6 text-gray-700">
+                <p class="mb-6 text-gray-700 dark:text-antasus-neutral">
                     Exakte Bedarfsanalyse und Simulationsmodelle sind der
                     Schlüssel:
                 </p>
-                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                <ul
+                    class="space-y-2 text-gray-700 list-disc list-inside dark:text-antasus-neutral"
+                >
                     <li>
                         <strong>CAD-gestützte Netzsimulation</strong> (AutoCAD,
                         MicroStation)
@@ -70,16 +72,18 @@
         </section>
 
         <!-- 2. Tiefbau-Verfahren & Technologien -->
-        <section class="py-16 bg-gray-50">
+        <section class="py-16 bg-gray-50 dark:bg-antasus-dark-neutral">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2 class="mb-4 text-3xl font-bold">
                     2. Tiefbau-Verfahren & Technologien
                 </h2>
-                <p class="mb-6 text-gray-700">
+                <p class="mb-6 text-gray-700 dark:text-antasus-neutral">
                     Wahl des optimalen Verfahrens je nach Geologie, Strecke &
                     Kosten:
                 </p>
-                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                <ul
+                    class="space-y-2 text-gray-700 list-disc list-inside dark:text-antasus-neutral"
+                >
                     <li>
                         <strong>Erdrakete / Horizontal-Ram</strong> für kurze
                         Distanzen
@@ -99,7 +103,7 @@
                 </ul>
                 <Link
                     href="/leistungen/glasfaser-tiefbau"
-                    class="inline-block px-6 py-3 mt-6 text-white rounded-lg bg-antasus-primary hover:bg-antasus-dark"
+                    class="inline-block px-6 py-3 mt-6 text-white bg-teal-600 rounded-lg hover:bg-teal-700"
                 >
                     Mehr über Tiefbau erfahren
                 </Link>
@@ -107,16 +111,18 @@
         </section>
 
         <!-- 3. Hausanschluss & Innenmontage -->
-        <section class="py-16 bg-white">
+        <section class="py-16 bg-white dark:bg-antasus-dark">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2 class="mb-4 text-3xl font-bold">
                     3. Hausanschluss & Innenmontage
                 </h2>
-                <p class="mb-6 text-gray-700">
+                <p class="mb-6 text-gray-700 dark:text-antasus-neutral">
                     Von Hausübergabepunkt (HÜP) bis Patchfeld - normgerecht &
                     termingenau:
                 </p>
-                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                <ul
+                    class="space-y-2 text-gray-700 list-disc list-inside dark:text-antasus-neutral"
+                >
                     <li><strong>DIN 18015-5-konforme Installation</strong></li>
                     <li>
                         <strong>Faserspleißung</strong> (Fusion-Splicer,
@@ -130,7 +136,7 @@
                 </ul>
                 <Link
                     href="/leistungen/hausanschlusse"
-                    class="inline-block px-6 py-3 mt-6 text-white rounded-lg bg-antasus-primary hover:bg-antasus-dark"
+                    class="inline-block px-6 py-3 mt-6 text-white bg-teal-600 rounded-lg hover:bg-teal-700"
                 >
                     Hausanschluss-Services
                 </Link>
@@ -138,15 +144,17 @@
         </section>
 
         <!-- 4. Messtechnik & Dokumentation -->
-        <section class="py-16 bg-gray-50">
+        <section class="py-16 bg-gray-50 dark:bg-antasus-dark-neutral">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2 class="mb-4 text-3xl font-bold">
                     4. Messtechnik & Dokumentation
                 </h2>
-                <p class="mb-6 text-gray-700">
+                <p class="mb-6 text-gray-700 dark:text-antasus-neutral">
                     Lückenlose Protokollierung für Netzbetreiber & Audits:
                 </p>
-                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                <ul
+                    class="space-y-2 text-gray-700 list-disc list-inside dark:text-antasus-neutral"
+                >
                     <li>
                         <strong>OTDR-Sweep</strong> für LWL-Strecke & Dämpfung
                     </li>
@@ -170,15 +178,17 @@
         </section>
 
         <!-- 5. Best Practices & Normen -->
-        <section class="py-16 bg-white">
+        <section class="py-16 bg-white dark:bg-antasus-dark-border">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2 class="mb-4 text-3xl font-bold">
                     5. Best Practices & Normen
                 </h2>
-                <p class="mb-6 text-gray-700">
+                <p class="mb-6 text-gray-700 dark:text-antasus-neutral">
                     Unsere Checkliste für höchste Qualität und Sicherheit:
                 </p>
-                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                <ul
+                    class="space-y-2 text-gray-700 list-disc list-inside dark:text-antasus-neutral"
+                >
                     <li>
                         <strong>DIN EN 1610</strong> (Bau & Prüfung von
                         Leitungsbauwerken)
@@ -247,7 +257,7 @@
         </section>
 
         <!-- FAQ Section -->
-        <section class="py-16 bg-gray-50">
+        <section class="py-16 bg-gray-50 dark:bg-antasus-dark-neutral">
             <div class="max-w-4xl px-4 mx-auto">
                 <h2 class="mb-6 text-3xl font-bold text-center">
                     Häufige Fragen

@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <!-- Basic SEO -->
+        <!-- SEO & Meta -->
         <title>Ratgeber &amp; Wissen - Antasus Infra</title>
         <meta
             name="description"
@@ -37,12 +37,14 @@
     <GuestLayout serviceArea="ratgeber">
         <!-- Breadcrumbs -->
         <nav
-            aria-label="Breadcrumb"
+            aria-label="Brotkrumenpfad"
             class="container px-4 py-4 mx-auto text-sm text-gray-600 dark:text-gray-400"
         >
-            <ol class="inline-flex space-x-1">
+            <ol class="flex flex-wrap items-center gap-x-2 gap-y-1" role="list">
                 <li>
-                    <Link href="/" class="hover:text-antasus-primary"
+                    <Link
+                        href="/"
+                        class="transition-colors rounded-sm hover:text-antasus-primary focus:outline-none focus:ring-2 focus:ring-antasus-primary"
                         >Startseite</Link
                     >
                 </li>
@@ -56,56 +58,68 @@
             </ol>
         </nav>
 
-        <main class="container px-4 py-8 mx-auto">
+        <main
+            class="container min-h-screen px-4 py-8 mx-auto transition-colors bg-antasus-neutral/30 dark:bg-antasus-dark text-antasus-text"
+        >
             <header class="max-w-3xl mx-auto mb-12 text-center">
-                <h1 class="text-3xl font-extrabold md:text-4xl dark:text-white">
+                <h1
+                    class="text-3xl font-extrabold tracking-tight text-black md:text-4xl dark:text-white drop-shadow"
+                >
                     Ratgeber &amp; Wissen
                 </h1>
-                <p class="mt-2 text-gray-600 dark:text-gray-400">
+                <p class="mt-2 text-lg text-gray-700 dark:text-gray-300">
                     Ihr unabhängiger Wissenspool zu Glasfaser-Technologien,
                     DSL-Vergleichen, FTTH-Hausanschlüssen und mehr.
                 </p>
             </header>
 
-            <section aria-labelledby="articles-heading">
+            <section aria-labelledby="articles-heading" class="mb-16">
                 <h2 id="articles-heading" class="sr-only">Artikelübersicht</h2>
                 <ul
                     role="list"
-                    class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+                    class="grid gap-8 sm:grid-cols-2 xl:grid-cols-3"
                 >
                     <li v-for="item in articles" :key="item.slug">
                         <article
-                            class="flex flex-col h-full transition rounded-lg shadow bg-gradient-to-r from-white to-cyan-50 hover:shadow-lg dark:bg-gray-800 focus-within:ring-2 focus-within:ring-antasus-primary"
+                            class="flex flex-col h-full transition rounded-2xl shadow-lg bg-white/90 dark:bg-gray-900/90 border border-gray-100 dark:border-gray-800 focus-within:ring-2 focus-within:ring-antasus-primary hover:scale-[1.015] hover:shadow-xl"
+                            tabindex="0"
+                            aria-labelledby="article-title"
                         >
                             <div class="flex-grow p-6">
                                 <h3
-                                    class="mb-2 text-xl font-semibold dark:text-white"
+                                    class="mb-2 text-xl font-semibold leading-tight dark:text-white"
+                                    :id="`article-title-${item.slug}`"
                                 >
                                     <Link
                                         :href="item.url"
-                                        class="focus:outline-none focus:ring-2 focus:ring-antasus-primary"
-                                        >{{ item.title }}</Link
+                                        class="rounded focus:outline-none focus:ring-2 focus:ring-antasus-primary"
+                                        :aria-label="`Zum Artikel: ${item.title}`"
                                     >
+                                        {{ item.title }}
+                                    </Link>
                                 </h3>
-                                <p class="text-gray-600 dark:text-gray-400">
+                                <p class="text-gray-700 dark:text-gray-300">
                                     {{ item.excerpt }}
                                 </p>
                             </div>
                             <div class="p-6 pt-0">
                                 <Link
                                     :href="item.url"
-                                    class="inline-block font-medium text-teal-800 hover:text-antasus-dark focus:outline-none focus:ring-2 focus:ring-antasus-primary"
+                                    class="inline-block font-medium text-teal-800 hover:text-antasus-primary focus:outline-none focus:ring-2 focus:ring-antasus-primary"
                                     :aria-label="`Weiterlesen: ${item.title}`"
-                                    >Weiterlesen →</Link
                                 >
+                                    Weiterlesen →
+                                </Link>
                             </div>
                         </article>
                     </li>
                 </ul>
             </section>
-            <!-- ─── AI-Widget ──────────────────────────────────────── -->
-            <AiWidget />
-            <!-- ──────────────────────────────────────────────────── -->
+
+            <!-- AI-Widget für Ratgeber-Fragen -->
+            <section aria-label="Antasus KI-Ratgeber" class="mb-10">
+                <AiWidget />
+            </section>
         </main>
     </GuestLayout>
 </template>
@@ -115,35 +129,9 @@ import { ref, nextTick } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import { useHead } from "@vueuse/head";
-import axios from "axios";
 import AiWidget from "@/Components/AiWidget.vue";
 
-const question = ref("");
-const answer = ref("");
-const loading = ref(false);
-
-async function askAI() {
-    if (!question.value.trim()) return;
-    loading.value = true;
-    answer.value = null;
-    try {
-        const { data } = await axios.post("/api/ai/answer", {
-            question: question.value.trim(),
-        });
-        answer.value = data.answer;
-        question.value = "";
-        await nextTick();
-        // Scrollt zum AI-Widget, wenn Antwort kommt (mobile)
-        document
-            .getElementById("ai-assistant")
-            ?.scrollIntoView({ behavior: "smooth", block: "center" });
-    } catch (err) {
-        answer.value = "Fehler beim Abruf der Antwort.";
-    } finally {
-        loading.value = false;
-    }
-}
-// --- ARTICLE LIST ---
+// Artikel-Liste (kann später aus dem Backend kommen)
 const articles = [
     {
         slug: "glasfaser",
@@ -167,7 +155,7 @@ const articles = [
         url: "/ratgeber/ftth-fiber-to-the-home",
     },
     {
-        slug: "ftth-fiber-to-the-home",
+        slug: "ftth-hausanschluss",
         title: "FTTH - Hausanschluss Der ultimative Leitfaden",
         excerpt:
             "Alles zu FTTH: Die Kurzanleitung zu Aufbau, Kosten, Förderprogramme. Der digitale Superhighway",
@@ -189,7 +177,7 @@ const articles = [
     },
 ];
 
-// --- JSON-LD DATA ---
+// JSON-LD für SEO
 const breadcrumbList = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -230,7 +218,7 @@ const webPage = {
         "Ihr Wissenspool zu Glasfaser-Technologien: Grundlagen, Vergleiche, FTTH & Co.",
 };
 
-// inject JSON-LD mit useHead anstatt  mit onmount in den <head>
+// SEO-Schema in den <head> injizieren
 useHead({
     script: [
         {
@@ -247,32 +235,12 @@ useHead({
         },
     ],
 });
-
-// onMounted(() => {
-//     // inject BreadcrumbList
-//     const s1 = document.createElement("script");
-//     s1.type = "application/ld+json";
-//     s1.text = JSON.stringify(breadcrumbList, null, 2);
-//     document.head.appendChild(s1);
-
-//     // inject ItemList
-//     const s2 = document.createElement("script");
-//     s2.type = "application/ld+json";
-//     s2.text = JSON.stringify(itemList, null, 2);
-//     document.head.appendChild(s2);
-
-//     // inject WebPage
-//     const s3 = document.createElement("script");
-//     s3.type = "application/ld+json";
-//     s3.text = JSON.stringify(webPage, null, 2);
-//     document.head.appendChild(s3);
-// });
 </script>
 
 <style scoped>
 /* Primary focus ring */
 .focus-within\:ring-2:focus-within {
-    --tw-ring-color: theme("colors.antasus.primary");
+    --tw-ring-color: theme("colors.antasus-primary");
 }
 
 /* Ensure single-column on small screens */

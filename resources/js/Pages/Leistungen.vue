@@ -16,33 +16,41 @@
         <meta property="og:type" content="website" />
     </Head>
     <div v-if="servicesJsonLd" v-html="jsonLdScriptTag" />
-    <!-- JSON-LD für Services im Body -->
 
     <GuestLayout :serviceArea="'dienstleistungen'">
         <template #header>
-            <section class="w-full px-4 text-center animate-fade-in">
+            <section
+                class="w-full px-4 text-center animate-fade-in"
+                role="banner"
+                aria-label="Leistungen Header"
+            >
                 <div class="max-w-4xl mx-auto">
                     <h1
+                        class="mb-6 text-4xl font-extrabold text-white sr-only md:text-5xl drop-shadow-xl"
+                    >
+                        Glasfaser-Leistungen von Antasus Infra
+                    </h1>
+                    <h2
                         class="mb-6 text-4xl font-extrabold text-white md:text-5xl drop-shadow-xl"
                     >
-                        <span class="relative inline-block">
-                            Unsere Glasfaser-Leistungen
-                            <span
-                                class="absolute left-0 w-full h-1 rounded -bottom-1 bg-antasus-primary/70"
-                            ></span>
-                        </span>
-                    </h1>
+                        Unsere Glasfaser-Leistungen
+                        <span
+                            class="block w-full h-1 mt-1 rounded bg-antasus-primary/70"
+                            aria-hidden="true"
+                        ></span>
+                    </h2>
                     <p
                         class="mb-8 text-lg md:text-xl text-white/90 drop-shadow-md"
                     >
                         Wir bieten <strong>Glasfaser-Tiefbau</strong>,
-                        <strong>Hausanschluss</strong> &
+                        <strong>Hausanschluss</strong> &amp;
                         <strong>Projektplanung</strong> nach DIN/VDE -
                         termintreu, zuverlässig und partnerschaftlich.
                     </p>
                     <Link
                         href="/kontakt"
-                        class="inline-block px-6 py-3 font-semibold text-white transition rounded-lg shadow-lg bg-antasus-primary hover:bg-antasus-dark"
+                        class="inline-block px-6 py-3 font-semibold transition shadow rounded-2xl bg-antasus-primary text-antasus-black hover:bg-antasus-second focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary/70 focus-visible:ring-offset-2"
+                        aria-label="Projekt anfragen"
                     >
                         Projekt anfragen
                     </Link>
@@ -50,116 +58,115 @@
             </section>
         </template>
 
-        <section class="py-12 text-white bg-gray-800 rounded-b">
-            <div class="max-w-4xl px-6 mx-auto">
-                <p class="text-lg text-center">
-                    ANTASUS Infra realisiert professionelle
-                    <strong>Glasfaser Hausanschlüsse</strong> und
-                    <strong>Glasfaser Tiefbauprojekte</strong> gemäß DIN 18220
-                    und DIN EN 50173 in NRW. Von der Planung über
-                    <em>GIS-Dokumentation</em> bis zur Inbetriebnahme. Hier
-                    erfahren Sie mehr über unsere
-                    <Link href="/leistungen" class="underline">
-                        Leistungen </Link
-                    >.
-                </p>
-            </div>
-        </section>
-        <h2
-            class="pt-20 pb-10 text-4xl font-extrabold text-center underline transition place-self-center"
+        <main
+            class="w-full bg-antasus-neutral dark:bg-antasus-dark rounded-b-2xl"
+            tabindex="-1"
         >
-            Unsere Leistungen im Überblick
-        </h2>
-        <ArticleCard :services="services" @select="selectService" />
+            <section class="pt-12 text-antasus-black dark:text-antasus-neutral">
+                <div class="max-w-4xl px-6 mx-auto">
+                    <p class="text-lg text-center">
+                        ANTASUS Infra realisiert professionelle
+                        <strong>Glasfaser Hausanschlüsse</strong> und
+                        <strong>Glasfaser Tiefbauprojekte</strong> gemäß DIN
+                        18220 und DIN EN 50173 in NRW. Von der Planung über
+                        <em>GIS-Dokumentation</em> bis zur Inbetriebnahme.
+                    </p>
+                </div>
+            </section>
 
-        <div class="p-6 mt-12 text-center rounded-lg bg-antasus-primary/10">
-            <p class="mb-4 font-medium">
-                Sie möchten tiefer ins Thema Glasfaser eintauchen?
-            </p>
-            <Link
-                href="/ratgeber/glasfaser"
-                class="px-5 py-2 font-semibold text-white rounded-lg bg-antasus-primary hover:bg-antasus-dark"
+            <section aria-labelledby="leistungen-ueberblick">
+                <h2
+                    id="leistungen-ueberblick"
+                    class="pt-20 pb-10 text-4xl font-extrabold text-center underline place-self-center text-antasus-black dark:text-antasus-primary"
+                >
+                    Unsere Leistungen im Überblick
+                </h2>
+                <ArticleCard :services="services" @select="selectService" />
+            </section>
+
+            <section
+                class="p-6 mt-12 text-center rounded-2xl bg-antasus-primary/10 dark:bg-antasus-dark-card"
+                aria-label="Weitere Informationen"
             >
-                Zum Ratgeber & Wissen
-            </Link>
-        </div>
-
-        <!-- → DETAILSECTION (wenn Service ausgewählt) ←
-        <section
-
-            class="py-16 bg-white border-t border-gray-100"
-        >
-            <div class="max-w-6xl px-4 mx-auto">
-                <h2
-                    class="mb-10 text-3xl font-extrabold text-center text-gray-900"
+                <p
+                    class="mb-4 font-medium text-antasus-black dark:text-antasus-neutral"
                 >
-                    Details zu "{{
-                        services.find((s) => s.id === activeService)?.title
-                    }}"
-                </h2>
-                <p class="mb-8 text-gray-600">
-                    {{
-                        services.find((s) => s.id === activeService)
-                            ?.description
-                    }}
+                    Sie möchten tiefer ins Thema Glasfaser eintauchen?
                 </p>
-                <div class="grid gap-8 md:grid-cols-2">
-                    <ServiceItemCard
-                        v-for="item in services.find(
-                            (s) => s.id === activeService
-                        )?.items || []"
-                        :key="item.id"
-                        :item="item"
-                        @select="showModal"
-                    />
-                </div>
-            </div>
-        </section> -->
-
-        <section class="py-16 border-t border-gray-100 bg-gray-50">
-            <div class="max-w-4xl px-4 mx-auto">
-                <h2
-                    class="mb-10 text-3xl font-extrabold text-center text-gray-900"
-                >
-                    Häufige Fragen
-                </h2>
-                <div v-for="(faq, index) in faqs" :key="index" class="mb-6">
-                    <details class="p-4 border rounded-lg group">
-                        <summary
-                            class="text-lg font-semibold text-gray-800 cursor-pointer"
-                        >
-                            {{ faq.frage }}
-                        </summary>
-                        <p class="mt-2 leading-relaxed text-gray-600">
-                            {{ faq.antwort }}
-                        </p>
-                    </details>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-20 bg-white">
-            <div class="max-w-4xl px-4 mx-auto text-center">
-                <h2 class="mb-4 text-2xl font-bold text-gray-900">
-                    WIR sind Bereit für Ihre Projekte!
-                </h2>
                 <Link
-                    href="/kontakt"
-                    class="inline-block px-6 py-3 mt-4 text-white transition bg-teal-600 rounded-lg hover:bg-teal-700"
+                    href="/ratgeber/glasfaser"
+                    class="px-5 py-2 font-semibold rounded-2xl bg-antasus-primary text-antasus-black hover:bg-antasus-second focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary/60 focus-visible:ring-offset-2"
+                    aria-label="Zum Glasfaser Ratgeber & Wissen"
                 >
-                    Jetzt Kontakt aufnehmen
+                    Zum Ratgeber & Wissen
                 </Link>
-            </div>
-        </section>
+            </section>
+
+            <!-- FAQ – 100% CI/CD + A11y -->
+            <section
+                class="py-16 border-t border-antasus-neutral dark:border-antasus-dark-border bg-antasus-neutral dark:bg-antasus-dark"
+                aria-labelledby="faq-headline"
+            >
+                <div class="max-w-4xl px-4 mx-auto">
+                    <h2
+                        id="faq-headline"
+                        class="mb-10 text-3xl font-extrabold text-center text-antasus-black dark:text-antasus-neutral"
+                    >
+                        Häufige Fragen
+                    </h2>
+                    <ul class="space-y-4">
+                        <li v-for="(faq, index) in faqs" :key="index">
+                            <details
+                                class="p-4 border rounded-2xl group bg-antasus-bg dark:bg-antasus-dark-card border-antasus-neutral dark:border-antasus-dark-border focus-within:ring-2 focus-within:ring-antasus-primary"
+                                :open="index === 0"
+                            >
+                                <summary
+                                    class="text-lg font-semibold rounded cursor-pointer text-antasus-black dark:text-antasus-neutral focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
+                                    :aria-expanded="
+                                        index === 0 ? 'true' : 'false'
+                                    "
+                                    tabindex="0"
+                                    @keyup.enter="$event.target.click()"
+                                    @keyup.space="$event.target.click()"
+                                >
+                                    {{ faq.frage }}
+                                </summary>
+                                <div
+                                    class="mt-2 leading-relaxed text-antasus-black/80 dark:text-antasus-neutral"
+                                >
+                                    {{ faq.antwort }}
+                                </div>
+                            </details>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="py-20 bg-antasus-neutral dark:bg-antasus-dark">
+                <div class="max-w-4xl px-4 mx-auto text-center">
+                    <h2
+                        class="mb-4 text-2xl font-bold text-antasus-black dark:text-antasus-neutral"
+                    >
+                        WIR sind bereit für Ihre Projekte!
+                    </h2>
+                    <Link
+                        href="/kontakt"
+                        class="inline-block px-6 py-3 mt-4 font-semibold rounded-2xl bg-antasus-primary text-antasus-black hover:bg-antasus-second focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary/70 focus-visible:ring-offset-2"
+                        aria-label="Jetzt Kontakt aufnehmen"
+                    >
+                        Jetzt Kontakt aufnehmen
+                    </Link>
+                </div>
+            </section>
+        </main>
     </GuestLayout>
 </template>
 
 <script setup>
 import ArticleCard from "@/Components/ArticleCard_Slug.vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import ServiceItemCard from "@/Components/Services/ServiceItemCard.vue";
 import { Head, Link } from "@inertiajs/vue3";
-import { onMounted, ref, computed, watch } from "vue";
+import { onMounted, ref, computed } from "vue";
 
 const props = defineProps({
     services: Array,
@@ -220,6 +227,7 @@ onMounted(() => {
     document.head.appendChild(script);
 });
 
+// FAQ
 const faqs = [
     {
         frage: "Was kostet ein Glasfaser Hausanschluss mit Antasus?",
@@ -282,9 +290,6 @@ const servicesJsonLd = computed(() => ({
         offers: {
             "@type": "Offer",
             priceCurrency: "EUR",
-            // Bei Bedarf können hier weitere Angebotsfelder ergänzt werden:
-            // price: "0.00",
-            // priceSpecification: { … }
         },
         url: `https://www.antasus.de/leistungen`,
     })),
@@ -294,7 +299,6 @@ const servicesJsonLd = computed(() => ({
 const jsonLdScriptTag = `<script type="application/ld+json">
 ${JSON.stringify(servicesJsonLd.value, null, 2)}`;
 
-// 3) Füge das Script bei Bedarf (z. B. in onMounted) ins <head> ein
 onMounted(() => {
     const tag = document.createElement("script");
     tag.type = "application/ld+json";

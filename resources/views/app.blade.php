@@ -11,9 +11,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
     <link rel="stylesheet" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" crossorigin />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <div id="app" data-page="{{ json_encode($page) }}">
-        @inertia
-    </div>
+
 
     @include('cookie-consent::dialogContents')
 
@@ -38,7 +36,9 @@
 </head>
 
 <body class="font-sans antialiased">
-    @inertia
+    <div id="app" data-page="{{ json_encode($page) }}">
+        @inertia
+    </div>
 </body>
 
 </html>

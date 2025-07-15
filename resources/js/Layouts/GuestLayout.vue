@@ -317,6 +317,7 @@
 
         <Footer />
     </div>
+    <CookieConsent />
 </template>
 
 <script setup>
@@ -328,6 +329,7 @@ import BookingModal from "@/Components/BookingModal.vue";
 import DarkModeToggle from "@/Components/DarkModeToggle.vue";
 import { computed, onMounted, ref } from "vue";
 import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import CookieConsent from "@/Components/CookieConsent.vue";
 
 const props = defineProps({
     serviceArea: {

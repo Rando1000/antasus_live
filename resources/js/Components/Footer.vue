@@ -10,10 +10,10 @@
                 <Link
                     href="/"
                     aria-label="Startseite ANTASUS Infra"
-                    class="flex items-center gap-2 px-4 py-2 text-2xl font-extrabold tracking-tight transition shadow-lg bg-white/5 rounded-xl ring-1 ring-white/10 backdrop-blur hover:bg-teal-900/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400"
+                    class="flex items-center gap-2 px-4 py-2 text-2xl font-extrabold tracking-tight transition bg-white shadow-lg rounded-xl ring-1 ring-white/10 backdrop-blur hover:bg-teal-900/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400"
                 >
-                    <ApplicationLogo2 class="w-8 h-8" />
-                    <span>
+                    <ApplicationLogo2 class="w-12 h-12" />
+                    <span class="text-antasus-black">
                         ANTASUS <span class="text-teal-400">Infra</span>
                     </span>
                 </Link>

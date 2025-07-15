@@ -3,10 +3,13 @@
         <template #header>
             <section
                 class="w-full px-4 py-12 mb-2 text-center animate-fade-in rounded-xl"
+                aria-labelledby="agb-header"
             >
                 <div class="max-w-4xl mx-auto">
                     <h1
-                        class="mb-4 text-4xl font-extrabold text-white md:text-5xl drop-shadow-xl"
+                        id="agb-header"
+                        class="mb-4 text-4xl font-extrabold tracking-tight text-white md:text-7xl drop-shadow-2xl"
+                        tabindex="0"
                     >
                         Allgemeine Geschäftsbedingungen (AGB)
                     </h1>
@@ -18,139 +21,157 @@
         </template>
 
         <section
-            class="py-20 bg-white dark:bg-gray-900"
+            class="py-20 bg-white place-self-center md:max-w-4xl dark:bg-gray-900"
             aria-labelledby="agb-heading"
             role="region"
             tabindex="-1"
         >
             <div
-                class="max-w-3xl px-6 mx-auto prose prose-lg bg-white shadow-xl prose-slate dark:bg-gray-900 rounded-xl dark:prose-invert"
+                class="max-w-3xl px-6 mx-auto prose prose-lg transition-all shadow-xl bg-white/95 dark:bg-gray-900/90 rounded-xl prose-slate dark:prose-invert"
             >
                 <h1 id="agb-heading" class="mb-10 text-3xl font-bold">
                     Allgemeine Geschäftsbedingungen (AGB)
                 </h1>
-
-                <!-- Juristisches FAQ/Schema (Google SGE etc.) -->
                 <dl>
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="scope">
                         1. Geltungsbereich
                     </dt>
                     <dd>
-                        Diese AGB gelten für sämtliche Verträge über Bau-,
-                        Planungs- und technische Dienstleistungen zwischen
-                        ANTASUS Infra (Inhaber: Radhouan Jouini) und
-                        Auftraggebern. Insbesondere Unternehmen, öffentliche
-                        Auftraggeber und private Endkunden.
+                        Diese AGB's gelten für sämtliche Verträge, Lieferungen
+                        und Leistungen zwischen ANTASUS Infra (Inhaber: Radhouan
+                        Jouini), nachfolgend „Auftragnehmer“, und deren Kunden,
+                        gleich ob Unternehmen, juristische Personen des
+                        öffentlichen Rechts oder Verbraucher, soweit nicht im
+                        Einzelfall abweichend schriftlich vereinbart.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="contract-basis">
                         2. Vertragsgrundlagen
                     </dt>
                     <dd>
-                        Für Bauleistungen im Sinne von § 1 VOB/B gelten
-                        ergänzend die Bestimmungen der VOB/B, sofern
-                        ausdrücklich vereinbart. Im Übrigen gilt das Bürgerliche
-                        Gesetzbuch (BGB).
+                        Grundlage jedes Vertrages ist die schriftliche
+                        Leistungsbeschreibung, das Angebot und die
+                        Auftragsbestätigung von ANTASUS Infra. Für Bauleistungen
+                        gilt ergänzend und vorrangig die VOB/B, sofern
+                        ausdrücklich vereinbart. Im Übrigen findet das
+                        Bürgerliche Gesetzbuch (BGB) Anwendung.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">3. Leistungen</dt>
+                    <dt class="mt-6 text-2xl font-semibold" id="services">
+                        3. Leistungen
+                    </dt>
                     <dd>
-                        Der Leistungsumfang ergibt sich aus dem unterzeichneten
-                        Vertrag oder der schriftlichen Auftragsbestätigung. Alle
-                        Leistungen werden nach den anerkannten Regeln der
-                        Technik, geltenden DIN-, VDE- und ZTV-Richtlinien
-                        ausgeführt.
+                        Die Leistungen erfolgen nach anerkannten Regeln der
+                        Technik, den geltenden DIN-, VDE-, ZTV-Richtlinien und
+                        allen einschlägigen gesetzlichen Vorschriften.
+                        Änderungen im Leistungsumfang bedürfen der Schriftform.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="subcontractors">
                         4. Subunternehmer
                     </dt>
                     <dd>
-                        ANTASUS Infra darf zur Vertragserfüllung geeignete
-                        Nachunternehmer einsetzen. Die Gesamtverantwortung
-                        bleibt beim Auftragnehmer.
+                        ANTASUS Infra ist berechtigt, zur Vertragserfüllung
+                        Nachunternehmer einzusetzen. Die Verantwortung für die
+                        Leistungserbringung verbleibt beim Auftragnehmer.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
-                        5. Mitwirkungspflichten
+                    <dt class="mt-6 text-2xl font-semibold" id="cooperation">
+                        5. Mitwirkungspflichten des Auftraggebers
                     </dt>
                     <dd>
-                        Der Auftraggeber stellt erforderliche Unterlagen, Pläne,
-                        Leitungsübersichten und Zugänge zu Grundstücken/Gebäuden
-                        kostenfrei zur Verfügung und besorgt notwendige
-                        Genehmigungen.
+                        Der Auftraggeber hat sämtliche zur Durchführung der
+                        Arbeiten erforderlichen Unterlagen, Genehmigungen, Pläne
+                        und Zugänge unentgeltlich bereitzustellen. Er ist
+                        verpflichtet, etwaige Hindernisse rechtzeitig
+                        mitzuteilen.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="deadlines">
                         6. Ausführungsfristen
                     </dt>
                     <dd>
-                        Verzögerungen durch unvorhersehbare Ereignisse (z.B.
-                        Wetter, Lieferprobleme) verschieben vereinbarte
-                        Ausführungsfristen angemessen. Gleiches gilt für
-                        Leistungsänderungen.
+                        Liefer- und Ausführungsfristen verlängern sich bei
+                        höherer Gewalt, unverschuldeten Behinderungen oder
+                        nachträglichen Änderungswünschen angemessen.
+                        Verzögerungen aufgrund fehlender Mitwirkung des
+                        Auftraggebers führen zu einer entsprechenden
+                        Verlängerung.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="payment">
                         7. Vergütung und Zahlungsbedingungen
                     </dt>
                     <dd>
-                        Vergütungen verstehen sich zzgl. MwSt. Abschläge können
-                        nach Baufortschritt verlangt werden. Die Schlussrechnung
-                        ist innerhalb von 14 Tagen nach Zugang ohne Abzug
-                        fällig. Zurückbehaltungsrechte bestehen nur bei
-                        unbestrittenen oder rechtskräftig festgestellten
-                        Forderungen.
+                        Alle Preise verstehen sich zuzüglich gesetzlicher
+                        Mehrwertsteuer. Abschlagszahlungen können nach
+                        Baufortschritt oder Vereinbarung verlangt werden.
+                        Rechnungen sind innerhalb von 14 Tagen nach Zugang ohne
+                        Abzug fällig. Bei Zahlungsverzug werden Verzugszinsen in
+                        gesetzlicher Höhe berechnet.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="ownership">
                         8. Eigentumsvorbehalt
                     </dt>
                     <dd>
-                        Bis zur vollständigen Zahlung verbleiben gelieferte
-                        Materialien, Komponenten und Unterlagen im Eigentum von
+                        Bis zur vollständigen Bezahlung bleiben alle gelieferten
+                        Materialien, Bauteile und Unterlagen Eigentum von
                         ANTASUS Infra.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">9. Abnahme</dt>
+                    <dt class="mt-6 text-2xl font-semibold" id="acceptance">
+                        9. Abnahme
+                    </dt>
                     <dd>
-                        Die Abnahme gilt als erfolgt, wenn der Auftraggeber
-                        nicht binnen 7 Werktagen nach Mitteilung der
-                        Fertigstellung schriftlich wesentliche Mängel rügt.
+                        Die Abnahme der Leistungen erfolgt nach Fertigstellung
+                        und Mitteilung durch den Auftragnehmer. Sie gilt als
+                        erfolgt, wenn der Auftraggeber nicht binnen 7 Werktagen
+                        schriftlich wesentliche Mängel rügt.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="warranty">
                         10. Gewährleistung
                     </dt>
                     <dd>
-                        Es gelten die gesetzlichen Fristen: 4 Jahre bei
-                        Bauleistungen (§13 VOB/B), 2 Jahre bei sonstigen
-                        Leistungen (§634a BGB). Bei Mängeln erfolgt kostenlose
-                        Nachbesserung. Weitere Ansprüche sind, außer bei
-                        Vorsatz/grober Fahrlässigkeit, ausgeschlossen.
+                        Es gelten die gesetzlichen Fristen: Für Bauleistungen
+                        vier Jahre (§13 VOB/B), für sonstige Leistungen zwei
+                        Jahre (§634a BGB). Bei berechtigten Mängeln erfolgt
+                        Nachbesserung oder Ersatzlieferung. Weitergehende
+                        Ansprüche sind, außer bei Vorsatz oder grober
+                        Fahrlässigkeit, ausgeschlossen.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">11. Haftung</dt>
+                    <dt class="mt-6 text-2xl font-semibold" id="liability">
+                        11. Haftung
+                    </dt>
                     <dd>
-                        Haftung besteht nur für Vorsatz oder grobe
-                        Fahrlässigkeit. Bei einfacher Fahrlässigkeit nur bei
-                        Verletzung wesentlicher Vertragspflichten und ist auf
-                        den typischen vorhersehbaren Schaden begrenzt. Keine
-                        Haftung für entgangenen Gewinn.
+                        Der Auftragnehmer haftet für Vorsatz und grobe
+                        Fahrlässigkeit unbeschränkt. Für leichte Fahrlässigkeit
+                        haftet er nur bei Verletzung wesentlicher
+                        Vertragspflichten („Kardinalpflichten“), und die Haftung
+                        ist auf den typischen, vorhersehbaren Schaden begrenzt.
+                        Eine Haftung für entgangenen Gewinn ist ausgeschlossen.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="revocation">
                         12. Widerrufsrecht für Verbraucher
                     </dt>
                     <dd>
-                        Verbrauchern steht ein Widerrufsrecht nach §355 BGB zu.
-                        Einzelheiten dazu werden separat mitgeteilt.
+                        Verbraucher im Sinne des §13 BGB haben ein
+                        Widerrufsrecht nach §355 BGB. Die Belehrung und das
+                        Musterformular werden bei Vertragsabschluss separat
+                        bereitgestellt.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">13. Datenschutz</dt>
+                    <dt class="mt-6 text-2xl font-semibold" id="dataprotection">
+                        13. Datenschutz
+                    </dt>
                     <dd>
                         Die Verarbeitung personenbezogener Daten erfolgt im
-                        Rahmen der DSGVO. Details siehe unsere
+                        Rahmen der jeweils gültigen Datenschutzgesetze,
+                        insbesondere der DSGVO. Ausführliche Informationen
+                        finden Sie in unserer
                         <a
                             href="/datenschutz"
                             class="underline text-antasus-primary hover:text-antasus-primary/80"
@@ -158,22 +179,33 @@
                         >.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
-                        14. Gerichtsstand / anwendbares Recht
+                    <dt class="mt-6 text-2xl font-semibold" id="jurisdiction">
+                        14. Gerichtsstand und anwendbares Recht
                     </dt>
                     <dd>
-                        Gerichtsstand für Verträge mit Kaufleuten ist Wuppertal.
-                        Es gilt ausschließlich deutsches Recht.
+                        Gerichtsstand für Kaufleute, juristische Personen des
+                        öffentlichen Rechts und öffentlich-rechtliche
+                        Sondervermögen ist Wuppertal. Es gilt ausschließlich
+                        deutsches Recht unter Ausschluss des UN-Kaufrechts.
                     </dd>
 
-                    <dt class="mt-6 text-2xl font-semibold">
+                    <dt class="mt-6 text-2xl font-semibold" id="salvatoric">
                         15. Salvatorische Klausel
                     </dt>
                     <dd>
-                        Sollte eine Bestimmung unwirksam sein, bleibt die
-                        Wirksamkeit der übrigen Bestimmungen unberührt.
+                        Sollte eine Bestimmung dieser AGB ganz oder teilweise
+                        unwirksam sein oder werden, so bleibt die Wirksamkeit
+                        der übrigen Bestimmungen hiervon unberührt. An die
+                        Stelle der unwirksamen Bestimmung tritt die gesetzliche
+                        Regelung.
                     </dd>
                 </dl>
+                <p
+                    class="mt-12 mb-0 text-xs text-gray-400 dark:text-gray-500"
+                    aria-label="Rechtsstand"
+                >
+                    Stand: Juli {{ new Date().getFullYear() }}
+                </p>
             </div>
         </section>
     </GuestLayout>
@@ -206,16 +238,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.bg-gradient-to-r {
-    background: linear-gradient(90deg, #00fdcf 0%, #000 100%);
+.bg-gradient-to-tr {
+    background: linear-gradient(105deg, #00fdcf 0%, #3f51b5 50%, #000 100%);
 }
 .prose {
     font-family: "Inter", "Helvetica Neue", Arial, "Liberation Sans", sans-serif;
     font-size: 1.15rem;
     line-height: 1.75;
+    max-width: 100%;
 }
 a {
     word-break: break-all;
+}
+a:focus-visible {
+    outline: 2px solid #00fdcf !important;
+    outline-offset: 2px;
+    border-radius: 0.25rem;
 }
 @media (max-width: 600px) {
     .prose {

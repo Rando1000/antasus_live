@@ -1,6 +1,7 @@
 <template>
     <footer
         class="bg-gray-900 text-white relative z-10 border-t border-[#23272f]"
+        aria-label="Footer"
     >
         <div
             class="grid gap-8 px-4 py-12 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-5"
@@ -22,6 +23,7 @@
                     Zukunftstechnologie.
                 </p>
                 <nav aria-label="Social Media" class="flex mt-2 space-x-3">
+                    <!-- LinkedIn -->
                     <a
                         href="https://linkedin.com/"
                         target="_blank"
@@ -29,7 +31,6 @@
                         aria-label="LinkedIn"
                         class="text-gray-400 transition-colors rounded group hover:text-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400"
                     >
-                        <!-- LinkedIn SVG Icon -->
                         <svg
                             class="w-6 h-6"
                             fill="currentColor"
@@ -41,6 +42,7 @@
                             />
                         </svg>
                     </a>
+                    <!-- Twitter/X -->
                     <a
                         href="https://twitter.com/"
                         target="_blank"
@@ -48,7 +50,6 @@
                         aria-label="X / Twitter"
                         class="text-gray-400 transition-colors rounded group hover:text-teal-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400"
                     >
-                        <!-- X / Twitter SVG Icon -->
                         <svg
                             class="w-6 h-6"
                             fill="currentColor"
@@ -167,6 +168,31 @@
                         </svg>
                     </button>
                 </form>
+                <!-- Cookie Einstellungen Button -->
+                <div class="mt-5">
+                    <button
+                        type="button"
+                        @click="openConsentBanner"
+                        class="flex items-center justify-center w-full gap-2 px-3 py-2 mt-2 text-sm font-semibold text-gray-900 transition rounded-lg shadow outline-none bg-white/80 dark:bg-slate-800 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-teal-900 focus-visible:ring-2 focus-visible:ring-teal-400"
+                        aria-label="Cookie-Einstellungen ändern"
+                    >
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9.75 3.75v1.5m4.5-1.5v1.5m-7.204 2.954l-1.06 1.06m13.019-1.06l-1.06 1.06m-10.43 7.036h-1.5m15 0h-1.5m-2.955 4.5l1.06 1.06m-13.02-1.06l1.06 1.06M12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z"
+                            />
+                        </svg>
+                        Cookie-Einstellungen ändern
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -185,6 +211,12 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import ApplicationLogo2 from "@/Components/ApplicationLogo2.vue";
+import { useConsentStore } from "@/stores/consent";
+const store = useConsentStore();
+
+function openConsentBanner() {
+    store.resetConsent(); // Banner wird sofort wieder angezeigt
+}
 </script>
 
 <style scoped>
@@ -237,92 +269,3 @@ import ApplicationLogo2 from "@/Components/ApplicationLogo2.vue";
     }
 }
 </style>
-
-<!-- <template>
-  <footer class="mt-10 text-white bg-gradient-to-b from-teal-500 to-teal-900">
-    <div class="relative grid gap-8 px-6 py-12 mx-auto max-w-7xl sm:grid-cols-2 lg:grid-cols-4">
-      <div class="absolute inset-0 bg-[url('/path/to/subtle-pattern.png')] opacity-5"></div>
-       Branding -->
-<!--
-      <div class="space-y-4 text-center lg:text-left">
-        <h1 class="text-2xl font-bold uppercase">ANTASUS</h1>
-        <ApplicationLogo2 class="h-16 mx-auto lg:mx-0" />
-        <p class="text-sm text-gray-300">
-          Bringing innovation to your garden and beyond.
-        </p>
-      </div>
-
-       Links Sections -->
-<!--
-      <div>
-        <h2 class="mb-4 text-xl font-semibold uppercase">Company</h2>
-        <ul class="space-y-2 text-gray-300">
-          <li><a href="#" class="hover:text-[#00fdcf]">About Us</a></li>
-          <li><a href="/team" class="hover:text-[#00fdcf]">Team</a></li>
-          <li><a href="#" class="hover:text-[#00fdcf]">App</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h2 class="mb-4 text-xl font-semibold uppercase">Information</h2>
-        <ul class="space-y-2 text-gray-300">
-          <li><a href="#" class="hover:text-[#00fdcf]">Support</a></li>
-          <li><a href="/docs" class="hover:text-[#00fdcf]">Documentation</a></li>
-          <li><a href="/faq" class="hover:text-[#00fdcf]">FAQ</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <h2 class="mb-4 text-xl font-semibold uppercase">Legal</h2>
-        <ul class="space-y-2 text-gray-300">
-          <li><a href="/terms" class="hover:text-[#00fdcf]">Terms & Conditions</a></li>
-          <li><a href="/imprint" class="hover:text-[#00fdcf]">Imprint</a></li>
-          <li><a href="/privacy" class="hover:text-[#00fdcf]">Privacy</a></li>
-        </ul>
-         Social Media -->
-<!--
-        <div class="flex justify-center mt-6 space-x-4 lg:justify-start">
-          <a
-            href="https://tiktok.com"
-            class="w-8 h-8 flex items-center justify-center border border-[#00fdcf] rounded-full hover:bg-[#00fdcf] hover:text-black transition-colors"
-            aria-label="tiktok"
-          >
-            <i class="fab fa-tiktok"></i>
-          </a>
-          <a
-            href="https://instagram.com"
-            class="w-8 h-8 flex items-center justify-center border border-[#00fdcf] rounded-full hover:bg-[#00fdcf] hover:text-black transition-colors"
-            aria-label="instagram"
-          >
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a
-            href="https://facebook.com"
-            class="w-8 h-8 flex items-center justify-center border border-[#00fdcf] rounded-full hover:bg-[#00fdcf] hover:text-black transition-colors"
-            aria-label="Facebook"
-          >
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a
-            href="https://youtube.com"
-            class="w-8 h-8 flex items-center justify-center border border-[#00fdcf] rounded-full hover:bg-[#00fdcf] hover:text-black transition-colors"
-            aria-label="YouTube"
-          >
-            <i class="fab fa-youtube"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    Footer Bottom -->
-<!--
-    <div class="py-4 text-sm text-center text-teal-200 border-t border-teal-700">
-      <p>&copy; 2025 ANTASUS. All rights reserved.</p>
-    </div>
-  </footer>
-</template>
-
-<script setup>
-import { defineAsyncComponent } from 'vue';
-const ApplicationLogo2 = defineAsyncComponent(() => import('@/Components/ApplicationLogo2.vue'));
-</script> -->

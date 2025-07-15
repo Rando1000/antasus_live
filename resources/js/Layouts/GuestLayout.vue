@@ -242,6 +242,14 @@
                     </li>
                     <li>
                         <NavLink
+                            href="/leistungen"
+                            label="Dienstleistungen"
+                            class="text-2xl font-extrabold transition-colors hover:text-antasus-primary dark:hover:text-antasus-primary"
+                        />
+                    </li>
+
+                    <li>
+                        <NavLink
                             href="/referenzen"
                             label="Referenzen"
                             class="block hover:text-antasus-primary dark:hover:text-antasus-primary"

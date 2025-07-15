@@ -327,7 +327,7 @@
                             </h3>
                             <Link
                                 href="/kontakt"
-                                class="inline-block w-full px-6 py-3 mb-4 font-semibold text-center text-white rounded-lg bg-antasus-primary hover:bg-antasus-dark hover:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary"
+                                class="inline-block w-full px-6 py-3 mb-4 font-semibold text-center rounded-lg dark:text-white bg-antasus-primary hover:bg-antasus-dark hover:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary"
                             >
                                 Kontaktformular
                             </Link>

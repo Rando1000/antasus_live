@@ -9,8 +9,13 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Inertia } from '@inertiajs/inertia'; // ← für Events
 
+// Pinia für Stores
+import { createPinia } from 'pinia';
+import { useConsentStore } from '@/stores/consent'; // Pfad ggf. anpassen
+
 const appName = import.meta.env.VITE_APP_NAME || 'ANTASUS Infra';
-const head    = createHead();
+const head = createHead();
+const pinia = createPinia();
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
@@ -23,12 +28,17 @@ createInertiaApp({
     const vueApp = createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(ZiggyVue)
-      .use(head);
+      .use(head)
+      .use(pinia); // ← Pinia einbinden
+
+    // ConsentStore direkt nach Pinia registrieren
+    const consentStore = useConsentStore();
+    consentStore.loadFromStorage(); // Diese Methode musst du im Store anlegen (siehe unten)
 
     // → Initialen Page View tracken
     if (window.gtag) {
       window.gtag('event', 'page_view', {
-        page_path:  window.location.pathname,
+        page_path: window.location.pathname,
         page_title: document.title,
         // dimension1 entspricht dem Custom Dimension "Service Area"
         dimension1: props.initialPage.props.serviceArea || 'none',
@@ -40,7 +50,7 @@ createInertiaApp({
       const { page } = detail;
       if (window.gtag) {
         window.gtag('event', 'page_view', {
-          page_path:  page.url,
+          page_path: page.url,
           page_title: page.props.zig?.title || document.title,
           dimension1: page.props.serviceArea || 'none',
         });

@@ -6,7 +6,7 @@
         </title>
         <meta
             name="description"
-            content="Erleben Sie ausgewählte Projekte aus dem Bereich Glasfaser-Tiefbau, Hausanschlüsse und Projektkoordination - umgesetzt von ANTASUS Infra, Ihrem zuverlässigen Subunternehmer."
+            content="Erleben Sie ausgewählte Projekte aus dem Bereich Glasfaser-Tiefbau, Hausanschlüsse und Projektkoordination – umgesetzt von ANTASUS Infra, Ihrem zuverlässigen Subunternehmer."
         />
         <meta
             name="keywords"
@@ -30,26 +30,34 @@
         <meta property="og:type" content="website" />
     </Head>
 
+    <!-- JSON-LD Script außerhalb des Templates -->
+    <div v-if="false"></div>
+    <!-- Platzhalter, damit Vue nicht meckert -->
+
     <GuestLayout :serviceArea="'referenz'">
         <template #header>
             <section>
                 <div class="max-w-4xl px-4 mx-auto text-center">
-                    <h1 class="mb-4 text-4xl font-extrabold">
+                    <h1
+                        class="mb-4 text-4xl font-extrabold md:text-8xl dark:text-white drop-shadow-xl"
+                    >
                         Unsere Referenzen
                     </h1>
-                    <p class="max-w-2xl mx-auto">
+                    <p class="max-w-2xl mx-auto dark:text-gray-200">
                         Ausgewählte Projekte aus dem Bereich Glasfaser-Tiefbau &
                         Infrastruktur
                     </p>
                 </div>
             </section>
         </template>
-        <section class="bg-white">
-            <div class="max-w-6xl px-4 mx-auto mt-16 space-y-12">
+        <section class="bg-white dark:bg-slate-900">
+            <div class="max-w-6xl px-4 mx-auto mt-16 space-y-16">
                 <Link
                     v-for="(ref, index) in referenzen"
                     :key="ref.slug"
                     :href="route('referenzen.show', ref.slug)"
+                    class="block transition-transform group"
+                    :aria-label="`Mehr zu ${ref.titel}`"
                 >
                     <ReferenzCard :referenz="ref" :reversed="index % 2 !== 0" />
                 </Link>
@@ -59,47 +67,61 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import ReferenzCard from "@/Components/ReferenzCard.vue";
 import { Head, Link } from "@inertiajs/vue3";
 
-defineProps({
-    referenzen: Array,
+const props = defineProps({
+    referenzen: {
+        type: Array,
+        required: true,
+    },
 });
 
-// const referenzen = [
-//     {
-//         titel: "FTTH-Ausbau Amsterdam",
-//         slug: "ftth-ausbau-amsterdam",
-//         beschreibung:
-//             "Komplette Umsetzung von Tiefbau, Hausanschlüssen und Dokumentation.",
-//         image: "/images/Amsterdam.jpeg",
-//         ort: "Amsterdam",
-//     },
-//     {
-//         titel: "Glasfasererschließung für Gewerbegebiet Amsterdam",
-//         slug: "glasfasererschließung-für-gewerbegebiet-amsterdam",
-//         beschreibung:
-//             "Planung und Bau für mehrere Gewerbeeinheiten nach VDE-Vorgaben.",
-//         image: "/images/Amsterdam2.jpeg",
-//         ort: "Amsterdam",
-//     },
-//     {
-//         titel: "Netzmodernisierung Den Haag / Zoetermeer",
-//         slug: "netzmodernisierung-den-haag-/-zoetermeer",
-//         beschreibung: "Bohrung und Innenmontage für über 2300 Haushalte.",
-//         image: "/images/Denhaag.jpeg",
-//         ort: "Den Haag / Zoetermeer",
-//     },
-//     {
-//         titel: "Großprojekt Rheinland",
-//         slug: "großprojekt-rheinland",
-//         beschreibung:
-//             "Technische Projektleitung im Auftrag eines Generalunternehmens.",
-//         image: "/images/Rheinland.jpeg",
-//         ort: "Rheinland",
-//     },
-// ];
+// JSON-LD Schema dynamisch für alle Referenzen generieren
+const jsonLd = JSON.stringify(
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Referenzen | ANTASUS Infra",
+        description:
+            "Ausgewählte Projekte im Glasfaser-Tiefbau, Hausanschlüsse, Infrastruktur",
+        itemListElement: props.referenzen.map((ref, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `https://www.antasus.de/referenzen/${ref.slug}`,
+            name: ref.titel,
+            description: ref.beschreibung,
+            image: ref.bilder?.[0] || null,
+        })),
+    },
+    null,
+    2
+);
+
+// Füge das strukturierte JSON-LD bei Mount direkt in den Head ein (Best Practice für Vue/Vite/SPA)
+onMounted(() => {
+    // Prüfe, ob schon ein altes JSON-LD existiert
+    let oldScript = document.getElementById("antasus-jsonld-referenzen");
+    if (oldScript) oldScript.remove();
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "antasus-jsonld-referenzen";
+    script.innerHTML = jsonLd;
+    document.head.appendChild(script);
+});
 </script>
 
-<style scoped></style>
+<style scoped>
+section.bg-white {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+@media (max-width: 640px) {
+    section.bg-white {
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+    }
+}
+</style>

@@ -164,7 +164,7 @@ function styleSlots() {
         const start = new Date(slot.start);
         const hour = String(start.getHours()).padStart(2, "0");
         const minute = String(start.getMinutes()).padStart(2, "0");
-        const query = `.fc-timegrid-slot[data-time="${hour}:${minute}:00"]`;
+        const query = `.fc-slot-selected[data-time="${hour}:${minute}:00"]`;
         document.querySelectorAll(query).forEach((el) => {
             el.classList.add("slot-booked");
         });
@@ -174,7 +174,7 @@ function styleSlots() {
         const start = new Date(dateSelected.value.start);
         const hour = String(start.getHours()).padStart(2, "0");
         const minute = String(start.getMinutes()).padStart(2, "0");
-        const query = `.fc-timegrid-slot[data-time="${hour}:${minute}:00"]`;
+        const query = `.fc-slot-selected[data-time="${hour}:${minute}:00"]`;
         document.querySelectorAll(query).forEach((el) => {
             el.classList.add("slot-selected");
         });

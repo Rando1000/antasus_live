@@ -1,15 +1,13 @@
 <template>
     <Head>
-        <!-- SEO & Meta -->
         <title>Ratgeber &amp; Wissen - Antasus Infra</title>
         <meta
             name="description"
-            content="Ihr Wissenspool zu Glasfaser Technologien: Grundlagen, Vergleiche, FTTH & Co. Jetzt im Antasus-Ratgeber lesen."
+            content="Ihr Wissenspool zu Glasfaser-Technologien: Grundlagen, Vergleiche, FTTH & Co. Jetzt im Antasus-Ratgeber lesen."
         />
         <meta name="robots" content="index,follow" />
         <link rel="canonical" href="https://www.antasus.de/ratgeber" />
-
-        <!-- Open Graph -->
+        <!-- OG + Twitter -->
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="de_DE" />
         <meta property="og:url" content="https://www.antasus.de/ratgeber" />
@@ -21,8 +19,6 @@
             property="og:description"
             content="Fundiertes Know-How zu Glasfaser-Technologien, DSL-Vergleichen & Anwendungstipps."
         />
-
-        <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image" />
         <meta
             name="twitter:title"
@@ -37,42 +33,88 @@
     <GuestLayout serviceArea="ratgeber">
         <!-- Breadcrumbs -->
         <nav
-            aria-label="Brotkrumenpfad"
-            class="container px-4 py-4 mx-auto text-sm text-gray-600 dark:text-gray-400"
+            aria-label="Breadcrumb"
+            class="container px-4 py-4 mx-auto text-sm text-antasus-dark dark:text-antasus-neutral"
         >
-            <ol class="flex flex-wrap items-center gap-x-2 gap-y-1" role="list">
-                <li>
+            <ol
+                class="flex flex-wrap items-center gap-x-2 gap-y-1"
+                role="list"
+                itemscope
+                itemtype="https://schema.org/BreadcrumbList"
+            >
+                <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="https://schema.org/ListItem"
+                >
                     <Link
                         href="/"
-                        class="transition-colors rounded-sm hover:text-antasus-primary focus:outline-none focus:ring-2 focus:ring-antasus-primary"
-                        >Startseite</Link
+                        class="transition-colors rounded-sm hover:text-antasus-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
+                        itemprop="item"
                     >
+                        <span itemprop="name">Startseite</span>
+                    </Link>
+                    <meta itemprop="position" content="1" />
                 </li>
                 <li aria-hidden="true">/</li>
                 <li
                     aria-current="page"
-                    class="font-semibold text-gray-800 dark:text-gray-200"
+                    class="font-semibold text-antasus-black dark:text-antasus-neutral"
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="https://schema.org/ListItem"
                 >
-                    Ratgeber
+                    <span itemprop="name">Ratgeber</span>
+                    <meta itemprop="position" content="2" />
                 </li>
             </ol>
         </nav>
 
         <main
-            class="container min-h-screen px-4 py-8 mx-auto transition-colors bg-antasus-neutral/30 dark:bg-antasus-dark text-antasus-text"
+            class="container min-h-screen px-4 py-8 mx-auto transition-colors bg-antasus-neutral/30 dark:bg-antasus-dark text-antasus-black dark:text-antasus-neutral"
         >
             <header class="max-w-3xl mx-auto mb-12 text-center">
                 <h1
-                    class="text-3xl font-extrabold tracking-tight text-black md:text-4xl dark:text-white drop-shadow"
+                    class="text-3xl font-extrabold tracking-tight md:text-4xl drop-shadow text-antasus-black dark:text-white"
                 >
                     Ratgeber &amp; Wissen
                 </h1>
-                <p class="mt-2 text-lg text-gray-700 dark:text-gray-300">
+                <p
+                    class="mt-2 text-lg text-antasus-dark/90 dark:text-antasus-neutral/80"
+                >
                     Ihr unabhängiger Wissenspool zu Glasfaser-Technologien,
                     DSL-Vergleichen, FTTH-Hausanschlüssen und mehr.
                 </p>
             </header>
 
+            <!-- Sticky CTA -->
+            <!-- <div
+                v-show="showStickyCTA"
+                class="fixed z-40 flex items-center justify-between w-full max-w-xl px-6 py-4 -translate-x-1/2 border shadow-lg bottom-4 left-1/2 rounded-2xl bg-gradient-to-r from-antasus-primary to-antasus-indigo border-antasus-neutral dark:border-antasus-dark-border animate-fade-in"
+                role="region"
+                aria-label="Glasfaser-Beratung jetzt sichern"
+            >
+                <span
+                    class="text-lg font-semibold text-black dark:text-antasus-neutral"
+                    >Jetzt Glasfaser-Beratung sichern!</span
+                >
+                <button
+                    @click="stickyCTAClick"
+                    class="px-6 py-2 ml-6 font-semibold text-white transition bg-black rounded-lg hover:bg-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
+                    aria-label="Glasfaser-Beratung anfragen"
+                >
+                    Kontakt aufnehmen
+                </button>
+                <button
+                    @click="showStickyCTA = false"
+                    aria-label="Schließen"
+                    class="absolute p-1 rounded-full top-2 right-2 hover:bg-black/10 dark:hover:bg-white/10"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> -->
+
+            <!-- Artikelübersicht -->
             <section aria-labelledby="articles-heading" class="mb-16">
                 <h2 id="articles-heading" class="sr-only">Artikelübersicht</h2>
                 <ul
@@ -81,32 +123,37 @@
                 >
                     <li v-for="item in articles" :key="item.slug">
                         <article
-                            class="flex flex-col h-full transition rounded-2xl shadow-lg bg-white/90 dark:bg-gray-900/90 border border-gray-100 dark:border-gray-800 focus-within:ring-2 focus-within:ring-antasus-primary hover:scale-[1.015] hover:shadow-xl"
+                            class="flex flex-col h-full transition rounded-2xl shadow-lg bg-white/95 dark:bg-antasus-dark-card border border-antasus-neutral dark:border-antasus-dark-border focus-within:ring-2 focus-within:ring-antasus-primary hover:scale-[1.015] hover:shadow-xl"
                             tabindex="0"
-                            aria-labelledby="article-title"
+                            :aria-labelledby="`article-title-${item.slug}`"
+                            @click="trackArticleClick(item)"
                         >
                             <div class="flex-grow p-6">
                                 <h3
-                                    class="mb-2 text-xl font-semibold leading-tight dark:text-white"
+                                    class="mb-2 text-xl font-semibold leading-tight text-antasus-black dark:text-white"
                                     :id="`article-title-${item.slug}`"
                                 >
                                     <Link
                                         :href="item.url"
-                                        class="rounded focus:outline-none focus:ring-2 focus:ring-antasus-primary"
+                                        class="rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
                                         :aria-label="`Zum Artikel: ${item.title}`"
+                                        @click.stop="trackArticleClick(item)"
                                     >
                                         {{ item.title }}
                                     </Link>
                                 </h3>
-                                <p class="text-gray-700 dark:text-gray-300">
+                                <p
+                                    class="text-antasus-dark dark:text-antasus-neutral/90"
+                                >
                                     {{ item.excerpt }}
                                 </p>
                             </div>
                             <div class="p-6 pt-0">
                                 <Link
                                     :href="item.url"
-                                    class="inline-block font-medium text-teal-800 hover:text-antasus-primary focus:outline-none focus:ring-2 focus:ring-antasus-primary"
+                                    class="inline-block font-medium text-antasus-indigo hover:text-antasus-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
                                     :aria-label="`Weiterlesen: ${item.title}`"
+                                    @click.stop="trackArticleClick(item)"
                                 >
                                     Weiterlesen →
                                 </Link>
@@ -118,20 +165,86 @@
 
             <!-- AI-Widget für Ratgeber-Fragen -->
             <section aria-label="Antasus KI-Ratgeber" class="mb-10">
-                <AiWidget />
+                <AiWidget @interaction="trackAiWidget" />
+            </section>
+            <!-- SEO-FAQ -->
+            <section
+                class="py-12 bg-white/70 dark:bg-antasus-dark-card rounded-2xl mb-14"
+                aria-labelledby="faq-head"
+            >
+                <div class="max-w-4xl px-4 mx-auto">
+                    <h2
+                        id="faq-head"
+                        class="mb-8 text-3xl font-bold text-center text-antasus-black dark:text-antasus-neutral"
+                    >
+                        Häufige Fragen zu Glasfaser & Ausbau
+                    </h2>
+                    <ul class="space-y-4">
+                        <li v-for="(faq, i) in faqItems" :key="i">
+                            <details
+                                class="p-4 border rounded-xl group bg-antasus-neutral/80 dark:bg-antasus-dark-neutral border-antasus-neutral dark:border-antasus-dark-border"
+                            >
+                                <summary
+                                    class="text-lg font-semibold rounded cursor-pointer text-antasus-black dark:text-antasus-neutral focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
+                                >
+                                    {{ faq.q }}
+                                </summary>
+                                <div
+                                    class="mt-2 leading-relaxed text-antasus-dark/80 dark:text-antasus-neutral"
+                                >
+                                    {{ faq.a }}
+                                </div>
+                            </details>
+                        </li>
+                    </ul>
+                </div>
             </section>
         </main>
     </GuestLayout>
 </template>
 
 <script setup>
-import { ref, nextTick } from "vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { ref, onMounted } from "vue";
+import { Head, Link, router } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import { useHead } from "@vueuse/head";
 import AiWidget from "@/Components/AiWidget.vue";
+import { useHead } from "@vueuse/head";
 
-// Artikel-Liste (kann später aus dem Backend kommen)
+// Sticky CTA
+const showStickyCTA = ref(true);
+function stickyCTAClick() {
+    trackStickyCTA();
+    router.visit("/kontakt");
+}
+
+// Google Analytics Events
+function trackArticleClick(article) {
+    if (window.gtag) {
+        window.gtag("event", "click", {
+            event_category: "Ratgeber Artikel",
+            event_label: article.title,
+            value: article.slug,
+        });
+    }
+}
+function trackStickyCTA() {
+    if (window.gtag) {
+        window.gtag("event", "click", {
+            event_category: "CTA",
+            event_label: "Sticky Glasfaser-Beratung",
+        });
+    }
+}
+function trackAiWidget(payload) {
+    if (window.gtag) {
+        window.gtag("event", "ai_widget_interaction", {
+            event_category: "AI Widget",
+            event_label: JSON.stringify(payload),
+        });
+    }
+}
+
+// Artikel-Liste
 const articles = [
     {
         slug: "glasfaser",
@@ -177,7 +290,31 @@ const articles = [
     },
 ];
 
-// JSON-LD für SEO
+// FAQ für SEO
+const faqItems = [
+    {
+        q: "Warum ist Glasfaser die beste Wahl für Internet?",
+        a: "Glasfaser ermöglicht höhere Bandbreiten, geringere Latenz und bessere Stabilität als Kupferleitungen. Sie ist zukunftssicher, energieeffizient und steigert häufig den Immobilienwert.",
+    },
+    {
+        q: "Wie schnell kann Glasfaser tatsächlich sein?",
+        a: "Mit Glasfaser sind heute bis zu 1 Gbit/s für Privatkunden möglich – in Firmen sogar deutlich mehr. Im Gegensatz zu DSL gibt es keine Dämpfung auf langen Strecken.",
+    },
+    {
+        q: "Was ist der Unterschied zwischen FTTH, FTTB, FTTC und FTTN?",
+        a: "FTTH: Glasfaser bis ins Haus. FTTB: bis ins Gebäude. FTTC: bis zum Straßenverteiler. FTTN: nur bis zum Knotenpunkt. Je näher die Glasfaser am Nutzer, desto schneller die Verbindung.",
+    },
+    {
+        q: "Wer kann einen Glasfaseranschluss buchen?",
+        a: "Grundsätzlich jeder Eigentümer oder Mieter, wenn Glasfaser im Ausbaugebiet verfügbar ist. Bei Firmen lohnt sich eine Beratung zu Sonderlösungen.",
+    },
+    {
+        q: "Welche Vorteile bringt eine persönliche Beratung?",
+        a: "Eine Glasfaser-Beratung klärt individuelle Möglichkeiten, Kosten und fördert einen reibungslosen Ausbau. Sie hilft, die optimale Lösung für Haus, Gewerbe oder Wohnanlage zu finden.",
+    },
+];
+
+// Strukturierte Daten: Breadcrumb, ItemList, WebPage, FAQPage
 const breadcrumbList = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -196,7 +333,6 @@ const breadcrumbList = {
         },
     ],
 };
-
 const itemList = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -208,7 +344,6 @@ const itemList = {
         url: `https://www.antasus.de${art.url}`,
     })),
 };
-
 const webPage = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -217,8 +352,16 @@ const webPage = {
     description:
         "Ihr Wissenspool zu Glasfaser-Technologien: Grundlagen, Vergleiche, FTTH & Co.",
 };
+const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+};
 
-// SEO-Schema in den <head> injizieren
 useHead({
     script: [
         {
@@ -233,48 +376,49 @@ useHead({
             type: "application/ld+json",
             children: JSON.stringify(webPage, null, 2),
         },
+        {
+            type: "application/ld+json",
+            children: JSON.stringify(faqJsonLd, null, 2),
+        },
     ],
+});
+
+// Sticky CTA einblenden nach Scroll
+onMounted(() => {
+    const onScroll = () => {
+        showStickyCTA.value = window.scrollY > 300;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
 });
 </script>
 
 <style scoped>
-/* Primary focus ring */
-.focus-within\:ring-2:focus-within {
-    --tw-ring-color: theme("colors.antasus-primary");
+/* Sticky CTA Animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
-
-/* Ensure single-column on small screens */
+.animate-fade-in {
+    animation: fade-in 0.5s cubic-bezier(0.23, 1.1, 0.32, 1) both;
+}
+.focus-visible\:ring-2:focus-visible {
+    --tw-ring-color: #00fdcf !important;
+}
 @media (max-width: 640px) {
     ul[role="list"] {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 }
-@media (max-width: 640px) {
-    #ai-assistant input {
-        font-size: 1rem;
-    }
-    #ai-assistant form {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    #ai-assistant button {
-        width: 100%;
-    }
-}
-
 .bg-antasus-primary {
     background: #00fdcf !important;
 }
 .text-antasus-primary {
     color: #00fdcf !important;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.4s;
-}
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
 }
 </style>

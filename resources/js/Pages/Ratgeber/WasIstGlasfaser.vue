@@ -39,35 +39,70 @@
         <!-- Breadcrumb -->
         <nav
             aria-label="Breadcrumb"
-            class="container px-4 py-4 mx-auto text-sm text-gray-600 dark:text-gray-400"
+            class="container px-4 py-4 mx-auto text-sm text-antasus-dark dark:text-antasus-neutral"
         >
-            <ol class="inline-flex space-x-1">
-                <li>
-                    <Link href="/" class="hover:underline">Startseite</Link>
-                </li>
-                <li>/</li>
-                <li>
-                    <Link href="/ratgeber" class="hover:underline"
-                        >Ratgeber</Link
+            <ol
+                class="inline-flex flex-wrap space-x-1"
+                itemscope
+                itemtype="https://schema.org/BreadcrumbList"
+            >
+                <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="https://schema.org/ListItem"
+                >
+                    <Link href="/" class="hover:underline" itemprop="item"
+                        ><span itemprop="name">Startseite</span></Link
                     >
+                    <meta itemprop="position" content="1" />
                 </li>
                 <li>/</li>
-                <li class="font-semibold" aria-current="page">Glasfaser</li>
+                <li
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="https://schema.org/ListItem"
+                >
+                    <Link
+                        href="/ratgeber"
+                        class="hover:underline"
+                        itemprop="item"
+                        ><span itemprop="name">Ratgeber</span></Link
+                    >
+                    <meta itemprop="position" content="2" />
+                </li>
+                <li>/</li>
+                <li
+                    class="font-semibold"
+                    aria-current="page"
+                    itemprop="itemListElement"
+                    itemscope
+                    itemtype="https://schema.org/ListItem"
+                >
+                    <span itemprop="name">Glasfaser</span>
+                    <meta itemprop="position" content="3" />
+                </li>
             </ol>
         </nav>
 
-        <article class="container px-4 py-16 mx-auto">
+        <article
+            class="container px-4 py-16 mx-auto"
+            itemscope
+            itemtype="https://schema.org/Article"
+        >
             <header class="max-w-3xl mx-auto text-center">
                 <h1
                     class="mb-4 text-4xl font-extrabold md:text-5xl dark:text-white"
+                    itemprop="headline"
                 >
                     Was ist Glasfaser?<br />
                     <span class="gradient-text"
                         >Technik, Vorteile & Varianten</span
                     >
                 </h1>
-                <p class="mb-8 text-gray-600 dark:text-gray-400">
-                    <time :datetime="publishedAt">{{
+                <p
+                    class="mb-8 text-antasus-dark/80 dark:text-antasus-neutral/80"
+                >
+                    <time :datetime="publishedAt" itemprop="datePublished">{{
                         formatDate(publishedAt)
                     }}</time>
                 </p>
@@ -75,6 +110,7 @@
 
             <section
                 class="max-w-3xl mx-auto space-y-8 prose prose-lg dark:prose-invert"
+                itemprop="articleBody"
             >
                 <p>
                     Internet, Streaming, Videocalls. Unser digitaler Alltag
@@ -83,20 +119,24 @@
                     gefragt sind.
                 </p>
 
-                <h2>🧬 Was ist Glasfaser?</h2>
+                <h2 id="was-ist-glasfaser" aria-label="Was ist Glasfaser?">
+                    🧬 Was ist Glasfaser?
+                </h2>
                 <p>
                     Glasfaser ist eine hauchdünne Quarzglas-Faser, die Daten in
-                    Form von Lichtimpulsen mit bis zu 1Gbit/s übertragen kann,
-                    deutlich leistungsfähiger als normales DSL.
+                    Form von Lichtimpulsen mit bis zu 1Gbit/s übertragen kann –
+                    deutlich leistungsfähiger als klassisches DSL.
                 </p>
                 <blockquote
-                    class="p-4 border-l-4 border-teal-400 bg-teal-50 dark:bg-teal-800/50"
+                    class="p-4 border-l-4 border-antasus-primary bg-antasus-primary/10 dark:bg-antasus-primary/20"
                 >
                     „Glasfaser ist die leistungsfähigste und zukunftssicherste
                     Technik für Internetverbindungen.“
                 </blockquote>
 
-                <h2>🛠️ Wie funktioniert Glasfaser?</h2>
+                <h2 id="wie-funktioniert-glasfaser">
+                    🛠️ Wie funktioniert Glasfaser?
+                </h2>
                 <p>
                     Statt elektrischer Signale über Kupfer nutzt Glasfaser
                     Licht. Der Aufbau besteht aus:
@@ -115,7 +155,7 @@
                     Distanzen.
                 </p>
 
-                <h2>✅ Vorteile gegenüber DSL</h2>
+                <h2 id="glasfaser-vorteile">✅ Vorteile gegenüber DSL</h2>
                 <ul>
                     <li><strong>Über 1Gbit/s</strong> Geschwindigkeit</li>
                     <li>
@@ -137,10 +177,12 @@
                 </ul>
                 <p>
                     DSL ist typischerweise auf 250Mbit/s beschränkt, während
-                    Glasfaser drahtlose Höchstleistung ermöglicht.
+                    Glasfaser höchste Leistung bietet.
                 </p>
 
-                <h2>🔀 Varianten: FTTH, FTTB, FTTC & FTTN</h2>
+                <h2 id="glasfaser-varianten">
+                    🔀 Varianten: FTTH, FTTB, FTTC & FTTN
+                </h2>
                 <dl>
                     <dt><strong>FTTH</strong> (Fiber to the Home)</dt>
                     <dd>
@@ -149,59 +191,61 @@
 
                     <dt><strong>FTTB</strong> (Fiber to the Building)</dt>
                     <dd>
-                        Faser am Gebäude, Verteilung danach über Kupfer.
+                        Faser bis ins Gebäude, Verteilung danach über Kupfer.
                         Leistung abhängig von Innenverkabelung.
                     </dd>
 
                     <dt><strong>FTTC</strong> (Fiber to the Curb)</dt>
                     <dd>
-                        Auf halbem Weg, Glasfaser endet am Straßenverteiler,
-                        Kupfer bis ins Gebäude.
+                        Glasfaser endet am Straßenverteiler, Kupfer bis ins
+                        Gebäude.
                     </dd>
 
                     <dt><strong>FTTN</strong> (Fiber to the Node)</dt>
                     <dd>
-                        Glasfaser endet weit entfernt, den Rest übernimmt Kupfer
-                        am langsamsten.
+                        Glasfaser endet weiter entfernt, der Rest läuft über
+                        Kupfer – am langsamsten.
                     </dd>
                 </dl>
                 <figure class="max-w-full mx-auto my-6">
                     <img
                         src="/images/Hausanschluesse.svg"
-                        srcset="
-                            /images/Hausanschluesse.svg  400w,
-                            /images/Hausanschluesse.svg  800w,
-                            /images/Hausanschluesse.svg 1200w
-                        "
-                        sizes="(max-width: 640px) 100vw, 800px"
                         alt="Schema der Glasfaser-Varianten FTTH, FTTB, FTTC & FTTN mit Vergleich Kupferabschnitt"
-                        class="block w-full rounded-lg border border-gray-200 shadow-lg transition-shadow duration-200 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-[#00fdcf]"
+                        class="block w-full transition-shadow duration-200 border rounded-lg shadow-lg border-antasus-neutral hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-antasus-primary"
                         loading="lazy"
+                        width="800"
+                        height="340"
                     />
                     <figcaption
-                        class="mt-2 text-lg text-center text-gray-600 dark:text-gray-400"
+                        class="mt-2 text-lg text-center text-antasus-dark/70 dark:text-antasus-neutral/80"
                     >
                         Übersicht der Glasfaser-Varianten: Türkis = Glasfaser,
                         Orange = Kupferleitung.
                     </figcaption>
                 </figure>
 
-                <h2>📊 Glasfaserausbau in Deutschland</h2>
+                <h2 id="glasfaserausbau-deutschland">
+                    📊 Glasfaserausbau in Deutschland
+                </h2>
                 <p>
                     Laut Bundesnetzagentur lag die FTTH/B-Abdeckung im Januar
-                    2025 bei 36,8%. Ziel ist 50% bis Ende 2025, flächendeckend
+                    2025 bei 36,8&nbsp;%. Ziel: 50&nbsp;% bis Ende 2025,
+                    flächendeckend.
                 </p>
                 <p>
-                    Führende Anbieter sind Telekom, Deutsche Glasfaser,
-                    Vodafone, 1&1 & Co., ergänzt durch kommunale Ausbauten und
+                    Führende Anbieter: Telekom, Deutsche Glasfaser, Vodafone,
+                    1&1 &amp; Co. – ergänzt durch kommunale Ausbauten &
                     Förderprogramme.
                 </p>
 
-                <h2 class="text-center">🚀 Jetzt Glasfaser buchen!</h2>
-                <div class="text-center">
+                <h2 id="jetzt-glasfaser-buchen" class="text-center">
+                    🚀 Jetzt Glasfaser buchen!
+                </h2>
+                <div class="my-8 text-center">
                     <button
                         @click="showBookingModal = true"
-                        class="px-4 py-2 text-white transition rounded-lg bg-gradient-to-r from-teal-600 to-black hover:shadow-lg"
+                        class="btn-xl"
+                        aria-label="Jetzt Betriebs-Anschluss sichern"
                     >
                         Jetzt Betriebs-Anschluss sichern
                     </button>
@@ -212,15 +256,22 @@
                     @close="showBookingModal = false"
                     @typeSelected="handleMeetingType"
                 />
-                <section class="pt-8 mt-16 border-t">
-                    <h3 class="mb-4 text-xl font-semibold">Weitere Ratgeber</h3>
+                <!-- Interne Ratgeber-Links -->
+                <section
+                    class="pt-8 mt-16 border-t border-antasus-neutral dark:border-antasus-dark-border"
+                >
+                    <h3
+                        class="mb-4 text-xl font-semibold text-antasus-black dark:text-antasus-neutral"
+                    >
+                        Weitere Ratgeber &amp; Wissen
+                    </h3>
                     <ul class="space-y-2">
                         <li>
                             <Link
                                 href="/ratgeber/how-to-get-ftth"
                                 class="text-antasus-primary hover:underline"
                             >
-                                Wie bekomme ich meinen Glasfaser Hausanschluss
+                                Wie bekomme ich meinen Glasfaser Hausanschluss?
                             </Link>
                         </li>
                         <li>
@@ -228,7 +279,7 @@
                                 href="/ratgeber/ftth-fiber-to-the-home"
                                 class="text-antasus-primary hover:underline"
                             >
-                                FTTH - Glasfaser bis ins Haus: Technik &
+                                FTTH – Glasfaser bis ins Haus: Technik &
                                 Förderung
                             </Link>
                         </li>
@@ -253,45 +304,54 @@
                                 href="/ratgeber/technologien"
                                 class="text-antasus-primary hover:underline"
                             >
-                                Techniken und Technologien Im FTTX
+                                Techniken und Technologien im FTTX
                             </Link>
                         </li>
                     </ul>
                 </section>
             </section>
         </article>
-        <section class="py-16 mb-10 border-t border-gray-100 bg-gray-50">
+
+        <!-- FAQ Section -->
+        <section
+            class="py-16 mb-10 border-t bg-antasus-neutral dark:bg-antasus-dark"
+        >
             <div class="max-w-4xl px-4 mx-auto">
                 <h2
-                    class="mb-10 text-3xl font-extrabold text-center text-gray-900"
+                    class="mb-10 text-3xl font-extrabold text-center text-antasus-black dark:text-antasus-neutral"
                 >
-                    Häufige Fragen
+                    Häufige Fragen zu Glasfaser
                 </h2>
-                <div class="space-y-4">
-                    <details
-                        v-for="(item, index) in faqItems"
-                        :key="index"
-                        class="p-4 bg-white border rounded-lg group dark:bg-gray-800"
-                    >
-                        <summary
-                            class="text-lg font-semibold text-gray-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary dark:text-white"
+                <ul class="space-y-4">
+                    <li v-for="(item, index) in faqItems" :key="index">
+                        <details
+                            class="p-4 border rounded-2xl group bg-antasus-bg dark:bg-antasus-dark-card border-antasus-neutral dark:border-antasus-dark-border focus-within:ring-2 focus-within:ring-antasus-primary"
                         >
-                            {{ item.q }}
-                        </summary>
-                        <div
-                            class="mt-2 leading-relaxed text-gray-600 dark:text-gray-300"
-                        >
-                            {{ item.a }}
-                        </div>
-                    </details>
-                </div>
+                            <summary
+                                class="text-lg font-semibold rounded cursor-pointer text-antasus-black dark:text-antasus-neutral focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
+                                :aria-expanded="false"
+                                tabindex="0"
+                                @keyup.enter="$event.target.click()"
+                                @keyup.space="$event.target.click()"
+                            >
+                                {{ item.q }}
+                            </summary>
+                            <div
+                                class="mt-2 leading-relaxed text-antasus-dark/80 dark:text-antasus-neutral"
+                            >
+                                {{ item.a }}
+                            </div>
+                        </details>
+                    </li>
+                </ul>
             </div>
         </section>
-        <!-- 3️⃣ CTA nach LSI-Text -->
+
+        <!-- CTA: Technologien -->
         <section class="pb-12 text-center">
             <Link
                 href="/ratgeber/technologien"
-                class="inline-block px-6 py-3 text-white transition bg-indigo-600 rounded-lg hover:bg-indigo-700"
+                class="inline-block px-6 py-3 text-white transition rounded-lg bg-antasus-indigo hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-antasus-primary"
             >
                 Technologien im Glasfaserbau entdecken
             </Link>
@@ -306,10 +366,8 @@ import { Head, Link } from "@inertiajs/vue3";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import BookingModal from "@/Components/BookingModal.vue";
-import NavLink from "@/Components/NavLink.vue";
 
 const publishedAt = ref("2025-06-21");
-
 const showBookingModal = ref(false);
 
 const handleMeetingType = (type) => {
@@ -348,8 +406,60 @@ const faqItems = [
     },
 ];
 
+// Strukturierte Daten: Article, Breadcrumb, FAQPage
 onMounted(() => {
-    const jsonLd = {
+    // Breadcrumb
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "Startseite",
+                item: "https://www.antasus.de/",
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: "Ratgeber",
+                item: "https://www.antasus.de/ratgeber",
+            },
+            {
+                "@type": "ListItem",
+                position: 3,
+                name: "Glasfaser",
+                item: "https://www.antasus.de/ratgeber/glasfaser",
+            },
+        ],
+    };
+    const breadcrumbScript = document.createElement("script");
+    breadcrumbScript.type = "application/ld+json";
+    breadcrumbScript.text = JSON.stringify(breadcrumbJsonLd, null, 2);
+    document.head.appendChild(breadcrumbScript);
+
+    // Article
+    const articleJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: "Was ist Glasfaser? Technik, Vorteile & Varianten",
+        description:
+            "Entdecken Sie, was Glasfaser ist, wie es funktioniert, die Unterschiede zu DSL und Varianten wie FTTH/FTTB/FTTC/FTTN. Jetzt bei Antasus.",
+        author: { "@type": "Organization", name: "ANTASUS Infra" },
+        publisher: { "@type": "Organization", name: "ANTASUS Infra" },
+        url: "https://www.antasus.de/ratgeber/glasfaser",
+        mainEntityOfPage: "https://www.antasus.de/ratgeber/glasfaser",
+        datePublished: "2025-06-21",
+        dateModified: "2025-07-13",
+        image: "https://www.antasus.de/images/og-glasfaser.webp",
+    };
+    const articleScript = document.createElement("script");
+    articleScript.type = "application/ld+json";
+    articleScript.text = JSON.stringify(articleJsonLd, null, 2);
+    document.head.appendChild(articleScript);
+
+    // FAQPage
+    const faqJsonLd = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         mainEntity: faqItems.map(({ q, a }) => ({
@@ -358,10 +468,10 @@ onMounted(() => {
             acceptedAnswer: { "@type": "Answer", text: a },
         })),
     };
-    const s = document.createElement("script");
-    s.type = "application/ld+json";
-    s.text = JSON.stringify(jsonLd);
-    document.head.appendChild(s);
+    const faqScript = document.createElement("script");
+    faqScript.type = "application/ld+json";
+    faqScript.text = JSON.stringify(faqJsonLd);
+    document.head.appendChild(faqScript);
 });
 </script>
 
@@ -384,11 +494,11 @@ onMounted(() => {
 }
 .prose blockquote {
     border-left: 4px solid #00fdcf;
-    background: rgba(0, 253, 207, 0.1);
+    background: rgba(0, 253, 207, 0.07);
     padding: 1rem;
 }
 .dark .prose blockquote {
-    background: rgba(0, 253, 207, 0.2);
+    background: rgba(0, 253, 207, 0.19);
 }
 dl dt {
     font-weight: 600;

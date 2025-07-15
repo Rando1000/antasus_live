@@ -3,27 +3,27 @@
         <Dialog as="div" class="relative z-50" @close="$emit('close')">
             <div
                 class="fixed inset-0 bg-black/50 backdrop-blur-sm"
-                aria-hidden="true"
                 @click="$emit('close')"
+                aria-label="Modal schließen"
+                tabindex="-1"
             />
             <div class="fixed inset-0 overflow-y-auto">
                 <div
                     class="flex items-center justify-center min-h-full p-4 text-center"
                 >
                     <DialogPanel
-                        class="w-full max-w-3xl px-4 pt-5 pb-4 bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:p-6"
+                        class="relative w-full max-w-3xl px-4 pt-5 pb-4 bg-white shadow-2xl dark:bg-gray-900 rounded-2xl sm:my-8 sm:align-middle sm:p-6"
                     >
+                        <!-- Close Button -->
                         <div class="absolute top-0 right-0 pt-4 pr-4">
                             <button
-                                type="button"
-                                class="text-gray-400 bg-white rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
                                 @click="$emit('close')"
+                                class="text-gray-400 bg-white rounded-md dark:bg-gray-900 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
                                 aria-label="Schließen"
                             >
                                 <span class="sr-only">Schließen</span>
                                 <svg
                                     class="w-6 h-6"
-                                    xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -37,142 +37,44 @@
                                 </svg>
                             </button>
                         </div>
-
+                        <!-- Modal Header -->
                         <div class="mb-5 sm:flex sm:items-start">
                             <div
                                 class="mt-3 text-center sm:mt-0 sm:text-left sm:w-full"
                             >
                                 <DialogTitle
-                                    as="h2"
-                                    id="booking-modal-title"
-                                    class="text-2xl font-bold leading-6 text-gray-900"
+                                    class="text-2xl font-bold leading-6 text-gray-900 dark:text-white"
                                 >
                                     Online-Terminbuchung
                                 </DialogTitle>
-                                <p class="mt-2 text-sm text-gray-500">
+                                <p
+                                    class="mt-2 text-sm text-gray-500 dark:text-gray-300"
+                                >
                                     Buchen Sie einen Termin für
                                     Glasfaser-Tiefbau, Hausanschluss oder
-                                    Projektberatung
+                                    Projektberatung – 100% digital &
+                                    DSGVO-konform.
                                 </p>
                             </div>
                         </div>
 
-                        <!-- Step 1: Terminart wählen -->
-                        <div v-if="(currentStep = !selectedType)" class="mt-4">
-                            <h3 class="mb-3 text-lg font-medium">
+                        <!-- Step 1: Terminart -->
+                        <div v-if="!selectedType" class="mt-4">
+                            <h3
+                                class="mb-3 text-lg font-medium text-gray-900 dark:text-white"
+                            >
                                 Wählen Sie die Art des Termins:
                             </h3>
                             <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                <li>
+                                <li v-for="item in typeList" :key="item.value">
                                     <button
-                                        @click="selectType('beratung')"
-                                        class="flex flex-col items-center justify-center w-full p-4 text-left transition border rounded-lg hover:bg-teal-50 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                        type="button"
+                                        @click="selectType(item.value)"
+                                        class="flex flex-col items-center justify-center w-full p-4 text-left transition border rounded-xl hover:bg-teal-50 hover:border-teal-500 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500"
                                     >
                                         <span
-                                            class="flex items-center justify-center w-12 h-12 mb-3 text-white rounded-full bg-gradient-to-r from-teal-600 to-indigo-600"
+                                            class="flex items-center justify-center w-12 h-12 mb-3 text-white rounded-full bg-gradient-to-r from-teal-600 to-black"
                                         >
                                             <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="w-6 h-6"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                                                />
-                                            </svg>
-                                        </span>
-                                        <div class="text-lg font-medium">
-                                            Beratungsgespräch
-                                        </div>
-                                        <p class="mt-1 text-sm text-gray-500">
-                                            Individuelle Beratung zu
-                                            Glasfaserprojekten
-                                        </p>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        @click="selectType('angebot')"
-                                        class="flex flex-col items-center justify-center w-full p-4 text-left transition border rounded-lg hover:bg-teal-50 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                        type="button"
-                                    >
-                                        <span
-                                            class="flex items-center justify-center w-12 h-12 mb-3 text-white rounded-full bg-gradient-to-r from-teal-600 to-indigo-600"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="w-6 h-6"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                                                />
-                                            </svg>
-                                        </span>
-                                        <div class="text-lg font-medium">
-                                            Angebotserstellung
-                                        </div>
-                                        <p class="mt-1 text-sm text-gray-500">
-                                            Kostenlose Angebotserstellung für
-                                            Ihr Projekt
-                                        </p>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        @click="selectType('hausanschluss')"
-                                        class="flex flex-col items-center justify-center w-full p-4 text-left transition border rounded-lg hover:bg-teal-50 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                        type="button"
-                                    >
-                                        <span
-                                            class="flex items-center justify-center w-12 h-12 mb-3 text-white rounded-full bg-gradient-to-r from-teal-600 to-indigo-600"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="w-6 h-6"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                                />
-                                            </svg>
-                                        </span>
-                                        <div class="text-lg font-medium">
-                                            Hausanschluss
-                                        </div>
-                                        <p class="mt-1 text-sm text-gray-500">
-                                            Terminvereinbarung für
-                                            Glasfaser-Hausanschluss
-                                        </p>
-                                    </button>
-                                </li>
-                                <li>
-                                    <button
-                                        @click="selectType('projektplanung')"
-                                        class="flex flex-col items-center justify-center w-full p-4 text-left transition border rounded-lg hover:bg-teal-50 hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                        type="button"
-                                    >
-                                        <span
-                                            class="flex items-center justify-center w-12 h-12 mb-3 text-white rounded-full bg-gradient-to-r from-teal-600 to-indigo-600"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
                                                 class="w-6 h-6"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
@@ -186,35 +88,38 @@
                                                 />
                                             </svg>
                                         </span>
-                                        <div class="text-lg font-medium">
-                                            Projektplanung
+                                        <div
+                                            class="text-lg font-medium text-antasus-second dark:text-antasus-neutral"
+                                        >
+                                            {{ item.label }}
                                         </div>
-                                        <p class="mt-1 text-sm text-gray-500">
-                                            Planung und Koordination größerer
-                                            Projekte
+                                        <p
+                                            class="mt-1 text-sm text-gray-500 dark:text-gray-200"
+                                        >
+                                            {{ item.desc }}
                                         </p>
                                     </button>
                                 </li>
                             </ul>
                         </div>
 
+                        <!-- Step 2: Modus -->
                         <div v-else-if="!selectedMode" class="mt-6">
                             <h3
-                                class="mb-4 text-lg font-semibold text-gray-900"
+                                class="mb-4 text-lg font-semibold text-gray-900 dark:text-white"
                             >
                                 Wie möchten Sie den Termin wahrnehmen?
                             </h3>
-                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                <button
-                                    @click="selectMode('online')"
-                                    class="relative p-5 transition-all duration-200 border rounded-lg shadow-sm group hover:shadow-md hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                >
-                                    <div class="flex items-center space-x-4">
-                                        <div
-                                            class="flex items-center justify-center w-12 h-12 text-white rounded-full bg-gradient-to-r from-teal-600 to-indigo-600"
+                            <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                                <li v-for="item in modeList" :key="item.value">
+                                    <button
+                                        @click="selectMode(item.value)"
+                                        class="flex flex-col items-center justify-center w-full p-4 text-left transition border rounded-xl hover:bg-teal-50 hover:border-teal-500 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    >
+                                        <span
+                                            class="flex items-center justify-center w-12 h-12 mb-3 text-white rounded-full bg-gradient-to-r from-teal-600 to-black"
                                         >
                                             <svg
-                                                xmlns="http://www.w3.org/2000/svg"
                                                 class="w-6 h-6"
                                                 fill="none"
                                                 viewBox="0 0 24 24"
@@ -224,95 +129,58 @@
                                                     stroke-linecap="round"
                                                     stroke-linejoin="round"
                                                     stroke-width="2"
-                                                    d="M9.75 17h4.5m-6.75 4h9a2.25 2.25 0 002.25-2.25V5.25A2.25 2.25 0 0016.5 3h-9A2.25 2.25 0 005.25 5.25v13.5A2.25 2.25 0 007.5 21z"
+                                                    d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                                                 />
                                             </svg>
-                                        </div>
-                                        <div class="text-left">
-                                            <div
-                                                class="text-base font-medium text-gray-900"
-                                            >
-                                                Online-Termin
-                                            </div>
-                                            <div class="text-sm text-gray-500">
-                                                Per Video-Konferenz bequem von
-                                                überall
-                                            </div>
-                                        </div>
-                                    </div>
-                                </button>
-                                <button
-                                    @click="selectMode('praesenz')"
-                                    class="relative p-5 transition-all duration-200 border rounded-lg shadow-sm group hover:shadow-md hover:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                >
-                                    <div class="flex items-center space-x-4">
+                                        </span>
                                         <div
-                                            class="flex items-center justify-center w-12 h-12 text-white rounded-full bg-gradient-to-r from-teal-600 to-indigo-600"
+                                            class="text-lg font-medium dark:text-antasus-neutral"
                                         >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                class="w-6 h-6"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M8 7V3m8 4V3m-9 8h10m-12 4h14m-3 4H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2z"
-                                                />
-                                            </svg>
+                                            {{ item.label }}
                                         </div>
-                                        <div class="text-left">
-                                            <div
-                                                class="text-base font-medium text-gray-900"
-                                            >
-                                                Präsenz-Termin
-                                            </div>
-                                            <div class="text-sm text-gray-500">
-                                                Persönlich vor Ort bei Ihnen
-                                                oder auf der Baustelle
-                                            </div>
-                                        </div>
-                                    </div>
-                                </button>
-                            </div>
+                                        <p
+                                            class="mt-1 text-sm text-gray-500 dark:text-gray-200"
+                                        >
+                                            {{ item.desc }}
+                                        </p>
+                                    </button>
+                                </li>
+                            </ul>
                             <div class="mt-4">
                                 <button
                                     @click="selectedType = null"
-                                    class="text-sm text-teal-600 hover:text-teal-800 focus:outline-none focus:underline"
+                                    class="text-sm text-teal-600 dark:text-teal-300 hover:text-teal-800 focus:outline-none focus:underline"
                                 >
                                     Zurück zur Auswahl
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Step 2: Kalender -->
-                        <div v-if="selectedType && selectedMode" class="mt-4">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg font-medium">
-                                    Termin auswählen:
-                                    {{ typeLabels[selectedType] }}
-                                </h3>
-                                <button
-                                    @click="selectedMode = null"
-                                    class="text-sm text-teal-600 hover:text-teal-800 focus:outline-none focus:underline"
-                                    type="button"
-                                >
-                                    Zurück zur Auswahl
-                                </button>
-                            </div>
-                            <div
-                                ref="calendarEl"
-                                class="mt-4 overflow-hidden rounded-lg shadow-sm"
-                            ></div>
+                        <!-- Step 3: Kalender + Formular -->
+                        <div
+                            v-if="selectedType && selectedMode"
+                            class="mt-4 space-y-6"
+                        >
+                            <Calendar
+                                :type="selectedType"
+                                :mode="selectedMode"
+                                :typeLabel="typeLabels[selectedType]"
+                                :modeLabel="modeLabels[selectedMode]"
+                                :typeLabels="typeLabels"
+                                :modeLabels="modeLabels"
+                                :slotDuration="slotDuration"
+                                :admin="isAdmin"
+                                @dateSelected="handleDateSelection"
+                                @slotsSelected="handleSlotsSelection"
+                                @back="() => (selectedMode = null)"
+                            />
 
-                            <!-- Step 3: Formular -->
                             <form
                                 v-if="selectedDate"
                                 @submit.prevent="submitBooking"
-                                class="mt-6 space-y-4"
+                                class="space-y-4"
+                                autocomplete="off"
+                                aria-label="Terminbuchungsformular"
                             >
                                 <div
                                     class="grid grid-cols-1 gap-4 sm:grid-cols-2"
@@ -320,53 +188,63 @@
                                     <div>
                                         <label
                                             for="name"
-                                            class="block text-sm font-medium text-gray-700"
-                                            >Name</label
+                                            class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                                            >Name*</label
                                         >
                                         <input
-                                            type="text"
-                                            id="name"
                                             v-model="bookingData.name"
                                             required
-                                            class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                                            type="text"
+                                            id="name"
+                                            class="w-full px-3 py-2 border rounded focus:ring-teal-500"
+                                            autocomplete="name"
                                         />
                                     </div>
                                     <div>
                                         <label
                                             for="email"
-                                            class="block text-sm font-medium text-gray-700"
-                                            >E-Mail</label
+                                            class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+                                            >E-Mail*</label
                                         >
                                         <input
-                                            type="email"
-                                            id="email"
                                             v-model="bookingData.email"
                                             required
-                                            class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                                            type="email"
+                                            id="email"
+                                            class="w-full px-3 py-2 border rounded focus:ring-teal-500"
+                                            autocomplete="email"
                                         />
                                     </div>
-                                    <div>
+                                    <div class="sm:col-span-2">
                                         <label
                                             for="topic"
-                                            class="block text-sm font-medium text-gray-700"
+                                            class="block text-sm font-medium text-gray-700 dark:text-gray-200"
                                             >Thema (optional)</label
                                         >
                                         <input
+                                            v-model="bookingData.topic"
                                             type="text"
                                             id="topic"
-                                            v-model="bookingData.topic"
-                                            class="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                                            class="w-full px-3 py-2 border rounded focus:ring-teal-500"
+                                            autocomplete="off"
                                         />
                                     </div>
                                 </div>
-                                <!-- Zusammenfassung und Buttons wie gehabt -->
-                                <div class="p-4 rounded-md bg-gray-50">
+
+                                <div
+                                    class="p-4 rounded-md bg-gray-50 dark:bg-gray-800"
+                                >
                                     <h4
-                                        class="text-sm font-medium text-gray-700"
+                                        class="text-sm font-medium text-gray-700 dark:text-gray-200"
                                     >
                                         Termindetails:
                                     </h4>
-                                    <p class="mt-1 text-sm text-gray-900">
+                                    <p
+                                        class="mt-1 text-sm text-gray-900 dark:text-gray-100"
+                                    >
+                                        <span class="font-medium">{{
+                                            modeLabels[selectedMode]
+                                        }}</span>
                                         <span class="font-medium">{{
                                             typeLabels[selectedType]
                                         }}</span>
@@ -381,17 +259,35 @@
                                         Uhr
                                     </p>
                                 </div>
+                                <!-- DSGVO Hinweis -->
+                                <div
+                                    class="px-2 py-1 text-xs text-gray-500 dark:text-gray-400"
+                                >
+                                    <span>
+                                        Mit dem Absenden stimmen Sie der
+                                        Verarbeitung Ihrer Daten gemäß unserer
+                                        <a
+                                            href="/datenschutz"
+                                            target="_blank"
+                                            class="text-teal-700 underline dark:text-teal-300 hover:text-teal-900"
+                                            >Datenschutzerklärung</a
+                                        >
+                                        zu. Die Übertragung erfolgt
+                                        verschlüsselt.
+                                    </span>
+                                </div>
+
                                 <div class="flex justify-end pt-2 space-x-3">
                                     <button
                                         type="button"
                                         @click="$emit('close')"
-                                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200"
                                     >
                                         Abbrechen
                                     </button>
                                     <button
                                         type="submit"
-                                        class="px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-gradient-to-r from-teal-600 to-indigo-600 hover:from-teal-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                        class="px-4 py-2 text-sm font-medium text-white bg-[linear-gradient(135deg,_#00fdcf,_#000)] hover:bg-[linear-gradient(135deg,_#00fdcf,_#222)] rounded transition focus:ring-2 focus:ring-teal-500"
                                         :disabled="isSubmitting"
                                     >
                                         {{
@@ -409,7 +305,7 @@
                                 </div>
                                 <div
                                     v-if="submitSuccess"
-                                    class="mt-4 text-sm text-green-600"
+                                    class="mt-4 text-green-600 md:text-lg"
                                 >
                                     Bestätigung wurde versendet. Bitte E-Mail
                                     prüfen.
@@ -421,6 +317,87 @@
                                     {{ submitError }}
                                 </div>
                             </form>
+
+                            <!-- Admin: Ausgewählte Slots + Pflichtfelder -->
+                            <div
+                                v-if="isAdmin && selectedSlots"
+                                class="space-y-4"
+                            >
+                                <h4
+                                    class="font-medium text-indigo-700 dark:text-indigo-400"
+                                >
+                                    Ausgewählte Slots (Admin):
+                                </h4>
+                                <ul
+                                    class="ml-5 text-sm text-gray-700 list-disc dark:text-gray-200"
+                                >
+                                    <li
+                                        v-for="(s, i) in selectedSlots"
+                                        :key="i"
+                                    >
+                                        {{ formatDate(s.start) }} –
+                                        {{ formatTime(s.end) }}
+                                    </li>
+                                </ul>
+                                <div
+                                    class="grid grid-cols-1 gap-4 sm:grid-cols-2"
+                                >
+                                    <div>
+                                        <label
+                                            for="name"
+                                            class="block text-sm font-medium"
+                                            >Name*</label
+                                        >
+                                        <input
+                                            id="name"
+                                            v-model="bookingData.name"
+                                            required
+                                            type="text"
+                                            class="w-full px-3 py-2 border rounded focus:ring-teal-500"
+                                            placeholder="Name eingeben"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            for="email"
+                                            class="block text-sm font-medium"
+                                            >E-Mail*</label
+                                        >
+                                        <input
+                                            id="email"
+                                            v-model="bookingData.email"
+                                            required
+                                            type="email"
+                                            class="w-full px-3 py-2 border rounded focus:ring-teal-500"
+                                            placeholder="E-Mail eingeben"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="flex justify-end">
+                                    <button
+                                        type="button"
+                                        @click="submitAdminBooking"
+                                        :disabled="
+                                            isSubmitting ||
+                                            !bookingData.name ||
+                                            !bookingData.email
+                                        "
+                                        class="px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700 disabled:opacity-50"
+                                    >
+                                        {{
+                                            isSubmitting
+                                                ? "Wird gesendet…"
+                                                : "Alle Slots buchen"
+                                        }}
+                                    </button>
+                                </div>
+                                <p v-if="submitError" class="text-red-600">
+                                    {{ submitError }}
+                                </p>
+                                <p v-if="submitSuccess" class="text-green-600">
+                                    Admin-Buchung erfolgreich!
+                                </p>
+                            </div>
                         </div>
                     </DialogPanel>
                 </div>
@@ -430,50 +407,88 @@
 </template>
 
 <script setup>
-import { ref, nextTick, watch, onUnmounted } from "vue";
+import { ref, computed } from "vue";
 import {
+    TransitionRoot,
     Dialog,
     DialogPanel,
     DialogTitle,
-    TransitionRoot,
 } from "@headlessui/vue";
-import { Calendar } from "@fullcalendar/core";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import deLocale from "@fullcalendar/core/locales/de";
+import Calendar from "@/Components/Booking/Calendar.vue";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import axios from "axios";
+import { usePage } from "@inertiajs/vue3";
 
-// Icons als SFCs oder direkt als Komponenten importieren
-// import BeratungIcon from "./icons/BeratungIcon.vue";
-// import AngebotIcon from "./icons/AngebotIcon.vue";
-// import HausanschlussIcon from "./icons/HausanschlussIcon.vue";
-// import ProjektplanungIcon from "./icons/ProjektplanungIcon.vue";
+// Analytics-Helper für GA4
+const trackEvent = (name, params = {}) => {
+    if (window.gtag) {
+        window.gtag("event", name, {
+            ...params,
+            service_area: "ratgeber",
+        });
+    }
+};
 
-const props = defineProps({
-    open: Boolean,
-});
+const props = defineProps({ open: Boolean });
+const emit = defineEmits(["close"]);
+
+const page = usePage();
+const isAdmin = computed(() => page.props.isAdmin === true);
 
 const selectedType = ref(null);
 const selectedMode = ref(null);
 const selectedDate = ref(null);
-const calendarEl = ref(null);
-const calendar = ref(null);
+const selectedSlots = ref([]);
+const slotDuration = "00:30:00";
 const isSubmitting = ref(false);
 const submitSuccess = ref(false);
 const submitError = ref(null);
-const currentStep = ref(1);
+
 const bookingData = ref({
     type: "",
-    mode: "", // "online" oder "praesenz"
-    start: null, // Timestamp-String, z.B. "2025-06-18T10:00:00"
-    end: null, // Timestamp-String, z.B. "2025-06-18T10:30:00"
+    mode: "",
+    start: null,
+    end: null,
     name: "",
     email: "",
     topic: "",
 });
+
+const typeList = [
+    {
+        value: "beratung",
+        label: "Beratungsgespräch",
+        desc: "Individuelle Beratung zu Glasfaserprojekten",
+    },
+    {
+        value: "angebot",
+        label: "Angebotserstellung",
+        desc: "Kostenlose Angebotserstellung für Ihr Projekt",
+    },
+    {
+        value: "hausanschluss",
+        label: "Hausanschluss",
+        desc: "Terminvereinbarung für Glasfaser-Hausanschluss",
+    },
+    {
+        value: "projektplanung",
+        label: "Projektplanung",
+        desc: "Planung und Koordination größerer Projekte",
+    },
+];
+const modeList = [
+    {
+        value: "online",
+        label: "Online-Termin",
+        desc: "Per Video-Konferenz bequem von überall",
+    },
+    {
+        value: "praesenz",
+        label: "Präsenz-Termin",
+        desc: "Persönlich vor Ort bei Ihnen oder auf der Baustelle",
+    },
+];
 
 const typeLabels = {
     beratung: "Beratungsgespräch",
@@ -483,294 +498,80 @@ const typeLabels = {
 };
 const modeLabels = {
     online: "Online-Termin",
-    praesenz: "Präsenztermin",
+    praesenz: "Präsenz-Termin",
 };
 
-const typeList = [
-    {
-        value: "beratung",
-        label: "Beratungsgespräch",
-        desc: "Individuelle Beratung zu Glasfaserprojekten",
-        // icon: BeratungIcon,
-    },
-    {
-        value: "angebot",
-        label: "Angebotserstellung",
-        desc: "Kostenlose Angebotserstellung für Ihr Projekt",
-        // icon: AngebotIcon,
-    },
-    {
-        value: "hausanschluss",
-        label: "Hausanschluss",
-        desc: "Terminvereinbarung für Glasfaser-Hausanschluss",
-        // icon: HausanschlussIcon,
-    },
-    {
-        value: "projektplanung",
-        label: "Projektplanung",
-        desc: "Planung und Koordination größerer Projekte",
-        // icon: ProjektplanungIcon,
-    },
-];
+const formatDate = (date) => format(date, "EEEE, d. MMMM yyyy", { locale: de });
+const formatTime = (date) => format(date, "HH:mm", { locale: de });
 
 const selectType = (type) => {
+    trackEvent("select_type", { category: "Booking", label: type });
     selectedType.value = type;
 };
-
 const selectMode = (mode) => {
+    trackEvent("select_mode", { category: "Booking", label: mode });
     selectedMode.value = mode;
-    nextTick(() => initCalendar());
 };
-
-const initCalendar = () => {
-    if (calendarEl.value) {
-        calendar.value = new Calendar(calendarEl.value, {
-            plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-            initialView: "timeGridWeek",
-            headerToolbar: {
-                left: "prev,next today",
-                center: "title",
-                right: "timeGridWeek,timeGridDay",
-            },
-            locale: deLocale,
-            locale: "de",
-            selectable: true,
-            selectMirror: true,
-            dayMaxEvents: true,
-            weekends: true,
-            businessHours: {
-                daysOfWeek: [1, 2, 3, 4, 5],
-                startTime: "09:00",
-                endTime: "17:00",
-            },
-            slotMinTime: "09:00",
-            slotMaxTime: "17:00",
-            allDaySlot: false,
-            slotDuration: "00:30:00",
-            eventLongPressDelay: 0,
-            selectLongPressDelay: 0,
-            handleWindowResize: true,
-            height: "auto",
-            events: (info, successCallback, failureCallback) => {
-                axios
-                    .get("/api/available-slots", {
-                        params: {
-                            type: selectedType.value,
-                            mode: selectedMode.value,
-                            start: info.startStr,
-                            end: info.endStr,
-                        },
-                    })
-                    .then((response) => successCallback(response.data))
-                    .catch((error) => failureCallback(error));
-            },
-            select: (info) => {
-                selectedDate.value = info.start;
-
-                // Entferne vorheriges Dummy-Event (falls vorhanden)
-                const existing = calendar.value.getEventById("selected-slot");
-                if (existing) {
-                    existing.remove();
-                }
-
-                // Füge neuen Dummy-Event hinzu
-                calendar.value.addEvent({
-                    id: "selected-slot",
-                    title: info.start,
-                    start: info.start,
-                    end: new Date(info.start.getTime() + 30 * 60000),
-                    backgroundColor: "#14b8a6", // Teal 500
-                    borderColor: "#0f766e", // Teal 700
-                    textColor: "#ffffff",
-                    editable: false,
-                    display: "background",
-                });
-
-                calendar.value.unselect();
-            },
-            longPressDelay: 0,
-        });
-        calendar.value.render();
-    }
-};
-
-const emit = defineEmits(["close"]);
-const closeModal = () => emit("close");
-
-const formatDate = (date) =>
-    date ? format(date, "EEEE, d. MMMM yyyy", { locale: de }) : "";
-const formatTime = (date) =>
-    date ? format(date, "HH:mm", { locale: de }) : "";
+const handleDateSelection = ({ start }) =>
+    (selectedDate.value = new Date(start));
+function handleSlotsSelection(slots) {
+    selectedSlots.value = slots;
+}
 
 const submitBooking = async () => {
-    if (!selectedDate.value || !selectedType.value) return;
+    if (!selectedDate.value || !selectedType.value || !selectedMode.value)
+        return;
     isSubmitting.value = true;
     submitError.value = null;
     submitSuccess.value = false;
-    try {
-        // Setze die Werte passend
-        bookingData.value.type = selectedType.value;
-        bookingData.value.mode = selectedMode.value;
-        bookingData.value.start = selectedDate.value.toISOString();
-        bookingData.value.end = new Date(
-            selectedDate.value.getTime() + 30 * 60000
-        ).toISOString();
 
+    bookingData.value = {
+        ...bookingData.value,
+        type: selectedType.value,
+        mode: selectedMode.value,
+        start: selectedDate.value.toISOString(),
+        end: new Date(selectedDate.value.getTime() + 30 * 60000).toISOString(),
+    };
+
+    try {
         await axios.post("/api/bookings/pending", bookingData.value);
         submitSuccess.value = true;
-
-        // Optional: Nach kurzer Zeit Modal schließen
-        setTimeout(() => {
-            closeModal();
-            resetForm();
-        }, 2000);
-        // alert("Ihre Buchung wurde erfolgreich übermittelt.");
-        // $emit("close");
-    } catch (error) {
-        alert("Bei der Buchung ist ein Fehler aufgetreten.");
+        trackEvent("booking_submit", {
+            type: selectedType.value,
+            mode: selectedMode.value,
+        });
+        setTimeout(() => emit("close"), 2000);
+    } catch (e) {
+        submitError.value = "Es ist ein Fehler aufgetreten.";
     } finally {
         isSubmitting.value = false;
     }
 };
 
-watch(
-    () => props.open,
-    (newVal) => {
-        if (!newVal && calendar.value) {
-            calendar.value.destroy();
-            calendar.value = null;
-        }
-    }
-);
-
-onUnmounted(() => {
-    if (calendar.value) calendar.value.destroy();
-});
-const highlightSelectedSlot = () => {
-    nextTick(() => {
-        const selectedEls =
-            calendarEl.value?.querySelectorAll(".fc-slot-selected");
-        selectedEls?.forEach((el) => el.classList.remove("fc-slot-selected"));
-
-        if (!selectedDate.value) return;
-        const slotSelector = `[data-time="${format(
-            selectedDate.value,
-            "HH:mm:ss"
-        )}"]`;
-        const dayCell = calendarEl.value?.querySelector(
-            `.fc-timegrid-slot[data-date="${format(
-                selectedDate.value,
-                "yyyy-MM-dd"
-            )}T${format(selectedDate.value, "HH:mm:ss")}"]`
-        );
-
-        if (dayCell) {
-            dayCell.classList.add("fc-slot-selected");
-        }
-    });
-};
-
-watch(selectedDate, () => {
-    highlightSelectedSlot();
-});
-
-function resetForm() {
-    selectedType.value = null;
-    selectedMode.value = null;
-    selectedDate.value = null;
-    bookingData.value = {
-        type: "",
-        mode: "", // "online" oder "praesenz"
-        start: null, // Timestamp-String, z.B. "2025-06-18T10:00:00"
-        end: null, // Timestamp-String, z.B. "2025-06-18T10:30:00"
-        name: "",
-        email: "",
-        topic: "",
+// Direkt-Buchung für Admin
+async function submitAdminBooking() {
+    if (!isAdmin.value || !selectedSlots.value.length) return;
+    isSubmitting.value = true;
+    submitError.value = null;
+    const payload = {
+        type: selectedType.value,
+        mode: selectedMode.value,
+        slots: selectedSlots.value.map((s) => ({
+            start: new Date(s.start).toISOString(),
+            end: new Date(s.end).toISOString(),
+        })),
+        name: bookingData.value.name,
+        email: bookingData.value.email,
+        topic: bookingData.value.topic,
     };
-    currentStep.value = 1;
+    try {
+        await axios.post("/bookings/multi", payload);
+        submitSuccess.value = true;
+        setTimeout(() => emit("close"), 2000);
+    } catch (_) {
+        submitError.value = "Admin-Buchung fehlgeschlagen.";
+    } finally {
+        isSubmitting.value = false;
+    }
 }
 </script>
-
-<!-- <style scoped>
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-    transition: opacity 0.3s ease;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-    opacity: 0;
-}
-
-/* 🟢 Kalendergrundfarben – CI-konform */
-:deep(.fc) {
-    font-family: "Inter", sans-serif;
-    --fc-border-color: #e5e7eb; /* Tailwind gray-200 */
-    --fc-now-indicator-color: #14b8a6; /* Tailwind teal-500 */
-    --fc-today-bg-color: #f0fdfa; /* Tailwind teal-50 */
-}
-
-/* 🕓 Zeitslots und Hover */
-:deep(.fc-timegrid-slot) {
-    transition: background-color 0.2s ease;
-}
-:deep(.fc-timegrid-slot:hover) {
-    background-color: #f0fdfa !important;
-    cursor: pointer;
-}
-
-/* ✅ Markierter Slot dauerhaft sichtbar (wenn ausgewählt) */
-:deep(.fc-slot-selected) {
-    background-color: #99f6e4 !important; /* Tailwind teal-200 */
-    border: 2px solid #14b8a6 !important; /* Tailwind teal-500 */
-    box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.3);
-    transition: all 0.2s ease;
-}
-/* 📆 Buttons */
-:deep(.fc-button) {
-    background-color: #14b8a6;
-    border: none;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-}
-:deep(.fc-button:hover),
-:deep(.fc-button:focus) {
-    background-color: #0d9488; /* Tailwind teal-600 */
-    outline: none;
-}
-:deep(.fc-button-primary:not(:disabled).fc-button-active),
-:deep(.fc-button-primary:not(:disabled):active) {
-    background-color: #0f766e !important;
-}
-
-/* FullCalendar Mobile Optimierungen */
-:deep(.fc-event) {
-    cursor: pointer;
-    padding: 2px;
-}
-
-/* 📅 Toolbar Titel */
-:deep(.fc-toolbar-title) {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #0f172a; /* Tailwind slate-900 */
-}
-
-@media (max-width: 640px) {
-    :deep(.fc-header-toolbar) {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-start;
-    }
-
-    :deep(.fc-toolbar-title) {
-        font-size: 1rem;
-    }
-
-    :deep(.fc-button) {
-        padding: 0.3rem 0.6rem;
-    }
-}
-</style> -->

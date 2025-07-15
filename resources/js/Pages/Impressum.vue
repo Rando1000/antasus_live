@@ -1,39 +1,42 @@
 <template>
     <GuestLayout :serviceArea="'impressum'">
         <template #header>
-            <section class="w-full px-4 text-center animate-fade-in rounded-xl">
-                <div class="max-w-4xl mx-auto rounded-xl">
+            <section
+                class="w-full px-4 py-12 mb-2 text-center animate-fade-in rounded-xl"
+            >
+                <div class="max-w-4xl mx-auto">
                     <h1
-                        class="mb-6 text-4xl font-extrabold text-white md:text-5xl drop-shadow-xl"
+                        class="mb-4 text-4xl font-extrabold text-white md:text-8xl drop-shadow-xl"
                     >
                         Impressum
                     </h1>
-                    <p class="text-lg md:text-xl text-white/90 drop-shadow-md">
-                        Angaben gemäß § 5 TMG
+                    <p class="text-lg md:text-2xl text-white/90 drop-shadow-md">
+                        Pflichtangaben gem. § 5 TMG
                     </p>
                 </div>
             </section>
         </template>
 
         <section
-            class="py-20 bg-white"
+            class="py-20 bg-white dark:bg-gray-900"
             aria-labelledby="impressum-heading"
             role="region"
             tabindex="-1"
         >
             <div
-                class="max-w-3xl px-6 mx-auto prose prose-lg bg-white shadow-xl rounded-xl prose-slate"
+                class="max-w-3xl px-6 mx-auto prose prose-lg bg-white shadow-xl dark:bg-gray-900 rounded-xl prose-slate dark:prose-invert"
             >
                 <h1 id="impressum-heading" class="mb-8 text-3xl font-bold">
                     Impressum
                 </h1>
 
+                <!-- Unternehmen -->
                 <section aria-labelledby="angaben-heading">
                     <h2
                         id="angaben-heading"
                         class="mt-6 text-2xl font-semibold"
                     >
-                        Angaben gemäß § 5 TMG
+                        Anbieterkennzeichnung nach § 5 TMG
                     </h2>
                     <address class="mb-4 not-italic">
                         <strong>ANTASUS Infra</strong><br />
@@ -44,6 +47,7 @@
                     </address>
                 </section>
 
+                <!-- Kontakt -->
                 <section aria-labelledby="kontakt-heading">
                     <h2
                         id="kontakt-heading"
@@ -51,23 +55,24 @@
                     >
                         Kontakt
                     </h2>
-                    <ul class="p-0 m-0 list-none">
+                    <ul class="p-0 m-0 space-y-1 list-none">
                         <li>
                             <span class="sr-only">Telefon:</span>
                             <a
                                 href="tel:+4917624757616"
-                                class="text-blue-700 underline focus:outline focus:ring-2 focus:ring-blue-400"
+                                class="font-medium text-teal-700 underline hover:text-teal-900 focus:outline-none focus:ring-2 focus:ring-[#00fdcf] transition"
                             >
-                                +49 176 24757616
+                                Fon:&nbsp;+49&nbsp;202&nbsp;42988411 <br />
+                                Mobile:&nbsp;+49&nbsp;176&nbsp;24757616
                             </a>
                         </li>
                         <li>
                             <span class="sr-only">E-Mail:</span>
                             <a
                                 href="mailto:info@antasus.de"
-                                class="text-blue-700 underline focus:outline focus:ring-2 focus:ring-blue-400"
+                                class="font-medium text-teal-700 underline hover:text-teal-900 focus:outline-none focus:ring-2 focus:ring-[#00fdcf] transition"
                             >
-                                info@antasus.de
+                                Mail:&nbsp;info@antasus.de
                             </a>
                         </li>
                         <li>
@@ -76,14 +81,15 @@
                                 href="https://www.antasus.de"
                                 target="_blank"
                                 rel="noopener"
-                                class="text-blue-700 underline focus:outline focus:ring-2 focus:ring-blue-400"
+                                class="font-medium text-teal-700 underline hover:text-teal-900 focus:outline-none focus:ring-2 focus:ring-[#00fdcf] transition"
                             >
-                                www.antasus.de
+                                Web:&nbsp;www.antasus.de
                             </a>
                         </li>
                     </ul>
                 </section>
 
+                <!-- Verantwortlich -->
                 <section aria-labelledby="verantwortlich-heading">
                     <h2
                         id="verantwortlich-heading"
@@ -99,17 +105,18 @@
                     </address>
                 </section>
 
+                <!-- USt-ID -->
                 <section aria-labelledby="ustid-heading">
                     <h2 id="ustid-heading" class="mt-6 text-2xl font-semibold">
                         Umsatzsteuer-ID
                     </h2>
                     <p>
-                        Umsatzsteuer-Identifikationsnummer gemäß § 27 a
-                        Umsatzsteuergesetz:<br />
-                        <em>USt-IdNr. DE432559610</em>
+                        Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG:<br />
+                        <em>DE432559610</em>
                     </p>
                 </section>
 
+                <!-- EU-Streitschlichtung -->
                 <section aria-labelledby="streitschlichtung-heading">
                     <h2
                         id="streitschlichtung-heading"
@@ -124,20 +131,20 @@
                             href="https://ec.europa.eu/consumers/odr"
                             target="_blank"
                             rel="noopener"
-                            class="text-blue-700 underline focus:outline focus:ring-2 focus:ring-blue-400"
-                        >
-                            https://ec.europa.eu/consumers/odr </a
+                            class="text-blue-700 underline focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            >https://ec.europa.eu/consumers/odr</a
                         ><br />
                         Unsere E-Mail-Adresse finden Sie oben im Impressum.
                     </p>
                 </section>
 
+                <!-- Verbraucherschlichtung -->
                 <section aria-labelledby="verbraucherschlichtung-heading">
                     <h2
                         id="verbraucherschlichtung-heading"
                         class="mt-6 text-2xl font-semibold"
                     >
-                        Verbraucherstreitbeilegung/Universalschlichtungsstelle
+                        Verbraucherstreitbeilegung / Universalschlichtungsstelle
                     </h2>
                     <p>
                         Wir sind nicht bereit oder verpflichtet, an
@@ -146,6 +153,7 @@
                     </p>
                 </section>
 
+                <!-- Haftung Inhalte -->
                 <section aria-labelledby="haftung-inhalte-heading">
                     <h2
                         id="haftung-inhalte-heading"
@@ -171,6 +179,7 @@
                     </p>
                 </section>
 
+                <!-- Haftung Links -->
                 <section aria-labelledby="haftung-links-heading">
                     <h2
                         id="haftung-links-heading"
@@ -195,6 +204,7 @@
                     </p>
                 </section>
 
+                <!-- Urheberrecht -->
                 <section aria-labelledby="urheberrecht-heading">
                     <h2
                         id="urheberrecht-heading"
@@ -221,6 +231,13 @@
                         entfernen.
                     </p>
                 </section>
+
+                <p
+                    class="mt-12 mb-0 text-xs text-gray-400 dark:text-gray-500"
+                    aria-label="Rechtsstand"
+                >
+                    Stand: Juli 2025
+                </p>
             </div>
         </section>
     </GuestLayout>
@@ -228,4 +245,92 @@
 
 <script setup>
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import { onMounted } from "vue";
+
+// Strukturierte Daten: Organization + LegalService für Google Business/SGE Trust
+onMounted(() => {
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                name: "ANTASUS Infra",
+                url: "https://www.antasus.de/",
+                email: "info@antasus.de",
+                address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "Norrenbergstraße 122",
+                    addressLocality: "Wuppertal",
+                    postalCode: "42289",
+                    addressCountry: "DE",
+                },
+                telephone: "+49 176 24757616",
+                founder: "Radhouan Jouini",
+                logo: {
+                    "@type": "ImageObject",
+                    url: "https://www.antasus.de/images/antasus-logo2.svg",
+                },
+                sameAs: ["https://www.antasus.de/"],
+            },
+            {
+                "@type": "LegalService",
+                name: "ANTASUS Infra – Impressum",
+                url: "https://www.antasus.de/impressum",
+                legalName: "ANTASUS Infra, Inh. Radhouan Jouini",
+                address: {
+                    "@type": "PostalAddress",
+                    streetAddress: "Norrenbergstraße 122",
+                    addressLocality: "Wuppertal",
+                    postalCode: "42289",
+                    addressCountry: "DE",
+                },
+                telephone: "+49 176 24757616",
+                email: "info@antasus.de",
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://www.antasus.de/impressum",
+                name: "Impressum – ANTASUS Infra",
+                description:
+                    "Impressum und Pflichtangaben gemäß §5 TMG für ANTASUS Infra.",
+                inLanguage: "de",
+            },
+            // Optional: Sitelink Search für Google SGE
+            {
+                "@type": "WebSite",
+                url: "https://www.antasus.de/",
+                potentialAction: {
+                    "@type": "SearchAction",
+                    target: "https://www.antasus.de/suche?q={search_term_string}",
+                    "query-input": "required name=search_term_string",
+                },
+            },
+        ],
+    };
+    const s = document.createElement("script");
+    s.type = "application/ld+json";
+    s.text = JSON.stringify(jsonLd, null, 2);
+    document.head.appendChild(s);
+});
 </script>
+
+<style scoped>
+/* Accessibility & CI */
+.bg-gradient-to-r {
+    background: linear-gradient(90deg, #00fdcf 0%, #000 100%);
+}
+.prose {
+    font-family: "Inter", "Helvetica Neue", Arial, "Liberation Sans", sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.75;
+}
+a {
+    word-break: break-all;
+}
+@media (max-width: 600px) {
+    .prose {
+        font-size: 1rem;
+        padding: 1rem 0.25rem;
+    }
+}
+</style>

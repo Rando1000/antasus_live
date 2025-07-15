@@ -45,12 +45,26 @@
             </div>
         </div>
 
-        <FullCalendar ref="calendarRef" :options="calendarOptions" />
+        <div class="relative mb-3">
+            <FullCalendar ref="calendarRef" :options="calendarOptions" />
+            <!-- Custom Legende direkt unter dem Kalender -->
+            <div class="calendar-legend" aria-label="Legende Terminstatus">
+                <div class="legend-entry">
+                    <span class="legend-slot free"></span> Frei buchbar
+                </div>
+                <div class="legend-entry">
+                    <span class="legend-slot booked"></span> Bereits gebucht
+                </div>
+                <div class="legend-entry">
+                    <span class="legend-slot selected"></span> Ihre Auswahl
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -67,15 +81,11 @@ const props = defineProps({
     initialDate: { type: String, default: null },
     initialView: { type: String, default: "timeGridWeek" },
     slotDuration: { type: String, default: "00:30:00" },
-    admin: { type: Boolean, default: false }, // hier einschalten
+    admin: { type: Boolean, default: false },
 });
 
 // Emits
-const emit = defineEmits([
-    "dateSelected", // für Single-Slot
-    "slotsSelected", // für Multi-Slot
-    "back", // zurück-Button
-]);
+const emit = defineEmits(["dateSelected", "slotsSelected", "back"]);
 
 // State
 const bookedSlots = ref([]);
@@ -83,16 +93,20 @@ const calendarRef = ref(null);
 const currentTitle = ref("");
 const isMobile = ref(false);
 const dateSelected = ref(null);
-const selectedSlots = ref([]); // sammelt für Admin
+const selectedSlots = ref([]); // für Admin-Mehrfachauswahl
 
-// Lifecycle
 onMounted(() => {
     detectMobile();
     updateTitle();
     window.addEventListener("resize", detectMobile);
+
+    // Styling optimieren nach dem Mount
+    nextTick(() => {
+        styleSlots();
+    });
 });
 
-// Helpers
+// UX: Responsive
 function detectMobile() {
     isMobile.value = window.innerWidth < 640;
 }
@@ -113,7 +127,7 @@ function goToNext() {
     updateTitle();
 }
 
-// Highlight (nur Single-Slot)
+// Eigener Slot-Glow für ausgewählte Slots
 function highlightSelection() {
     const api = calendarRef.value?.getApi();
     if (!api) return;
@@ -126,15 +140,48 @@ function highlightSelection() {
             start: dateSelected.value.start,
             end: dateSelected.value.end,
             display: "background",
-            backgroundColor: document.documentElement.classList.contains("dark")
-                ? "#002f2b"
-                : "#ccffff",
+            backgroundColor: "rgba(0,253,207,0.22)",
             borderColor: "#00fdcf",
+            classNames: ["fc-slot-selected"],
+        });
+        nextTick(() => styleSlots());
+    }
+}
+
+// UX: Extra Styling nach jeder Auswahl oder Calendar-Render
+function styleSlots() {
+    // Helle freie Slots, dunkle gebuchte Slots, Glow für Auswahl
+    const slotEls = document.querySelectorAll(
+        ".fc-timegrid-slot, .fc-timegrid-slot-lane"
+    );
+    slotEls.forEach((el) => {
+        el.classList.remove("slot-free", "slot-booked", "slot-selected");
+        // Free
+        el.classList.add("slot-free");
+    });
+    // Booked (Data aus bookedSlots)
+    bookedSlots.value.forEach((slot) => {
+        const start = new Date(slot.start);
+        const hour = String(start.getHours()).padStart(2, "0");
+        const minute = String(start.getMinutes()).padStart(2, "0");
+        const query = `.fc-timegrid-slot[data-time="${hour}:${minute}:00"]`;
+        document.querySelectorAll(query).forEach((el) => {
+            el.classList.add("slot-booked");
+        });
+    });
+    // Selected
+    if (dateSelected.value) {
+        const start = new Date(dateSelected.value.start);
+        const hour = String(start.getHours()).padStart(2, "0");
+        const minute = String(start.getMinutes()).padStart(2, "0");
+        const query = `.fc-timegrid-slot[data-time="${hour}:${minute}:00"]`;
+        document.querySelectorAll(query).forEach((el) => {
+            el.classList.add("slot-selected");
         });
     }
 }
 
-// FullCalendar-Konfiguration
+// FullCalendar Optionen
 const calendarOptions = computed(() => ({
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     locale: deLocale,
@@ -155,7 +202,7 @@ const calendarOptions = computed(() => ({
     handleWindowResize: true,
     height: "auto",
 
-    // bereits gebuchte Slots nachladen
+    // Buchungen nachladen
     events: async (info, onSuccess, onError) => {
         try {
             const { data } = await axios.get("/api/available-slots", {
@@ -165,15 +212,11 @@ const calendarOptions = computed(() => ({
                     end: info.endStr,
                 },
             });
-            // roh als Date-Objekte für Kollisionstests merken
             bookedSlots.value = data.map((d) => ({
                 start: new Date(d.start),
                 end: new Date(d.end),
             }));
-
             const evs = data || [];
-
-            // Admin-Selektion als Hintergrund-Events einzeichnen
             if (props.admin && selectedSlots.value.length) {
                 selectedSlots.value.forEach((slot, i) => {
                     evs.push({
@@ -182,28 +225,23 @@ const calendarOptions = computed(() => ({
                         start: slot.start,
                         end: slot.end,
                         display: "background",
-                        backgroundColor:
-                            document.documentElement.classList.contains("dark")
-                                ? "#002f2b"
-                                : "#ccffff",
+                        backgroundColor: "rgba(0,253,207,0.22)",
                         borderColor: "#00fdcf",
                     });
                 });
             }
-
             onSuccess(evs);
+            nextTick(() => styleSlots());
         } catch (e) {
             onError(e);
         }
     },
 
-    // Auswahl: Single vs. Multi
     select: (info) => {
         const slot = { start: info.startStr, end: info.endStr };
         const api = calendarRef.value.getApi();
 
         if (props.admin) {
-            // Multi-Slot: push & emit
             selectedSlots.value.push(slot);
             api.addEvent({
                 id: `admin-${selectedSlots.value.length - 1}`,
@@ -211,36 +249,25 @@ const calendarOptions = computed(() => ({
                 start: info.start,
                 end: info.end,
                 display: "background",
-                backgroundColor: document.documentElement.classList.contains(
-                    "dark"
-                )
-                    ? "#002f2b"
-                    : "#ccffff",
+                backgroundColor: "rgba(0,253,207,0.22)",
                 borderColor: "#00fdcf",
             });
             emit("slotsSelected", selectedSlots.value);
         } else {
-            // Single-Slot
             dateSelected.value = slot;
             emit("dateSelected", slot);
             highlightSelection();
         }
-
         api.unselect();
+        nextTick(() => styleSlots());
     },
 
-    // keine Vergangenheit UND keine Überlappung mit einem gebuchten Slot
     selectAllow: (sel) => {
         const start = sel.start;
         const end = sel.end;
-
-        // 1) nicht in der Vergangenheit
         if (start < new Date()) return false;
-
-        // 2) Kollisionstest mit jedem bookedSlots-Eintrag
         for (let b of bookedSlots.value) {
             if (start < b.end && end > b.start) {
-                // Überschneidung → Auswahl nicht erlaubt
                 return false;
             }
         }
@@ -250,13 +277,14 @@ const calendarOptions = computed(() => ({
 </script>
 
 <style scoped>
-/* ... Eure Styles wie gehabt ... */
-</style>
-
-<style scoped>
 .calendar-container {
     font-family: "Inter", sans-serif;
     padding: 1rem;
+    background: #fff;
+    color: #000;
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, color 0.3s;
 }
 .toolbar,
 .toolbar-sub {
@@ -281,18 +309,122 @@ const calendarOptions = computed(() => ({
     gap: 0.5rem;
 }
 
+/* Legende unter Kalender */
+.calendar-legend {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.legend-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+.legend-slot {
+    display: inline-block;
+    width: 1.35em;
+    height: 1.1em;
+    border-radius: 0.35em;
+    border: 1.5px solid #00fdcf;
+    margin-right: 0.4em;
+    box-shadow: 0 0 4px #00fdcf40;
+}
+.legend-slot.free {
+    background: linear-gradient(90deg, #e6fffa 80%, #ffffff 100%);
+    border-color: #00fdcf;
+}
+.legend-slot.booked {
+    background: linear-gradient(90deg, #e9e9ee 80%, #cacace 100%);
+    border-color: #b2b7bd;
+}
+.legend-slot.selected {
+    background: #00fdcf;
+    border-color: #00fdcf;
+    box-shadow: 0 0 12px 3px #00fdcf99, 0 0 0 2px #fff inset;
+    animation: pulse-slot-glow 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
+@keyframes pulse-slot-glow {
+    0% {
+        box-shadow: 0 0 12px 3px #00fdcf88, 0 0 0 2px #fff inset;
+    }
+    60% {
+        box-shadow: 0 0 28px 8px #00fdcfcc, 0 0 0 2px #fff inset;
+    }
+    100% {
+        box-shadow: 0 0 12px 3px #00fdcf88, 0 0 0 2px #fff inset;
+    }
+}
+
+/* FullCalendar: Slots */
+:deep(.fc-timegrid-slot) {
+    background: linear-gradient(90deg, #e9fff9 80%, #fff 100%);
+    cursor: pointer;
+    border-bottom: 1px solid #eef4f3;
+    transition: background 0.15s;
+}
+:deep(.fc-timegrid-slot.slot-free) {
+    background: linear-gradient(90deg, #e9fff9 80%, #fff 100%) !important;
+}
+:deep(.fc-timegrid-slot.slot-booked) {
+    background: repeating-linear-gradient(
+        90deg,
+        #e0e3e8 0%,
+        #d5d7dc 80%,
+        #c0c4c7 100%
+    ) !important;
+    opacity: 0.65 !important;
+    pointer-events: none;
+}
+:deep(.fc-timegrid-slot.slot-selected),
+:deep(.fc-slot-selected) {
+    background: #00fdcf !important;
+    box-shadow: 0 0 12px 3px #00fdcf77, 0 0 0 2px #fff inset;
+    z-index: 2;
+    animation: pulse-slot-glow 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
 /* Dark mode support */
 .dark .calendar-container {
-    background: #000;
+    background: #181d27;
     color: #fff;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
 }
 .dark .calendar-container .current-title,
 .dark .labels span {
     color: #fff;
 }
 .dark .calendar-container .fc {
-    background: #000 !important;
-    color: #fff !important;
+    background: #181d27 !important;
+    color: #080808 !important;
+}
+.dark :deep(.fc-timegrid-slot) {
+    background: linear-gradient(90deg, #243c39 60%, #181d27 100%);
+    border-bottom: 1px solid #23272f;
+    color: #060606 !important;
+}
+.dark :deep(.fc-timegrid-slot.slot-free) {
+    background: linear-gradient(90deg, #1c4740 80%, #22292f 100%) !important;
+}
+.dark :deep(.fc-timegrid-slot.slot-booked) {
+    background: repeating-linear-gradient(
+        90deg,
+        #232b32 0%,
+        #252c38 80%,
+        #353c45 100%
+    ) !important;
+    opacity: 0.5 !important;
+    pointer-events: none;
+}
+.dark :deep(.fc-timegrid-slot.slot-selected),
+.dark :deep(.fc-slot-selected) {
+    background: #00fdcf !important;
+    box-shadow: 0 0 12px 3px #00fdcf77, 0 0 0 2px #181d27 inset;
+    z-index: 2;
+    animation: pulse-slot-glow 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite;
 }
 
 /* Buttons */
@@ -306,27 +438,44 @@ const calendarOptions = computed(() => ({
     border-radius: 0.375rem;
     backdrop-filter: blur(10px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, box-shadow 0.2s;
 }
 .btn-gradient:hover {
     opacity: 0.85;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.15);
 }
 .btn-glass {
     padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: #000;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(0, 0, 0, 0.07);
     border-radius: 0.375rem;
     backdrop-filter: blur(8px);
     transition: opacity 0.2s;
 }
 .dark .btn-glass {
     color: #fff;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(30, 30, 35, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.18);
 }
 .btn-glass-small {
     padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    color: inherit;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 0.375rem;
+    transition: background 0.2s, border 0.2s;
+}
+.btn-glass-small:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+.dark .btn-glass-small {
+    border: 1px solid rgba(255, 255, 255, 0.13);
+}
+.dark .btn-glass-small:hover {
+    background: rgba(255, 255, 255, 0.07);
 }
 </style>

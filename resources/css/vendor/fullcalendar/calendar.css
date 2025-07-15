@@ -7,6 +7,11 @@
     --fc-today-bg-color: #f0fdfa; /* Tailwind teal-50 */
 }
 
+.fc-event-title {
+    margin: 0 !important;
+    color: #000;
+}
+
 .fc-timegrid-slot {
     transition: background-color 0.2s ease;
 }

@@ -3,7 +3,7 @@
         <div class="toolbar">
             <button
                 @click="$emit('back')"
-                class="btn-glass"
+                class="btn-glass dark:text-antasus-primary"
                 aria-label="Zurück zur Auswahl"
             >
                 ← Zurück zur letzten Auswahl
@@ -240,6 +240,7 @@ const calendarOptions = computed(() => ({
     select: (info) => {
         const slot = { start: info.startStr, end: info.endStr };
         const api = calendarRef.value.getApi();
+        if (window.navigator.vibrate) window.navigator.vibrate(20);
 
         if (props.admin) {
             selectedSlots.value.push(slot);
@@ -299,6 +300,7 @@ const calendarOptions = computed(() => ({
     font-weight: 600;
     color: #000;
 }
+
 .labels span {
     display: block;
     margin-right: 1rem;
@@ -329,7 +331,7 @@ const calendarOptions = computed(() => ({
     height: 1.1em;
     border-radius: 0.35em;
     border: 1.5px solid #00fdcf;
-    margin-right: 0.4em;
+    margin-right: 0.4rem;
     box-shadow: 0 0 4px #00fdcf40;
 }
 .legend-slot.free {
@@ -383,7 +385,7 @@ const calendarOptions = computed(() => ({
 :deep(.fc-slot-selected) {
     background: #00fdcf !important;
     box-shadow: 0 0 12px 3px #00fdcf77, 0 0 0 2px #fff inset;
-    z-index: 2;
+    /* z-index: 2; */
     animation: pulse-slot-glow 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite;
 }
 
@@ -419,13 +421,6 @@ const calendarOptions = computed(() => ({
     opacity: 0.5 !important;
     pointer-events: none;
 }
-.dark :deep(.fc-timegrid-slot.slot-selected),
-.dark :deep(.fc-slot-selected) {
-    background: #00fdcf !important;
-    box-shadow: 0 0 12px 3px #00fdcf77, 0 0 0 2px #181d27 inset;
-    z-index: 2;
-    animation: pulse-slot-glow 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite;
-}
 
 /* Buttons */
 .btn-gradient {
@@ -455,8 +450,9 @@ const calendarOptions = computed(() => ({
     backdrop-filter: blur(8px);
     transition: opacity 0.2s;
 }
+
 .dark .btn-glass {
-    color: #fff;
+    color: #00fdcf;
     background: rgba(30, 30, 35, 0.55);
     border: 1px solid rgba(0, 0, 0, 0.18);
 }
@@ -477,5 +473,10 @@ const calendarOptions = computed(() => ({
 }
 .dark .btn-glass-small:hover {
     background: rgba(255, 255, 255, 0.07);
+}
+
+:deep(.fc-timegrid-slot.slot-selected),
+:deep(.fc-slot-selected) {
+    transition: box-shadow 0.35s cubic-bezier(0.5, 0, 0.5, 1), background 0.25s;
 }
 </style>

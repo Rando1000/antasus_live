@@ -12,32 +12,54 @@
                     label="Dashboard"
                     to="/admin/dashboard"
                     icon="Dashboard"
+                    :active="isActive('/admin/dashboard')"
+                />
+                <NavItem
+                    label="Bookings"
+                    to="/admin/bookings"
+                    icon="Booking"
+                    :active="isActive('/admin/bookings')"
                 />
                 <NavItem
                     label="Services"
                     to="/admin/services"
                     icon="Services"
+                    :active="isActive('/admin/services')"
                 />
                 <NavItem
                     label="References"
                     to="/admin/referenzen"
                     icon="References"
+                    :active="isActive('/admin/referenzen')"
                 />
-                <NavItem label="Users" to="/admin/users" icon="Users" />
+                <NavItem
+                    label="E-Mail-Kampagnen"
+                    to="/admin/emailcampaign"
+                    icon="Mail"
+                    :active="isActive('/admin/emailcampaign')"
+                />
+                <NavItem
+                    label="Users"
+                    to="/admin/users"
+                    icon="Users"
+                    :active="isActive('/admin/users')"
+                />
                 <NavItem
                     label="Analytics"
                     to="/admin/analytics"
                     icon="Analytics"
+                    :active="isActive('/admin/analytics')"
                 />
                 <NavItem
                     label="Messages"
                     to="/admin/messages"
                     icon="Messages"
+                    :active="isActive('/admin/messages')"
                 />
             </nav>
         </aside>
 
-        <!-- Main content -->
+        <!-- Main content ... -->
         <div class="flex flex-col flex-1">
             <!-- Topbar -->
             <header
@@ -115,14 +137,17 @@ const open = ref(false);
 
 // Darkmode handling
 const isDark = ref(localStorage.getItem("theme") === "dark");
-
 watchEffect(() => {
     document.documentElement.classList.toggle("dark", isDark.value);
     localStorage.setItem("theme", isDark.value ? "dark" : "light");
 });
-
 function toggleDark() {
     isDark.value = !isDark.value;
+}
+
+// Aktiv-Logik, robust gegen Teilrouten (z.B. /admin/emailcampaign/xyz)
+function isActive(path) {
+    return window.location.pathname.startsWith(path);
 }
 </script>
 

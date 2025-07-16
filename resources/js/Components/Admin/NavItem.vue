@@ -1,47 +1,54 @@
 <template>
     <Link
         :href="to"
-        class="flex items-center px-3 py-2 text-sm font-medium transition-colors rounded-lg hover:bg-teal-100 dark:hover:bg-gray-700"
-        :class="{ 'bg-teal-50 dark:bg-gray-700': isActive }"
+        class="flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-400"
+        :class="
+            active
+                ? 'bg-gradient-to-r from-teal-500 to-indigo-800 text-white shadow'
+                : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+        "
+        aria-current="page"
     >
         <component
             :is="iconComponent"
-            class="w-5 h-5 mr-3 text-teal-600 dark:text-teal-300"
+            class="w-5 h-5 opacity-80"
+            aria-hidden="true"
         />
-        <span class="text-gray-800 dark:text-gray-100">{{ label }}</span>
+        <span>{{ label }}</span>
     </Link>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { Link, usePage } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 import {
-    UsersIcon,
-    ChartBarIcon,
-    DocumentTextIcon,
-    Cog6ToothIcon,
-    InboxIcon,
-    HomeIcon,
-} from "@heroicons/vue/24/solid";
+    Mail,
+    Layers,
+    Briefcase,
+    Home,
+    Users,
+    BarChart,
+    MessageSquare,
+    MonitorCheck,
+} from "lucide-vue-next";
+// Du kannst alle Lucide-Icons nach Bedarf importieren
 
 const props = defineProps({
     label: String,
     to: String,
-    icon: String, // z. B. 'Users', 'Analytics', 'Messages'
+    icon: String,
+    active: Boolean,
 });
 
-// Mapping der Icon-Namen auf Komponenten
-const iconMap = {
-    Users: UsersIcon,
-    Analytics: ChartBarIcon,
-    References: DocumentTextIcon,
-    Settings: Cog6ToothIcon,
-    Messages: InboxIcon,
-    Dashboard: HomeIcon,
+// Mapping für deine Icons
+const icons = {
+    Dashboard: Home,
+    Services: Layers,
+    References: Briefcase,
+    Users: Users,
+    Analytics: BarChart,
+    Messages: MessageSquare,
+    "E-Mail-Kampagnen": Mail,
+    Mail: Mail,
 };
-
-const iconComponent = computed(() => iconMap[props.icon] || Cog6ToothIcon);
-
-const page = usePage();
-const isActive = computed(() => page.url.startsWith(props.to));
+const iconComponent = icons[props.icon] || MonitorCheck;
 </script>

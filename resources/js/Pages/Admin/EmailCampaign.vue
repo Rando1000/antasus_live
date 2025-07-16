@@ -1,58 +1,58 @@
 <template>
     <div class="max-w-2xl py-10 mx-auto">
-        <!-- 1) Alle vollständigen Templates für JS parsen -->
-        <div
-            id="js-email-templates-json"
-            style="display: none"
-            v-text="JSON.stringify(fullTemplates)"
-        ></div>
+        <h1 class="mb-6 text-3xl font-extrabold text-gray-900 dark:text-white">
+            Werbe-Mail versenden
+        </h1>
 
-        <h1 class="mb-6 text-2xl font-bold">Werbe-Mail versenden</h1>
-
-        <form @submit.prevent="submit">
-            <!-- Empfänger-E-Mail -->
-            <div class="mb-4">
-                <label class="block mb-1 font-semibold" for="to_email"
-                    >Empfänger-E-Mail</label
-                >
+        <form @submit.prevent="submit" class="space-y-6">
+            <!-- Empfänger -->
+            <div>
+                <label for="to_email" class="block mb-1 font-semibold">
+                    Empfänger-E-Mail <span class="text-red-500">*</span>
+                </label>
                 <input
                     v-model="form.to_email"
                     type="email"
                     id="to_email"
-                    class="w-full px-3 py-2 border rounded"
+                    autocomplete="email"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-teal-400"
                     placeholder="beispiel@firma.de"
                 />
-                <span v-if="errors.to_email" class="text-sm text-red-600">{{
-                    errors.to_email
-                }}</span>
-            </div>
-
-            <!-- Empfänger-Name (optional) -->
-            <div class="mb-4">
-                <label class="block mb-1 font-semibold" for="to_name"
-                    >Empfänger-Name (optional)</label
+                <span
+                    v-if="errors.to_email"
+                    class="block mt-1 text-xs text-red-600"
                 >
+                    {{ errors.to_email }}
+                </span>
+            </div>
+            <div>
+                <label for="to_name" class="block mb-1 font-semibold">
+                    Empfänger-Name
+                </label>
                 <input
                     v-model="form.to_name"
                     type="text"
                     id="to_name"
-                    class="w-full px-3 py-2 border rounded"
+                    autocomplete="name"
+                    class="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-teal-400"
                     placeholder="Max Mustermann"
                 />
             </div>
 
             <!-- Vorlage Auswahl -->
-            <div class="mb-4">
-                <label for="template_key" class="block mb-1 font-semibold"
-                    >Vorlage</label
-                >
+            <div>
+                <label for="template_key" class="block mb-1 font-semibold">
+                    Vorlage <span class="text-red-500">*</span>
+                </label>
                 <select
                     v-model="form.template_key"
                     id="template_key"
                     @change="applyTemplate"
-                    class="w-full px-3 py-2 border rounded"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-teal-400"
                 >
-                    <option value="">– bitte wählen –</option>
+                    <option value="">– Bitte wählen –</option>
                     <option
                         v-for="tpl in templates"
                         :key="tpl.key"
@@ -61,67 +61,100 @@
                         {{ tpl.label }}
                     </option>
                 </select>
-                <span v-if="errors.template_key" class="text-sm text-red-600">{{
-                    errors.template_key
-                }}</span>
+                <span
+                    v-if="errors.template_key"
+                    class="block mt-1 text-xs text-red-600"
+                >
+                    {{ errors.template_key }}
+                </span>
             </div>
 
             <!-- Betreff -->
-            <div class="mb-4">
-                <label class="block mb-1 font-semibold" for="subject"
-                    >Betreff</label
-                >
+            <div>
+                <label for="subject" class="block mb-1 font-semibold">
+                    Betreff <span class="text-red-500">*</span>
+                </label>
                 <input
                     v-model="form.subject"
                     type="text"
                     id="subject"
-                    class="w-full px-3 py-2 border rounded"
+                    required
+                    class="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-teal-400"
                     placeholder="Betreff der E-Mail"
                 />
-                <span v-if="errors.subject" class="text-sm text-red-600">{{
-                    errors.subject
-                }}</span>
+                <span
+                    v-if="errors.subject"
+                    class="block mt-1 text-xs text-red-600"
+                >
+                    {{ errors.subject }}
+                </span>
             </div>
 
-            <!-- Body -->
-            <div class="mb-6">
-                <label class="block mb-1 font-semibold" for="body"
-                    >E-Mail-Text (HTML)</label
-                >
+            <!-- Body (HTML) -->
+            <div>
+                <label for="body" class="block mb-1 font-semibold">
+                    E-Mail-Text (HTML) <span class="text-red-500">*</span>
+                </label>
                 <textarea
                     v-model="form.body"
                     id="body"
-                    class="w-full px-3 py-2 border rounded"
-                    rows="10"
+                    rows="9"
+                    required
+                    class="w-full px-4 py-2 font-mono border rounded focus:ring-2 focus:ring-teal-400"
+                    placeholder="E-Mail-Inhalt mit HTML"
                 ></textarea>
-                <span v-if="errors.body" class="text-sm text-red-600">{{
-                    errors.body
-                }}</span>
+                <span
+                    v-if="errors.body"
+                    class="block mt-1 text-xs text-red-600"
+                >
+                    {{ errors.body }}
+                </span>
             </div>
 
-            <!-- Senden -->
-            <div class="flex items-center space-x-4">
+            <!-- Live Preview -->
+            <div v-if="form.body" class="mt-6">
+                <div
+                    class="mb-1 font-semibold text-gray-700 dark:text-gray-300"
+                >
+                    Live-Vorschau
+                </div>
+                <div
+                    class="p-4 prose-sm prose border rounded bg-gray-50 dark:bg-gray-800 max-w-none dark:prose-invert"
+                    v-html="form.body"
+                ></div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-4 mt-6">
                 <button
                     type="submit"
-                    class="px-6 py-2 text-white transition bg-teal-600 rounded hover:bg-teal-700"
+                    class="py-2 font-semibold text-white transition rounded shadow px-7 bg-gradient-to-r from-teal-500 to-indigo-700 hover:scale-105"
+                    :disabled="sending"
                 >
-                    E-Mail versenden
+                    <span v-if="sending">Wird gesendet…</span>
+                    <span v-else>E-Mail versenden</span>
                 </button>
-                <span v-if="success" class="text-green-600"
-                    >E-Mail erfolgreich gesendet!</span
+                <button
+                    type="button"
+                    @click="resetForm"
+                    class="px-6 py-2 text-gray-700 bg-gray-100 border border-gray-300 rounded hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200"
                 >
+                    Zurücksetzen
+                </button>
+                <span v-if="success" class="font-medium text-green-600">
+                    E-Mail erfolgreich gesendet!
+                </span>
             </div>
         </form>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch, nextTick } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps({
-    templates: Array, // [{ key,label }, …]
-    fullTemplates: Object, // vollständiges template-Array (Subject+Body)
+    templates: Array,
+    fullTemplates: Object,
     flash: Object,
 });
 
@@ -132,16 +165,32 @@ const form = reactive({
     subject: "",
     body: "",
 });
-
 const errors = ref({});
 const success = ref(false);
+const sending = ref(false);
 
-if (props.flash?.success) {
-    success.value = true;
-}
-if (props.flash?.errors) {
-    errors.value = props.flash.errors;
-}
+// Flash-Feedback initial
+if (props.flash?.success) success.value = true;
+if (props.flash?.errors) errors.value = props.flash.errors;
+
+// Template-Auswahl und Personalisierung
+watch(
+    () => form.template_key,
+    (val) => {
+        if (val) applyTemplate();
+    }
+);
+watch(
+    () => form.to_name,
+    (val) => {
+        if (form.template_key && props.fullTemplates[form.template_key]) {
+            form.body = props.fullTemplates[form.template_key].body.replaceAll(
+                "{{ recipient_name }}",
+                val || ""
+            );
+        }
+    }
+);
 
 function applyTemplate() {
     if (!form.template_key) {
@@ -151,19 +200,32 @@ function applyTemplate() {
     }
     const tpl = props.fullTemplates[form.template_key];
     form.subject = tpl.subject;
-    // Platzhalter für recipient_name direkt setzen
-    form.body = tpl.body.replace("{{ recipient_name }}", form.to_name || "");
+    form.body = tpl.body.replaceAll("{{ recipient_name }}", form.to_name || "");
+}
+
+function resetForm() {
+    form.to_email = "";
+    form.to_name = "";
+    form.template_key = "";
+    form.subject = "";
+    form.body = "";
+    errors.value = {};
+    success.value = false;
 }
 
 function submit() {
+    sending.value = true;
     Inertia.post(route("admin.emailcampaign.send"), form, {
         onError(page) {
             errors.value = page.props.flash.errors || {};
+            sending.value = false;
             success.value = false;
         },
         onSuccess() {
             errors.value = {};
             success.value = true;
+            sending.value = false;
+            nextTick(resetForm);
         },
     });
 }

@@ -9,46 +9,47 @@ return [
             'body'    => <<<'HTML'
 <p>Hallo {{ recipient_name }},</p>
 
-<p>wir von <strong>ANTASUS Infra</strong> möchten Ihnen unsere Expertise im Glasfaserausbau vorstellen.
-Mit langjähriger Erfahrung als Subunternehmer für Generalunternehmen bieten wir:</p>
+<p>wir von <strong>ANTASUS Infra</strong> möchten Ihnen unsere Expertise im Glasfaserausbau vorstellen.<br>
+Als erfahrener Subunternehmer für Generalunternehmen bieten wir Ihnen:</p>
 
 <ul>
-    <li>Professionelles Projektmanagement (Projektleitung / Bauleitung)</li>
-    <li>Normgerechte Hausanschlüsse (DIN 18220)</li>
-    <li>Komplettdienstleistungen für Tiefbau und Planung</li>
-    <li>Georeferenzierte Dokumentation und Fertigstellungstests</li>
+    <li>Professionelles Projektmanagement & Bauleitung nach VOB/B und DIN 18220</li>
+    <li>Komplettdienstleistungen: Tiefbau, Planung, Hausanschlüsse</li>
+    <li>Georeferenzierte Dokumentation, Fertigstellungstests & digitale Abnahme</li>
+    <li>Flexible, skalierbare Kapazitäten für Ihr Projektgeschäft</li>
 </ul>
 
-<p>Nach durchgängigen Prozessoptimierungen, sind wir in der Lage unsere Kappazitäten noch effektiver zu steuern. Wir bieten Ihnen ein hohes Maß an Qualität und Flexibilität die Sie ab sofort für Ihre Projekte nutzen können.
-    Unser Team aus exzelenten Projektleitern, spezialisierten Bauleitern und qualifizierten deutschsprachigen Mitarbeitern, werden Ihr Projekt auf einen hören Level bringen!
-    Haben Sie Interesse an einem unverbindlichen Gespräch? Dann lassen Sie uns gern einen Termin vereinbaren.</p>
+<p>Unser Team aus qualifizierten Bauleiter:innen, erfahrenen Projektleiter:innen und deutschsprachigen Fachkräften sorgt für höchste Qualität und Termintreue.</p>
+
+<p>Gern vereinbaren wir ein unverbindliches Gespräch.<br>
+Antworten Sie einfach auf diese E-Mail – wir freuen uns auf Ihre Nachricht!</p>
 
 <p>Beste Grüße<br>
 Ihr ANTASUS Infra Team</p>
 HTML
         ],
         'angebot' => [
-            'label'   => 'Preisanfrage für Projekt',
-            'subject' => 'Angebot: Ihr Glasfaserbau-Projekt mit ANTASUS Infra',
+            'label'   => 'Individuelles Projektangebot',
+            'subject' => 'Ihr maßgeschneidertes Glasfaser-Angebot von ANTASUS Infra',
             'body'    => <<<'HTML'
 <p>Guten Tag {{ recipient_name }},</p>
 
-<p>vielen Dank für Ihre Anfrage zum Thema Glasfaserausbau. Gerne unterbreiten wir Ihnen ein individuelles Angebot, das folgende Leistungen umfasst:</p>
+<p>vielen Dank für Ihr Interesse am Thema Glasfaserausbau. Wir bieten Ihnen ein individuell kalkuliertes Angebot inklusive folgender Leistungen:</p>
 
 <ul>
     <li>Projektplanung & Genehmigungsmanagement</li>
-    <li>Projektleitung & Bauleitung</li>
-    <li>Tiefbauarbeiten inklusive</li>
-    <li>Montage von Hausanschlüssen</li>
-    <li>Georeferenzierte Dokumentationen & Abnahmeberichte</li>
+    <li>Komplettservice: Tiefbau, Montage, Inbetriebnahme</li>
+    <li>Georeferenzierte Dokumentation und Abnahmeberichte</li>
+    <li>Persönliche Betreuung durch unsere Projektleiter:innen</li>
 </ul>
 
-<p>Bitte antworten Sie auf diese E-Mail, damit wir Ihnen ein maßgeschneidertes Angebot zusenden können.</p>
+<p>Kontaktieren Sie uns direkt für eine Beratung oder senden Sie uns Ihre Anforderungen.<br>
+Wir freuen uns auf die Zusammenarbeit!</p>
 
 <p>Mit freundlichen Grüßen<br>
 ANTASUS Infra</p>
 HTML
         ],
-        // … weitere Vorlagen hier nach demselben Schema
+        // Erweiterbar: z.B. Follow-up, Case Study, Info-Mail, etc.
     ],
 ];

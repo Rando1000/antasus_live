@@ -12,6 +12,7 @@ use App\Http\Controllers\Frontend\LeistungenController;
 use App\Http\Controllers\ServiceItemController;
 use App\Http\Controllers\Admin\EmailCampaignController;
 use App\Http\Controllers\Admin\EmailPromotionController;
+use App\Http\Controllers\Admin\EmailTrackingController;
 use App\Http\Controllers\Frontend\TechnologienController;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -207,7 +208,8 @@ Route::get('/inprogress', function () {
 // })->where('any', '.*');
 //------------------------------------------------------------
 //------------------------------------------------------------
-
+Route::get('/email/open/{token}', [EmailTrackingController::class, 'open'])->name('email.open');
+Route::get('/email/click/{token}', [EmailTrackingController::class, 'click'])->name('email.click');
 //------------------------------------------------------------
 //------------------------------------------------------------
 Route::middleware(['auth', 'role:admin'])
@@ -215,13 +217,16 @@ Route::middleware(['auth', 'role:admin'])
     ->group(function() {
         // Seite zum Verfassen (GET) und Senden (POST) von Kampagnen-Mails
         Route::get('emailcampaign', [EmailCampaignController::class, 'index'])
-             ->name('admin.emailcampaign.index');
+            ->name('admin.emailcampaign.index');
         Route::get('emailcampaign/create', [EmailCampaignController::class, 'create'])
-             ->name('admin.emailcampaign.create');
+            ->name('admin.emailcampaign.create');
         Route::put('emailkonverse/{campaign}', [EmailCampaignController::class,'update'])
             ->name('admin.email.update');
         Route::post('emailcampaign/send', [EmailCampaignController::class, 'send'])
-             ->name('admin.emailcampaign.send');
+            ->name('admin.emailcampaign.send');
+        // Tracking:
+        Route::get('/email/{type}/{token}', [EmailCampaignController::class, 'track'])
+            ->where(['type' => 'open|click', 'token' => '[\w\-]+']);
     });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {

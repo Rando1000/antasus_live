@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ReferenzController;
 use App\Http\Controllers\Admin\ServiceItemController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\MeetingController;
+use App\Http\Controllers\Admin\EmailTrackingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\BookingController;
 
@@ -70,5 +71,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/bookings/{booking}', [MeetingController::class, 'destroy'])->name('bookings.destroy');
 
 });
+
 
 //--------------Buchungen_Ende--------------------------

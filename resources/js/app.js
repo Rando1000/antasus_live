@@ -8,11 +8,13 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Inertia } from '@inertiajs/inertia'; // ← für Events
+import Chart from 'chart.js/auto';
 
 // Pinia für Stores
 import { createPinia } from 'pinia';
 import { useConsentStore } from '@/stores/consent'; // Pfad ggf. anpassen
 
+window.Chart = Chart; // So kann deine Komponente im onMounted darauf zugreifen
 const appName = import.meta.env.VITE_APP_NAME || 'ANTASUS Infra';
 const head = createHead();
 const pinia = createPinia();

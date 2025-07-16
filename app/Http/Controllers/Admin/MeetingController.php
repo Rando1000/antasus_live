@@ -17,7 +17,7 @@ class MeetingController extends Controller
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -28,15 +28,16 @@ class MeetingController extends Controller
         if ($from = $request->input('from')) {
             $query->whereDate('start', '>=', $from);
         }
-
         if ($to = $request->input('to')) {
             $query->whereDate('end', '<=', $to);
         }
         if ($request->filled('mode')) {
-            $query->where('mode', $request->mode);
+            $query->where('mode', $request->input('mode'));
         }
 
-        $bookings = $query->orderBy('start', 'desc')->paginate(20)->withQueryString();
+        $perPage = $request->input('perPage', 20);
+
+        $bookings = $query->orderBy('start', 'desc')->paginate($perPage)->withQueryString();
 
         return Inertia::render('Admin/Bookings/Index', [
             'bookings' => $bookings,
@@ -45,7 +46,7 @@ class MeetingController extends Controller
                 'status' => $status,
                 'from' => $request->input('from'),
                 'to' => $request->input('to'),
-                'mode',
+                'mode' => $request->input('mode'), // << KORRIGIERT!
             ],
         ]);
     }

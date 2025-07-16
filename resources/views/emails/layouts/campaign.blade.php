@@ -11,7 +11,7 @@
             color: #333;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         .wrapper {
@@ -26,16 +26,17 @@
         .header {
             background: #14b8a6;
             padding: 20px;
-            text-align: center
+            text-align: center;
+            max-height: 50px;
         }
 
         .header img {
-            max-height: 50px
+            max-height: 35px;
         }
 
         .content {
             padding: 20px;
-            line-height: 1.5
+            line-height: 1.5;
         }
 
         .footer {
@@ -43,7 +44,7 @@
             padding: 15px;
             font-size: 12px;
             text-align: center;
-            color: #666
+            color: #666;
         }
 
         .btn {
@@ -52,37 +53,34 @@
             color: #fff;
             padding: 10px 20px;
             border-radius: 50%;
-            text-decoration: none
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
-    {{-- Versteckter Preheader --}}
+    {{-- Versteckter Preheader (kurz halten!) --}}
     <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
-        {{ $preheader ?? \Illuminate\Support\Str::limit(strip_tags($htmlBody), 100) }}
+        {{ $preheader ?? 'Ihre Glasfaser-Lösung wartet – jetzt Kontakt aufnehmen!' }}
     </div>
-
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
         <tr>
             <td align="center">
                 <div class="wrapper">
                     <div class="header">
-                        <img src="https://www.antasus.de/images/favicon.svg" alt="ANTASUS Infra" />
+                        <img src="https://www.antasus.de/images/antasus-logo.png" alt="ANTASUS Infra" />
                     </div>
                     <div class="content">
                         {!! $htmlBody !!}
                     </div>
-
                     @if ($ctaUrl && $ctaLabel)
                         <div class="content"
                             style="text-align:center;padding-bottom:20px;box-shadow:#333;border-radius:2rem;">
                             <a href="{{ $ctaUrl }}" class="btn" target="_blank">{{ $ctaLabel }}</a>
                         </div>
                     @endif
-
                     <div class="footer">
-                        <p href="/" style="margin:0 0 4px;">
+                        <p style="margin:0 0 4px;">
                             ANTASUS Infra<br>
                             Norrenbergstraße 122, 42289 Wuppertal
                         </p>
@@ -96,6 +94,10 @@
             </td>
         </tr>
     </table>
+    <p style="font-size:12px;color:#888;text-align:center;margin-top:20px;">
+        Diese E-Mail enthält Erfolgs-Messung (B2B). Sie können dies jederzeit per E-Mail an
+        <a href="mailto:datenschutz@antasus.de">datenschutz@antasus.de</a> widerrufen.
+    </p>
 </body>
 
 </html>

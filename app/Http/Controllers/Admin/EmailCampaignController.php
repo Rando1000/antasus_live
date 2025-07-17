@@ -127,4 +127,19 @@ Mail::to($data['to_email'])
         ]);
         return redirect()->back()->with('success', 'Kampagne aktualisiert.');
     }
+
+    public function destroy($id)
+    {
+        EmailCampaign::where('id', $id)->delete();
+        return back()->with('success', 'E-Mail-Kampagne gelöscht.');
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        if (!empty($ids)) {
+            EmailCampaign::whereIn('id', $ids)->delete();
+        }
+        return back()->with('success', 'Ausgewählte E-Mail-Kampagnen gelöscht.');
+    }
 }

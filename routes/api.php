@@ -14,3 +14,4 @@ Route::get('/user', function (Request $request) {
 Route::post('/bookings/pending', [BookingController::class, 'storePending'])->name('bookings.pending');
 Route::get('/available-slots', [BookingController::class, 'availableSlots'])->name('available.slots');
 Route::post('/ai/answer', [AiController::class, 'hfAnswer']);
+

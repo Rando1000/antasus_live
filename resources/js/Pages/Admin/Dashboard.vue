@@ -124,8 +124,15 @@
                     icon="UsersIcon"
                     color="rose"
                 />
+                <SummaryCard
+                    class="col-span-1"
+                    title="Live-Besucher"
+                    :value="liveVisitors"
+                    icon="EyeIcon"
+                    color="emerald"
+                />
+                <ActiveVisitorsWidget class="col-span-2" />
             </div>
-
             <!-- Online-Benutzer -->
             <section aria-labelledby="online-user-heading" class="mt-14">
                 <h2
@@ -235,7 +242,27 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 import SummaryCard from "@/Components/Admin/SummaryCard.vue";
 import { Link } from "@inertiajs/vue3";
 import { format } from "date-fns";
+import { ref, onMounted } from "vue";
+import ActiveVisitorsWidget from "@/Components/ActiveVisitorsWidget.vue";
 
+const liveVisitors = ref(0);
+
+function fetchLiveVisitors() {
+    fetch("/active-visitors")
+        .then((r) => r.json())
+        .then((data) => {
+            liveVisitors.value = data.count;
+        })
+        .catch(() => {
+            liveVisitors.value = 0;
+        });
+}
+
+onMounted(() => {
+    fetchLiveVisitors();
+    setInterval(fetchLiveVisitors, 7500);
+});
+const activeVisitors = ref(0);
 const props = defineProps({
     stats: {
         type: Object,
@@ -246,8 +273,10 @@ const props = defineProps({
             users: 0,
             newBookings: [],
             newBookingCount: 0,
+            liveVisitors: 0,
         }),
     },
+    activeVisitors: Object,
     onlineUsers: Array,
     usersWithRoles: Array,
     loggedInUsers: Array,

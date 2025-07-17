@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\BookingController;
 
 
+
 //----------------Rollen-Routes------------
 Route::middleware(['auth', 'role:admin'])
     ->prefix('admin/referenzen')
@@ -36,8 +37,13 @@ Route::middleware(['auth', 'role:admin'])
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
-});
 
+
+});
+Route::get('/active-visitors', [DashboardController::class, 'activeVisitors'])->middleware(['auth', 'role:admin']);
+Route::get('/admin/active-visitors-history', [DashboardController::class, 'activeVisitorsHistory'])->middleware(['auth', 'role:admin']);
+// Route::get('/active-visitors', [DashboardController::class, 'activeVisitors'])
+//     ->middleware(['auth', 'role:admin']);
 //-------------------------------------------------------
 
 

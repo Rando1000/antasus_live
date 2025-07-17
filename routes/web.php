@@ -227,6 +227,8 @@ Route::middleware(['auth', 'role:admin'])
         // Tracking:
         Route::get('/email/{type}/{token}', [EmailCampaignController::class, 'track'])
             ->where(['type' => 'open|click', 'token' => '[\w\-]+']);
+        Route::delete('/emailcampaign/{id}', [EmailCampaignController::class, 'destroy'])->name('admin.emailcampaign.destroy');
+        Route::post('/emailcampaign/bulk-delete', [EmailCampaignController::class, 'bulkDelete'])->name('admin.emailcampaign.bulkDelete');
     });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -296,3 +298,7 @@ Route::get('ratgeber/technologien', [TechnologienController::class, 'index'])
 //----------------Google-AI-SEO_Ratgeberseiten----------------
 // back
 require __DIR__.'/backadmin.php';
+
+
+// Route::get('/admin/active-visitors', [DashboardController::class, 'activeVisitors'])
+//     ->middleware(['auth', 'role:admin']);

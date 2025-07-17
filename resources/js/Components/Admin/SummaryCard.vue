@@ -1,6 +1,9 @@
 <template>
     <div
         class="p-6 transition transform bg-white border rounded-lg shadow hover:shadow-md dark:bg-gray-800 dark:border-gray-700 hover:-translate-y-1"
+        :class="`ring-2 ring-${color}-100 dark:ring-${color}-800/50`"
+        tabindex="0"
+        aria-label="Statistik {{ title }}"
     >
         <div class="flex items-center space-x-4">
             <div
@@ -32,6 +35,7 @@ import {
     ChartBarIcon,
     EnvelopeIcon,
     UsersIcon,
+    EyeIcon,
 } from "@heroicons/vue/24/solid";
 
 const props = defineProps({
@@ -49,7 +53,7 @@ const iconMap = {
     ChartBarIcon,
     EnvelopeIcon,
     UsersIcon,
+    EyeIcon,
 };
-
 const iconComponent = computed(() => iconMap[props.icon] || DocumentTextIcon);
 </script>

@@ -8,27 +8,16 @@ use Illuminate\Queue\SerializesModels;
 
 class GenericCampaignMail extends Mailable
 {
-    use Queueable, SerializesModels;
-
-    public string $subjectLine;
-    public string $htmlBody;
-    public ?string $preheader;
-    public ?string $ctaUrl;
-    public ?string $ctaLabel;
-
     public function __construct(
-        string $subjectLine,
-        string $htmlBody,
-        ?string $preheader = null,
-        ?string $ctaUrl = null,
-        ?string $ctaLabel = null
-    ) {
-        $this->subjectLine = $subjectLine;
-        $this->htmlBody    = $htmlBody;
-        $this->preheader   = $preheader;
-        $this->ctaUrl      = $ctaUrl;
-        $this->ctaLabel    = $ctaLabel;
-    }
+        public string $subjectLine,
+        public string $htmlBody,
+        public ?string $preheader = null,
+        public ?string $ctaUrl = null,
+        public ?string $ctaLabel = null,
+        public ?string $footerLink1 = null,
+        public ?string $footerLink2 = null,
+        public ?string $footerLink3 = null,
+    ) {}
 
     public function build()
     {
@@ -41,6 +30,9 @@ class GenericCampaignMail extends Mailable
                 'preheader'   => $this->preheader,
                 'ctaUrl'      => $this->ctaUrl,
                 'ctaLabel'    => $this->ctaLabel,
+                'footerLink1' => $this->footerLink1,
+                'footerLink2' => $this->footerLink2,
+                'footerLink3' => $this->footerLink3,
             ]);
     }
 }

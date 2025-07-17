@@ -23,14 +23,13 @@ class EmailTrackingController extends Controller
 
 public function click(Request $request, $token)
 {
-    $mail = \App\Models\EmailCampaign::where('tracking_token', $token)->first();
+    $campaign = \App\Models\EmailCampaign::where('tracking_token', $token)->firstOrFail();
     $url = $request->query('url', '/');
-    if ($mail) {
-        $clicked = $mail->clicked_links ?? [];
-        $clicked[$url] = now()->toDateTimeString();
-        $mail->clicked_links = $clicked;
-        $mail->save();
-    }
+    $clicked = $campaign->clicked_links ?? [];
+    $clicked[$url] = now()->toDateTimeString();
+    $campaign->clicked_links = $clicked;
+    $campaign->save();
     return redirect()->away($url);
+    \Log::info('click', ['token' => $token, 'url' => $url]);
 }
 }

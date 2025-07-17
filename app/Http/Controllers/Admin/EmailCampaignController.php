@@ -35,58 +35,81 @@ class EmailCampaignController extends Controller
     }
 
     public function send(Request $request)
-    {
-        $data = $request->validate([
-            'to_email'     => 'required|email',
-            'to_name'      => 'nullable|string|max:255',
-            'template_key' => 'required|string|in:' . implode(',', array_keys(config('email-templates.vorlagen'))),
-            'subject'      => 'required|string|max:255',
-            'body'         => 'required|string',
-        ]);
+{
+    $data = $request->validate([
+        'to_email'     => 'required|email',
+        'to_name'      => 'nullable|string|max:255',
+        'template_key' => 'required|string|in:' . implode(',', array_keys(config('email-templates.vorlagen'))),
+        'subject'      => 'required|string|max:255',
+        'body'         => 'required|string',
+    ]);
+    $token = (string) Str::uuid();
 
-        // 1. Tracking-Token generieren
-        $token = (string) \Illuminate\Support\Str::uuid();
+    // 1. Personalisierung (Name einfügen)
+    $body = str_replace(
+        '{{ recipient_name }}',
+        $data['to_name'] ?: $data['to_email'],
+        $data['body']
+    );
 
-        // 2. Personalisierung/Platzhalter ersetzen
-        $body = str_replace('{{ recipient_name }}', $data['to_name'] ?: $data['to_email'], $data['body']);
+    // 2. Alle Links im Body für Klicktracking ersetzen (egal ob Vorlage, Editor oder Blade)
+    $body = preg_replace_callback(
+    '/<a\s+[^>]*href="([^"]+)"[^>]*>/is',
+    function ($matches) use ($token) {
+        $original = $matches[1];
+        if (str_contains($original, '/email/click/')) return $matches[0];
+        $trackUrl = route('email.click', $token) . '?url=' . urlencode($original);
+        return str_replace($original, $trackUrl, $matches[0]);
+    },
+    $body
+);
+// 3. Open-Pixel anhängen
+    $body .= '<img src="' . route('email.open', $token) . '" width="1" height="1" style="display:none" alt="" />';
 
-        // 3. Klicktracking: alle <a href="...">
-        $body = preg_replace_callback(
-            '/<a\s+[^>]*href="([^"]+)"[^>]*>/i',
-            function ($matches) use ($token) {
-                $original = $matches[1];
-                // Doppelte Ersetzung vermeiden!
-                if (str_contains($original, '/email/click/')) return $matches[0];
-                $trackUrl = url("/email/click/{$token}?url=" . urlencode($original));
-                return str_replace($original, $trackUrl, $matches[0]);
-            },
-            $body
-        );
+// CTA-Button und Footer-Links "manuell" auch als Tracking-Link bauen:
+$ctaUrl      = 'https://www.antasus.de/kontakt';
+$ctaUrlTrack = route('email.click', $token) . '?url=' . urlencode($ctaUrl);
 
-        // 4. Tracking-Pixel anhängen (Open-Tracking)
-        $body .= '<img src="' . url("/email/open/{$token}") . '" width="1" height="1" style="display:none" alt="" />';
+// Footer-Links – Beispiel
+$footerLinks = [
+    'https://www.antasus.de',
+    'https://www.antasus.de/impressum',
+    'https://www.antasus.de/datenschutz',
+];
+$footerTrack = [];
+foreach ($footerLinks as $link) {
+    $footerTrack[] = route('email.click', $token) . '?url=' . urlencode($link);
+}
+$ctaLabel = 'Jetzt unverbindlich anfragen';
+$preheader = 'Ihre maßgeschneiderte Glasfaser-Lösung wartet!';
 
-        // 5. Mail senden (unbedingt das bearbeitete $body übergeben)
-        \Mail::to($data['to_email'])->send(new \App\Mail\GenericCampaignMail(
-            $data['subject'],
-            $body,
-            'Ihre maßgeschneiderte Glasfaser-Lösung wartet!',
-            'https://www.antasus.de/kontakt',
-            'Jetzt unverbindlich anfragen'
-        ));
+// Übergib ALLE getrackten Links ans Blade:
+Mail::to($data['to_email'])
+    ->send(new GenericCampaignMail(
+        $data['subject'],
+        $body,
+        $preheader,
+        $ctaUrlTrack,         // Tracked CTA
+        $ctaLabel,
+        $footerTrack[0] ?? null, // Tracked Footer 1
+        $footerTrack[1] ?? null, // Tracked Footer 2
+        $footerTrack[2] ?? null  // Tracked Footer 3
+    ));
 
-        // 6. Mail-Kampagne inkl. Token speichern
-        \App\Models\EmailCampaign::create([
-            'recipient_email' => $data['to_email'],
-            'subject'         => $data['subject'],
-            'template'        => $data['template_key'],
-            'body'            => $body,
-            'sent_at'         => now(),
-            'tracking_token'  => $token,
-        ]);
+    // 6. In DB speichern (Tracking-Body)
+    EmailCampaign::create([
+        'recipient_email' => $data['to_email'],
+        'subject'         => $data['subject'],
+        'template'        => $data['template_key'],
+        'body'            => $body, // TRACKING-BODY mit getrackten Links!
+        'sent_at'         => now(),
+        'tracking_token'  => $token,
+    ]);
 
-        return back()->with('success', 'E-Mail wurde versendet.');
-    }
+    \Log::info('Finaler Mail-Body', ['body' => $body]);
+
+    return back()->with('success', 'E-Mail wurde versendet.');
+}
 
     public function update(Request $request, EmailCampaign $campaign)
     {

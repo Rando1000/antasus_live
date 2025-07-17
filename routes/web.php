@@ -162,7 +162,7 @@ Route::get('/sitemap.xml', function () {
         ->add(Url::create('/glasfaserbau')
             ->setPriority(0.8)
             ->setLastModificationDate($now->copy()->subWeek()))
-        ->add(Url::create('/technologien')
+        ->add(Url::create('/ratgeber/technologien')
             ->setPriority(0.8)
             ->setLastModificationDate($now->copy()->subWeek()));
 

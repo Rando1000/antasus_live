@@ -37,10 +37,10 @@ const props = defineProps({
 });
 
 const update = (formData) => {
-    router.put(`/admin/services/${props.service.id}`, formData, {
+    router.post(`/admin/services/${props.service.id}`, formData, {
+        forceFormData: true, // <---- das ist wichtig bei @inertiajs/vue3 >=1.0!
         onSuccess: () => {
-            // z.B. Notification, Erfolgsmeldung oder Redirect:
-            // router.visit('/admin/services');
+            // z.B. router.visit('/admin/services');
         },
     });
 };

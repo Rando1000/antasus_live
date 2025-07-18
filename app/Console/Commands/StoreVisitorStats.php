@@ -1,34 +1,28 @@
 <?php
 
-namespace App\Console\Commands;
+// namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Redis;
-use Carbon\Carbon;
+// use Illuminate\Console\Command;
+// use Illuminate\Support\Facades\Cache;
+// use Carbon\Carbon;
 
-class StoreVisitorStats extends Command
-{
-    protected $signature = 'stats:store-visitors';
-    protected $description = 'Speichert die aktuelle Besucherzahl (aktive Besucher) in Redis als Zeitreihe.';
+// class StoreVisitorStats extends Command
+// {
+//     protected $signature = 'stats:store-visitors';
+//     protected $description = 'Speichert die aktuelle Besucherzahl (aktive Besucher) in Cache als Zeitreihe.';
 
-    public function handle()
-    {
-        // Aktuelle Zahl ermitteln (z. B. durch bereits bestehende Middleware):
-        $all = Redis::hgetall('site:active_visitors');
-        $now = Carbon::now();
-        $timestamp = $now->format('YmdHi'); // z. B. 202507171547
+//     public function handle()
+//     {
+//         $all = Cache::get('site:active_visitors', []);
+//         $now = Carbon::now();
+//         $timestamp = $now->format('YmdHi');
 
-        // Nur Besucher der letzten 10 Min zählen
-        $recent = array_filter($all, fn($ts) => (time() - $ts) < 600);
-        $current = count($recent);
+//         $recent = array_filter($all, fn($ts) => (time() - $ts) < 600);
+//         $current = count($recent);
 
-        // Key für Zeitreihe bauen (Minute-genau)
-        $statKey = "visitors_stats:{$timestamp}";
+//         $statKey = "visitors_stats:{$timestamp}";
+//         Cache::put($statKey, $current, now()->addDays(30)); // 30 Tage Haltbarkeit
 
-        // Wert setzen + Ablaufzeit (z.B. 3 Tage)
-        Redis::set($statKey, $current);
-        Redis::expire($statKey, 60 * 60 * 24 * 30); // 30 Tage Haltbarkeit
-
-        $this->info("Aktive Besucher: $current gespeichert unter $statKey");
-    }
-}
+//         $this->info("Aktive Besucher: $current gespeichert unter $statKey");
+//     }
+// }

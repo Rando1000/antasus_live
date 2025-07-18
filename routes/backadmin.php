@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\MeetingController;
 use App\Http\Controllers\Admin\EmailTrackingController;
 use App\Http\Controllers\Admin\DashboardController;
+// use App\Http\Controllers\Admin\VisitorStatsController;
 use App\Http\Controllers\BookingController;
 
 
@@ -37,6 +38,12 @@ Route::middleware(['auth', 'role:admin'])
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
+    // Route::get('visitor-stats', [VisitorStatsController::class, 'index'])
+    //     ->name('admin.visitor-stats.index');
+    // Route::delete('visitor-stats/{key}', [VisitorStatsController::class, 'destroy'])
+    //     ->name('admin.visitor-stats.destroy');
+    // Route::delete('visitor-stats', [VisitorStatsController::class, 'destroyBulk'])
+    //     ->name('admin.visitor-stats.destroyBulk');
 
 
 });
@@ -44,6 +51,13 @@ Route::get('/active-visitors', [DashboardController::class, 'activeVisitors'])->
 Route::get('/admin/active-visitors-history', [DashboardController::class, 'activeVisitorsHistory'])->middleware(['auth', 'role:admin']);
 // Route::get('/active-visitors', [DashboardController::class, 'activeVisitors'])
 //     ->middleware(['auth', 'role:admin']);
+
+
+// Route::get('visitor-stats', [VisitorStatsController::class, 'index'])->name('admin.visitor-stats.index');
+// Route::delete('visitor-stats/{key}', [VisitorStatsController::class, 'destroy'])->name('admin.visitor-stats.destroy');
+// Route::delete('visitor-stats', [VisitorStatsController::class, 'destroyBulk'])->name('admin.visitor-stats.destroyBulk');
+
+
 //-------------------------------------------------------
 
 

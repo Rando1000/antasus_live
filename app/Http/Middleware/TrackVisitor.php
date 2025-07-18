@@ -3,22 +3,24 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cache;
 
 class TrackVisitor
 {
     public function handle($request, Closure $next)
     {
-        // Ein einzigartiger Key pro Browser/Fenster
         $sessionId = $request->cookie('laravel_session') ?? session()->getId();
-        $visitorId = sha1(
-            $sessionId . '|' . ($request->userAgent() ?? '')
-        );
+        $visitorId = sha1($sessionId . '|' . ($request->userAgent() ?? ''));
 
-        // Besucher als aktiv für 10 Minuten markieren
-        Redis::hset('site:active_visitors', $visitorId, time());
-        Redis::expire('site:active_visitors', 600);
+        // Aktuellen Stand aus dem Cache holen
+        $visitors = Cache::get('site:active_visitors', []);
+        // Aktualisieren/neu eintragen
+        $visitors[$visitorId] = time();
+
+        // Im Cache speichern (z. B. für 15 Minuten)
+        Cache::put('site:active_visitors', $visitors, now()->addMinutes(15));
 
         return $next($request);
     }
 }
+

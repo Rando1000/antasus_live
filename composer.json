@@ -18,7 +18,8 @@
         "spatie/laravel-cookie-consent": "^3.3",
         "spatie/laravel-permission": "^6.20",
         "spatie/laravel-sitemap": "^7.3",
-        "tightenco/ziggy": "^2.0"
+        "tightenco/ziggy": "^2.0",
+        "torann/geoip": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

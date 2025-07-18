@@ -75,23 +75,23 @@ class DashboardController extends Controller
     }
 
     public function activeVisitors()
-    {
-        try {
-            $all = Redis::hgetall('site:active_visitors');
-            $now = time();
-            $recent = array_filter($all, fn($ts) => ($now - $ts) < 60);
+{
+    try {
+        $all = Cache::get('site:active_visitors', []);
+        $now = time();
+        $recent = array_filter($all, fn($ts) => ($now - $ts) < 60);
 
-            return response()->json([
-                'count' => count($recent),
-                'visitors' => $recent,
-            ]);
-        } catch (\Throwable $e) {
-            \Log::error('Redis error: ' . $e->getMessage());
-            return response()->json(['count' => 0, 'error' => $e->getMessage()], 500);
-        }
+        return response()->json([
+            'count' => count($recent),
+            'visitors' => $recent,
+        ]);
+    } catch (\Throwable $e) {
+        \Log::error('Cache error: ' . $e->getMessage());
+        return response()->json(['count' => 0, 'error' => $e->getMessage()], 500);
     }
+}
 
-    public function activeVisitorsHistory(Request $request)
+public function activeVisitorsHistory(Request $request)
 {
     $range = $request->input('range', '1h');
     $now = now();
@@ -112,14 +112,14 @@ class DashboardController extends Controller
             $time = $now->copy()->subMinutes($i * $interval);
             $key = 'visitors_stats:' . $time->format('YmdHi');
             $labels[] = $time->format('H:i');
-            $count = (int) \Illuminate\Support\Facades\Redis::get($key);
+            $count = (int) Cache::get($key, 0);
             $counts[] = [
                 'time' => $labels[count($labels) - 1],
                 'count' => $count,
             ];
         }
 
-        $active = \Illuminate\Support\Facades\Redis::hgetall('site:active_visitors');
+        $active = Cache::get('site:active_visitors', []);
         $current = 0;
         $nowTimestamp = time();
         foreach ($active as $ts) {
@@ -131,7 +131,7 @@ class DashboardController extends Controller
             'history' => $counts,
         ]);
     } catch (\Throwable $e) {
-        \Log::error('Redis error (history): ' . $e->getMessage());
+        \Log::error('Cache error (history): ' . $e->getMessage());
         return response()->json([
             'current' => 0,
             'history' => [],

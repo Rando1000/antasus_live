@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Cache;
 use App\Models\VisitorStat;
 use Illuminate\Support\Str;
+use Illuminate\Support\Log;
 
 class TrackVisitor
 {
@@ -18,6 +19,13 @@ class TrackVisitor
 
         $sessionId = $request->cookie('laravel_session') ?? session()->getId();
         $visitorKey = sha1($sessionId . '|' . ($request->userAgent() ?? ''));
+        $ip = $request->ip(); // ZUERST definieren!
+        $location = geoip($ip);
+
+        \Log::info('GeoIP', [
+            'ip' => $ip,
+            'location' => $location ? $location->toArray() : null,
+        ]);
 
         // Besucher als aktiv markieren
         $visitors = Cache::get('site:active_visitors', []);

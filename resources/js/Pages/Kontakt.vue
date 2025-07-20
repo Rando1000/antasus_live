@@ -15,7 +15,7 @@
         <!-- OG & Canonical -->
         <meta
             property="og:title"
-            content="Jetzt Kontakt aufnehmen – ANTASUS Infra"
+            content="Jetzt Kontakt aufnehmen - ANTASUS Infra"
         />
         <meta
             property="og:description"
@@ -27,7 +27,6 @@
         />
         <meta property="og:url" content="https://www.antasus.de/kontakt" />
         <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://www.antasus.de/kontakt" />
     </Head>
 
     <GuestLayout title="Kontakt">

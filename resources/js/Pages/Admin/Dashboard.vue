@@ -132,7 +132,11 @@
                     color="emerald"
                 />
                 <ActiveVisitorsWidget class="col-span-2" />
+
+                <!-- NEU: Besucherstatistik-Cache Inspector -->
+                <VisitorStatsInspector class="col-span-5 mt-12" />
             </div>
+            <VisitorAnalyticsDashboard />
             <!-- Online-Benutzer -->
             <section aria-labelledby="online-user-heading" class="mt-14">
                 <h2
@@ -244,6 +248,8 @@ import { Link } from "@inertiajs/vue3";
 import { format } from "date-fns";
 import { ref, onMounted } from "vue";
 import ActiveVisitorsWidget from "@/Components/ActiveVisitorsWidget.vue";
+import VisitorStatsInspector from "@/Components/Admin/VisitorStatsInspector.vue";
+import VisitorAnalyticsDashboard from "@/Components/Admin/VisitorAnalyticsDashboard.vue";
 
 const liveVisitors = ref(0);
 

@@ -36,7 +36,7 @@ return [
     |
     */
 
-    'service' => null,
+    'service' => env('GEOIP_SERVICE', 'maxmind_database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -114,7 +114,7 @@ return [
     |
     */
 
-    'cache_tags' => ['torann-geoip-location'],
+    'cache_tags' => null,
 
     /*
     |--------------------------------------------------------------------------

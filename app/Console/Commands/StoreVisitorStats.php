@@ -1,28 +1,35 @@
 <?php
 
-// namespace App\Console\Commands;
+namespace App\Console\Commands;
 
-// use Illuminate\Console\Command;
-// use Illuminate\Support\Facades\Cache;
-// use Carbon\Carbon;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 
-// class StoreVisitorStats extends Command
-// {
-//     protected $signature = 'stats:store-visitors';
-//     protected $description = 'Speichert die aktuelle Besucherzahl (aktive Besucher) in Cache als Zeitreihe.';
+class StoreVisitorStats extends Command
+{
+    protected $signature = 'stats:store-visitors';
+    protected $description = 'Speichert die aktuelle Besucherzahl (aktive Besucher) im Cache als Zeitreihe.';
 
-//     public function handle()
-//     {
-//         $all = Cache::get('site:active_visitors', []);
-//         $now = Carbon::now();
-//         $timestamp = $now->format('YmdHi');
+    public function handle()
+    {
+        // Holt alle aktiven Besucher aus dem Cache
+        $all = Cache::get('site:active_visitors', []);
 
-//         $recent = array_filter($all, fn($ts) => (time() - $ts) < 600);
-//         $current = count($recent);
+        // Zählt nur Besucher, die in den letzten 10 Minuten aktiv waren
+        $recent = array_filter($all, function($ts) {
+            return (time() - $ts) < 600;
+        });
+        $current = count($recent);
 
-//         $statKey = "visitors_stats:{$timestamp}";
-//         Cache::put($statKey, $current, now()->addDays(30)); // 30 Tage Haltbarkeit
+        // Zeitstempel als Key (pro Minute eindeutig)
+        $now = Carbon::now();
+        $statKey = "visitors_stats:" . $now->format('YmdHi');
 
-//         $this->info("Aktive Besucher: $current gespeichert unter $statKey");
-//     }
-// }
+        // Besucherzahl im Cache für 30 Tage speichern
+        Cache::put($statKey, $current, now()->addDays(30));
+
+        $this->info("Aktive Besucher: $current gespeichert unter $statKey");
+        \Log::info('StatKey', ['key' => $statKey, 'current' => $current]);
+    }
+}

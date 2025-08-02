@@ -1,8 +1,8 @@
-<!-- Components/Admin/ActiveVisitorsWidget.vue -->
 <template>
     <div
         class="flex flex-col items-center gap-4 p-6 bg-white border border-teal-100 shadow-lg rounded-2xl dark:bg-gray-900 dark:border-teal-900/30"
     >
+        <!-- Header mit Icon & Besucheranzahl -->
         <div class="flex items-center w-full gap-3">
             <span
                 class="inline-flex items-center justify-center text-white rounded-full shadow w-14 h-14 bg-gradient-to-br from-teal-400 to-indigo-600"
@@ -15,8 +15,9 @@
                     Aktive Besucher
                     <span
                         class="font-normal text-[10px] text-gray-300 dark:text-gray-600"
-                        >(letzte 10 min)</span
                     >
+                        (letzte 10 min)
+                    </span>
                 </div>
                 <div
                     class="flex items-end gap-1 text-4xl font-extrabold leading-none text-antasus-black dark:text-white animate-pulse"
@@ -31,22 +32,25 @@
                 </div>
             </div>
         </div>
+
+        <!-- Zeitraumwahl & Chart-Beschreibung -->
         <div class="flex items-center justify-between w-full mt-2">
             <div class="flex items-center gap-2">
                 <span
                     v-for="option in ranges"
                     :key="option.value"
                     @click="setRange(option.value)"
-                    :tabindex="0"
                     @keydown.enter="setRange(option.value)"
+                    role="button"
+                    tabindex="0"
+                    :aria-label="`Zeitraum: ${option.label}`"
+                    :aria-current="selectedRange === option.value"
                     :class="[
                         'px-3 py-1 text-xs rounded-lg cursor-pointer font-semibold transition',
                         selectedRange === option.value
                             ? 'bg-teal-500 text-white shadow ring-2 ring-teal-400 dark:ring-teal-700'
                             : 'bg-teal-50 text-teal-700 hover:bg-teal-100 dark:bg-teal-800/60 dark:text-teal-200 dark:hover:bg-teal-800/80',
                     ]"
-                    :aria-current="selectedRange === option.value"
-                    :aria-label="`Zeitraum: ${option.label}`"
                 >
                     {{ option.label }}
                 </span>
@@ -56,9 +60,10 @@
                 >{{ chartLabel }}</span
             >
         </div>
+
+        <!-- Chart -->
         <div class="relative w-full mt-1 h-28">
             <canvas ref="chartRef" class="h-full"></canvas>
-            <!-- Dezent am Chart-Ende: Min/Max-Beschriftung -->
             <span
                 v-if="history.length"
                 class="absolute bottom-1 left-2 text-[10px] text-gray-400 dark:text-gray-600"
@@ -104,16 +109,16 @@ function setRange(r) {
 
 async function fetchData() {
     try {
-        const r = await fetch(
+        const res = await fetch(
             `/admin/active-visitors-history?range=${selectedRange.value}`
         );
-        const data = await r.json();
-        // Mini-Animation bei Wertänderung
+        const data = await res.json();
+
         if (current.value !== (data.current ?? 0)) {
             current.value = 0;
             setTimeout(() => {
                 current.value = data.current ?? 0;
-            }, 100); // Animation reset
+            }, 100);
         } else {
             current.value = data.current ?? 0;
         }
@@ -129,12 +134,12 @@ async function fetchData() {
 function renderChart() {
     if (!window.Chart || !chartRef.value) return;
     if (chartInstance.value) chartInstance.value.destroy();
+
     const ctx = chartRef.value.getContext("2d");
-    // Verlauf: dynamisch, CI/CD-konform
     const gradient = ctx.createLinearGradient(0, 0, 0, 120);
-    gradient.addColorStop(0, "#00fdcf99"); // teal, 60%
-    gradient.addColorStop(0.7, "#6366f155"); // indigo, 33%
-    gradient.addColorStop(1, "#fff0"); // transparent
+    gradient.addColorStop(0, "#00fdcf99");
+    gradient.addColorStop(0.7, "#6366f155");
+    gradient.addColorStop(1, "#fff0");
 
     chartInstance.value = new window.Chart(ctx, {
         type: "line",
@@ -147,8 +152,8 @@ function renderChart() {
                     borderColor: "#00fdcf",
                     backgroundColor: gradient,
                     pointRadius: 2.5,
-                    pointHoverRadius: 7,
-                    tension: 0.34,
+                    pointHoverRadius: 6,
+                    tension: 0.35,
                     fill: true,
                     borderWidth: 2.2,
                     pointBackgroundColor: "#00fdcf",
@@ -187,18 +192,18 @@ function renderChart() {
                 },
             },
             animation: {
-                duration: 650,
-                easing: "cubicBezier(.22,1,.36,1)",
+                duration: 600,
+                easing: "cubicBezier(.25, .8, .25, 1)",
             },
         },
     });
 }
 
-// Polling & Update bei Range-Wechsel
 onMounted(() => {
     fetchData();
-    setInterval(fetchData, 14000);
+    setInterval(fetchData, 15000);
 });
+
 watch(selectedRange, fetchData);
 </script>
 

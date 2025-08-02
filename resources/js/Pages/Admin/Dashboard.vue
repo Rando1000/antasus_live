@@ -1,7 +1,7 @@
 <template>
     <AdminLayout title="Dashboard">
         <div class="px-4 py-10 mx-auto max-w-7xl space-y-14">
-            <!-- Begrüßung und Schnellzugriff -->
+            <!-- Begrüßung & Navigation -->
             <div
                 class="flex flex-col gap-6 mb-8 md:flex-row md:items-center md:justify-between"
             >
@@ -14,31 +14,30 @@
                     <p
                         class="text-base font-medium text-gray-600 dark:text-gray-300"
                     >
-                        Ihre zentrale Steuerzentrale für alle Aktivitäten und
-                        Auswertungen bei
+                        Ihre Steuerzentrale für
                         <span class="font-bold text-teal-600"
                             >ANTASUS Infra</span
-                        >.
+                        >
                     </p>
                 </div>
                 <div class="flex gap-3">
                     <Link
                         href="/admin/services"
-                        class="px-5 py-2 text-sm font-semibold text-white transition bg-teal-600 rounded-lg shadow hover:bg-teal-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
+                        class="bg-teal-600 btn-admin hover:bg-teal-700 ring-teal-300"
                         aria-label="Services verwalten"
                     >
                         Services verwalten
                     </Link>
                     <Link
                         href="/admin/referenzen"
-                        class="px-5 py-2 text-sm font-semibold text-white transition bg-indigo-600 rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+                        class="bg-indigo-600 btn-admin hover:bg-indigo-700 ring-indigo-300"
                         aria-label="Referenzen verwalten"
                     >
                         Referenzen verwalten
                     </Link>
                     <Link
                         href="/admin/messages"
-                        class="px-5 py-2 text-sm font-semibold text-white transition bg-blue-600 rounded-lg shadow hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                        class="bg-blue-600 btn-admin hover:bg-blue-700 ring-blue-300"
                         aria-label="Nachrichten verwalten"
                     >
                         Nachrichten
@@ -46,15 +45,10 @@
                 </div>
             </div>
 
-            <!-- Statistische Übersicht (Cards & Buchungen) -->
+            <!-- Statistiken -->
             <div class="grid gap-8 lg:grid-cols-5 sm:grid-cols-2">
-                <!-- Neue Buchungen -->
-                <div
-                    class="flex flex-col justify-between col-span-2 bg-white border border-teal-100 shadow-lg dark:bg-gray-900 rounded-2xl p-7 dark:border-teal-900/30 animate-fade-in-up"
-                >
-                    <h2
-                        class="mb-3 text-lg font-bold text-teal-700 dark:text-teal-400"
-                    >
+                <div class="col-span-2 card">
+                    <h2 class="text-teal-700 card-title dark:text-teal-400">
                         Neue Buchungen
                     </h2>
                     <div
@@ -70,7 +64,7 @@
                         <li
                             v-for="booking in stats.newBookings"
                             :key="booking.id"
-                            class="flex items-center justify-between py-2 group"
+                            class="flex items-center justify-between py-2"
                         >
                             <span>
                                 <span
@@ -83,7 +77,7 @@
                             </span>
                             <Link
                                 :href="route('admin.bookings.index')"
-                                class="text-sm font-medium text-teal-600 hover:underline focus:outline-none"
+                                class="text-sm font-medium text-teal-600 hover:underline"
                                 aria-label="Zur Buchungsübersicht"
                             >
                                 Verwalten
@@ -95,64 +89,56 @@
                         Buchung(en)
                     </div>
                 </div>
-                <!-- Cards: Services, Referenzen, Nachrichten, Kunden -->
+
+                <!-- Karten: Summary -->
                 <SummaryCard
-                    class="col-span-1"
                     title="Services"
                     :value="stats.services"
                     icon="DocumentTextIcon"
                     color="teal"
                 />
                 <SummaryCard
-                    class="col-span-1"
                     title="Referenzen"
                     :value="stats.referenzen"
                     icon="ChartBarIcon"
                     color="indigo"
                 />
                 <SummaryCard
-                    class="col-span-1"
                     title="Nachrichten"
                     :value="stats.messages"
                     icon="EnvelopeIcon"
                     color="blue"
                 />
                 <SummaryCard
-                    class="col-span-1"
                     title="Kunden"
                     :value="stats.users"
                     icon="UsersIcon"
                     color="rose"
                 />
                 <SummaryCard
-                    class="col-span-1"
                     title="Live-Besucher"
                     :value="liveVisitors"
                     icon="EyeIcon"
                     color="emerald"
                 />
-                <ActiveVisitorsWidget class="col-span-2" />
 
-                <!-- NEU: Besucherstatistik-Cache Inspector -->
-                <VisitorStatsInspector class="col-span-5 mt-12" />
+                <!-- Besucheranalyse Widget -->
+                <ActiveVisitorsWidget class="col-span-2" />
             </div>
+            <VisitorMap class="col-span-5 mt-10" />
+            <!-- Weitere Sektionen -->
             <VisitorAnalyticsDashboard />
+
             <!-- Online-Benutzer -->
             <section aria-labelledby="online-user-heading" class="mt-14">
-                <h2
-                    id="online-user-heading"
-                    class="mb-4 text-2xl font-bold text-gray-800 dark:text-white"
-                >
+                <h2 id="online-user-heading" class="section-heading">
                     Online-Benutzer
                 </h2>
-                <ul
-                    v-if="onlineUsers && onlineUsers.length"
-                    class="flex flex-wrap gap-3"
-                >
+                <ul v-if="onlineUsers?.length" class="flex flex-wrap gap-3">
                     <li
                         v-for="u in onlineUsers"
                         :key="u.id"
-                        class="px-3 py-2 text-sm font-medium text-teal-700 shadow rounded-xl bg-teal-50 dark:bg-teal-900/40 dark:text-teal-200"
+                        class="user-pill"
                         :title="u.email"
                     >
                         {{ u.name }}
@@ -166,41 +152,30 @@
 
             <!-- Eingeloggt (ever) -->
             <section aria-labelledby="loggedin-user-heading" class="mt-10">
-                <h2
-                    id="loggedin-user-heading"
-                    class="mb-4 text-2xl font-bold text-gray-800 dark:text-white"
-                >
+                <h2 id="loggedin-user-heading" class="section-heading">
                     Eingeloggt (ever)
                 </h2>
-                <ul
-                    v-if="loggedInUsers && loggedInUsers.length"
-                    class="space-y-1"
-                >
+                <ul v-if="loggedInUsers?.length" class="space-y-1">
                     <li v-for="u in loggedInUsers" :key="u.id">
                         <span
                             class="font-medium text-gray-900 dark:text-gray-100"
                             >{{ u.name }}</span
                         >
-                        <span class="text-gray-500">
-                            — zuletzt eingeloggt am
-                            {{ formatDate(u.last_activity) }}
-                        </span>
+                        <span class="text-gray-500"
+                            >— zuletzt eingeloggt am
+                            {{ formatDate(u.last_activity) }}</span
+                        >
                     </li>
                 </ul>
                 <div v-else class="pl-1 text-gray-400">Keine Einträge</div>
             </section>
 
-            <!-- Benutzer mit Rolle -->
+            <!-- Benutzer mit Rollen -->
             <section aria-labelledby="users-with-role-heading" class="mt-10">
-                <h2
-                    id="users-with-role-heading"
-                    class="mb-4 text-2xl font-bold text-gray-800 dark:text-white"
-                >
+                <h2 id="users-with-role-heading" class="section-heading">
                     Benutzer mit Rolle
                 </h2>
-                <div
-                    class="overflow-auto bg-white border border-gray-100 rounded-lg shadow-lg dark:border-gray-800 dark:bg-gray-900"
-                >
+                <div class="table-wrapper">
                     <table class="min-w-full text-sm">
                         <thead class="bg-teal-50 dark:bg-teal-950/40">
                             <tr>
@@ -219,7 +194,7 @@
                             <tr
                                 v-for="u in usersWithRoles"
                                 :key="u.id"
-                                class="transition hover:bg-gray-50 dark:hover:bg-gray-800"
+                                class="hover:bg-gray-50 dark:hover:bg-gray-800"
                             >
                                 <td class="px-4 py-2">{{ u.name }}</td>
                                 <td class="px-4 py-2">{{ u.email }}</td>
@@ -230,10 +205,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div
-                    v-if="!usersWithRoles || !usersWithRoles.length"
-                    class="mt-2 text-gray-400"
-                >
+                <div v-if="!usersWithRoles?.length" class="mt-2 text-gray-400">
                     Keine Benutzer mit Rolle
                 </div>
             </section>
@@ -248,53 +220,63 @@ import { Link } from "@inertiajs/vue3";
 import { format } from "date-fns";
 import { ref, onMounted } from "vue";
 import ActiveVisitorsWidget from "@/Components/ActiveVisitorsWidget.vue";
-import VisitorStatsInspector from "@/Components/Admin/VisitorStatsInspector.vue";
 import VisitorAnalyticsDashboard from "@/Components/Admin/VisitorAnalyticsDashboard.vue";
+import VisitorMap from "@/Components/Admin/VisitorMap.vue";
 
 const liveVisitors = ref(0);
-
-function fetchLiveVisitors() {
-    fetch("/active-visitors")
-        .then((r) => r.json())
-        .then((data) => {
-            liveVisitors.value = data.count;
-        })
-        .catch(() => {
-            liveVisitors.value = 0;
-        });
-}
-
-onMounted(() => {
-    fetchLiveVisitors();
-    setInterval(fetchLiveVisitors, 7500);
-});
 const activeVisitors = ref(0);
 const props = defineProps({
-    stats: {
-        type: Object,
-        default: () => ({
-            services: 0,
-            referenzen: 0,
-            messages: 0,
-            users: 0,
-            newBookings: [],
-            newBookingCount: 0,
-            liveVisitors: 0,
-        }),
-    },
+    stats: Object,
     activeVisitors: Object,
     onlineUsers: Array,
     usersWithRoles: Array,
     loggedInUsers: Array,
 });
 
+function fetchLiveVisitors() {
+    fetch("/admin/active-visitors")
+        .then((r) => r.json())
+        .then((data) => {
+            liveVisitors.value = data.count ?? 0;
+        })
+        .catch(() => {
+            liveVisitors.value = 0;
+        });
+}
+
 function formatDate(date) {
     if (!date) return "-";
     return format(new Date(date), "dd.MM.yyyy");
 }
+
+onMounted(() => {
+    fetchLiveVisitors();
+    setInterval(fetchLiveVisitors, 9000);
+});
 </script>
 
 <style scoped>
+.btn-admin {
+    @apply px-5 py-2 text-sm font-semibold text-white transition rounded-lg shadow focus:outline-none focus-visible:ring-2;
+}
+.card {
+    @apply flex flex-col justify-between bg-white border border-teal-100 shadow-lg dark:bg-gray-900 rounded-2xl p-7 dark:border-teal-900/30 animate-fade-in-up;
+}
+.card-title {
+    @apply mb-3 text-lg font-bold;
+}
+.section-heading {
+    @apply mb-4 text-2xl font-bold text-gray-800 dark:text-white;
+}
+.user-pill {
+    @apply px-3 py-2 text-sm font-medium text-teal-700 shadow rounded-xl bg-teal-50 dark:bg-teal-900/40 dark:text-teal-200;
+}
+.table-wrapper {
+    @apply overflow-auto bg-white border border-gray-100 rounded-lg shadow-lg dark:border-gray-800 dark:bg-gray-900;
+}
+.animate-fade-in-up {
+    animation: fade-in-up 0.7s cubic-bezier(0.33, 1, 0.68, 1) both;
+}
 @keyframes fade-in-up {
     from {
         opacity: 0;
@@ -304,8 +286,5 @@ function formatDate(date) {
         opacity: 1;
         transform: translateY(0);
     }
-}
-.animate-fade-in-up {
-    animation: fade-in-up 0.7s cubic-bezier(0.33, 1, 0.68, 1) both;
 }
 </style>

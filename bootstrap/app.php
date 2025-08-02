@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Spatie\CookieConsent\CookieConsentMiddleware::class,
             \App\Http\Middleware\TrackVisitor::class,
 
+
         ]);
 
         $middleware->alias([

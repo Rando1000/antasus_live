@@ -1,19 +1,21 @@
 <template>
-    <section class="p-8 bg-white shadow-lg dark:bg-gray-900 rounded-2xl">
+    <section
+        aria-labelledby="visitoranalytics-heading"
+        class="p-8 bg-white shadow-lg dark:bg-gray-900 rounded-2xl"
+    >
         <h2
+            id="visitoranalytics-heading"
             class="mb-6 text-3xl font-extrabold text-antasus-black dark:text-white"
         >
             Besucher-Analytics
         </h2>
 
-        <!-- KPIs -->
+        <!-- KPI-Boxen -->
         <div class="grid gap-6 mb-8 md:grid-cols-4">
             <div
                 class="p-5 text-center shadow bg-teal-50 dark:bg-teal-950/30 rounded-xl"
             >
-                <div class="text-2xl font-bold">
-                    {{ kpis.total_visits }}
-                </div>
+                <div class="text-2xl font-bold">{{ kpis.total_visits }}</div>
                 <div class="text-sm text-teal-800 dark:text-teal-300">
                     Besuche (Zeitraum)
                 </div>
@@ -21,9 +23,7 @@
             <div
                 class="p-5 text-center shadow bg-indigo-50 dark:bg-indigo-950/30 rounded-xl"
             >
-                <div class="text-2xl font-bold">
-                    {{ kpis.unique_visitors }}
-                </div>
+                <div class="text-2xl font-bold">{{ kpis.unique_visitors }}</div>
                 <div class="text-sm text-indigo-800 dark:text-indigo-300">
                     Eindeutige Besucher
                 </div>
@@ -42,7 +42,7 @@
                 class="p-5 text-center shadow bg-rose-50 dark:bg-rose-950/30 rounded-xl"
             >
                 <div class="text-2xl font-bold">
-                    {{ kpis.unique_devices?.count || "-" }}
+                    {{ kpis.unique_devices ?? "-" }}
                 </div>
                 <div class="text-sm text-rose-800 dark:text-rose-300">
                     Geräte insgesamt
@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <!-- Filter + Export -->
+        <!-- Filter/Export/Löschen -->
         <form
             class="flex flex-wrap items-end gap-3 mb-8"
             @submit.prevent="onSubmit"
@@ -84,6 +84,22 @@
             <button class="btn-secondary" @click.prevent="exportCSV">
                 CSV-Export
             </button>
+            <button
+                v-if="selectedIds.length"
+                class="btn-danger"
+                type="button"
+                @click="deleteBulk(selectedIds)"
+            >
+                Auswahl löschen ({{ selectedIds.length }})
+            </button>
+            <button
+                class="btn-danger"
+                type="button"
+                @click="deleteAll"
+                v-if="stats.data.length"
+            >
+                Alle Einträge löschen
+            </button>
         </form>
 
         <!-- Charts -->
@@ -113,6 +129,13 @@
             <table class="min-w-full text-xs border table-auto">
                 <thead>
                     <tr class="bg-teal-50 dark:bg-teal-950/30">
+                        <th>
+                            <input
+                                type="checkbox"
+                                :checked="allSelected"
+                                @change="toggleAll"
+                            />
+                        </th>
                         <th class="px-2 py-1">Datum</th>
                         <th class="px-2 py-1">IP</th>
                         <th class="px-2 py-1">Land</th>
@@ -121,10 +144,21 @@
                         <th class="px-2 py-1">URL</th>
                         <th class="px-2 py-1">Referrer</th>
                         <th class="px-2 py-1">UserAgent</th>
+                        <th class="px-2 py-1">Aktion</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="row in stats.data" :key="row.id">
+                        <td>
+                            <input
+                                type="checkbox"
+                                :value="row.id"
+                                v-model="selectedIds"
+                                :aria-label="
+                                    'Auswahl für ' + formatDate(row.visited_at)
+                                "
+                            />
+                        </td>
                         <td class="px-2 py-1">
                             {{ formatDate(row.visited_at) }}
                         </td>
@@ -150,9 +184,24 @@
                         >
                             {{ row.user_agent }}
                         </td>
+                        <td class="px-2 py-1">
+                            <button
+                                class="font-semibold text-red-600 hover:underline focus:outline-none"
+                                title="Diesen Datensatz löschen"
+                                @click="deleteVisitor(row.id)"
+                            >
+                                Löschen
+                            </button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            <div
+                v-if="stats.data.length === 0"
+                class="mt-6 text-sm text-center text-gray-400"
+            >
+                Keine Statistikdaten gefunden.
+            </div>
             <!-- Pagination -->
             <div class="flex flex-wrap gap-2 mt-6">
                 <button
@@ -178,7 +227,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import TrafficChart from "./TrafficChart.vue";
 import CountryChart from "./CountryChart.vue";
 
@@ -186,7 +235,7 @@ const defaultKpis = {
     total_visits: 0,
     unique_visitors: 0,
     top_countries: [],
-    devices: [],
+    unique_devices: 0,
     by_hour: [],
 };
 
@@ -207,6 +256,21 @@ const filters = ref({
     per_page: 30,
 });
 const endpoint = "/admin/visitor-analytics";
+const selectedIds = ref([]);
+
+const allSelected = computed(
+    () =>
+        stats.value.data.length > 0 &&
+        selectedIds.value.length === stats.value.data.length
+);
+
+function toggleAll(e) {
+    if (e.target.checked) {
+        selectedIds.value = stats.value.data.map((row) => row.id);
+    } else {
+        selectedIds.value = [];
+    }
+}
 
 function onSubmit(e) {
     fetchStats();
@@ -226,6 +290,7 @@ function fetchStats(param) {
             kpis.value = data.kpis;
             stats.value = data.stats;
             dropdowns.value = data.dropdowns;
+            selectedIds.value = [];
             prepareCharts();
         });
 }
@@ -258,6 +323,61 @@ function prepareCharts() {
     };
 }
 
+async function deleteVisitor(id) {
+    if (!confirm("Diesen Datensatz wirklich löschen?")) return;
+    await fetch(`/admin/visitor-analytics/${id}`, {
+        method: "DELETE",
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
+            "X-Requested-With": "XMLHttpRequest",
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) fetchStats();
+            else alert("Löschen fehlgeschlagen!");
+        });
+}
+
+async function deleteBulk(ids) {
+    if (!ids.length) return;
+    if (!confirm("Wirklich alle ausgewählten Datensätze löschen?")) return;
+    await fetch("/admin/visitor-analytics/bulk-delete", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
+            "X-Requested-With": "XMLHttpRequest",
+        },
+        body: JSON.stringify({ ids }),
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) fetchStats();
+            else alert("Löschen fehlgeschlagen!");
+        });
+}
+
+async function deleteAll() {
+    if (!confirm("Wirklich ALLE Besucherstatistiken unwiderruflich löschen?"))
+        return;
+    await fetch("/admin/visitor-analytics/delete-all", {
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                .content,
+            "X-Requested-With": "XMLHttpRequest",
+        },
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success) fetchStats();
+            else alert("Löschen fehlgeschlagen!");
+        });
+}
+
 onMounted(fetchStats);
 watch(filters, () => fetchStats(), { deep: true });
 </script>
@@ -271,6 +391,9 @@ watch(filters, () => fetchStats(), { deep: true });
 }
 .btn-secondary {
     @apply px-4 py-2 rounded bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition;
+}
+.btn-danger {
+    @apply px-4 py-2 rounded bg-red-600 text-white font-bold hover:bg-red-700 transition;
 }
 .truncate {
     overflow: hidden;

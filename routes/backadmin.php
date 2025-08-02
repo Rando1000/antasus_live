@@ -40,23 +40,39 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    Route::get('visitor-stats', [VisitorStatsController::class, 'index'])
-        ->name('visitor-stats.index');
-    Route::delete('/visitor-stats/{key}', [VisitorStatsController::class, 'destroy'])
-        ->name('admin.visitor-stats.destroy');
-    Route::post('visitor-stats/bulk-delete', [VisitorStatsController::class, 'bulkDelete'])
-        ->name('admin.visitor-stats.destroyBulk');
+    // Route::get('visitor-stats', [VisitorStatsController::class, 'index'])
+    //     ->name('visitor-stats.index');
+    // Route::delete('/visitor-stats/{key}', [VisitorStatsController::class, 'destroy'])
+    //     ->name('admin.visitor-stats.destroy');
+    // Route::post('visitor-stats/bulk-delete', [VisitorStatsController::class, 'bulkDelete'])
+    //     ->name('admin.visitor-stats.destroyBulk');
 
     Route::get('visitor-analytics', [VisitorAnalyticsController::class, 'index']);
     Route::get('visitor-analytics/export', [VisitorAnalyticsController::class, 'export']);
-
+    Route::delete('/visitor-analytics/{id}', [VisitorAnalyticsController::class, 'destroy'])->name('visitor-analytics.destroy');
+    Route::post('/visitor-analytics/bulk-delete', [VisitorAnalyticsController::class, 'bulkDelete'])->name('visitor-analytics.bulkDelete');
+    Route::post('/visitor-analytics/delete-all', [VisitorAnalyticsController::class, 'deleteAll'])->name('visitor-analytics.deleteAll');
+    Route::get('active-visitors', [DashboardController::class, 'activeVisitors']);
+    Route::get('active-visitors-history', [DashboardController::class, 'activeVisitorsHistory']);
+    // Route::get('/admin/visitor-map', [DashboardController::class, 'visitorMap'])->name('admin.visitor-map');
+    // ...weitere Admin-Routes
 });
-Route::get('/active-visitors', [DashboardController::class, 'activeVisitors'])->middleware(['auth', 'role:admin']);
-Route::get('/admin/active-visitors-history', [DashboardController::class, 'activeVisitorsHistory'])->middleware(['auth', 'role:admin']);
+Route::middleware(['auth', 'role:admin'])->get('/admin/visitor-map', [DashboardController::class, 'visitorMap']);
+
+
 // Route::get('/active-visitors', [DashboardController::class, 'activeVisitors'])
 //     ->middleware(['auth', 'role:admin']);
 
-
+// Route::prefix('admin')->middleware(['role:admin'])->group(function () {
+//     Route::get('visitor-stats', [VisitorStatsController::class, 'index'])
+//         ->name('visitor-stats.index');
+//     Route::delete('visitor-stats/{id}', [VisitorStatsController::class, 'destroy'])
+//         ->name('visitor-stats.destroy');
+//     Route::post('visitor-stats/bulk-delete', [VisitorStatsController::class, 'bulkDelete'])
+//         ->name('visitor-stats.bulk-delete');
+//     Route::get('active-visitors-history', [VisitorStatsController::class, 'activeVisitorsHistory'])
+//         ->name('visitor-stats.history');
+// });
 //-------------------------------------------------------
 
 

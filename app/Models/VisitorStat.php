@@ -13,7 +13,23 @@ class VisitorStat extends Model
         'browser', 'os', 'url', 'referer', 'country', 'region', 'city', 'language', 'visited_at'
     ];
 
-        protected $casts = [
-            'visited_at' => 'datetime',
-        ];
+    protected $casts = [
+        'visited_at' => 'datetime',
+    ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function scopeOnlyFrontend($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereNull('user_id')
+            ->orWhereHas('user', function ($u) {
+                $u->whereDoesntHave('roles', function ($r) {
+                    $r->where('name', 'admin');
+                });
+            });
+        });
+    }
 }

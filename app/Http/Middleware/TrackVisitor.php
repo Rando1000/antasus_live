@@ -3,70 +3,106 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Cache;
-use App\Models\VisitorStat;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Illuminate\Support\Log;
+use App\Models\VisitorStat;
 
 class TrackVisitor
 {
     public function handle($request, Closure $next)
     {
-        // Bei Admin-Pfaden keine Besucher-Statistik erfassen (optional)
-        if (Str::startsWith($request->path(), 'admin')) {
+        $debug = false;
+
+        // === 1. Request-Infos vorbereiten ===
+        $sessionId = $request->cookie('laravel_session') ?? session()->getId();
+        $ip        = $request->ip();
+        $userAgent = strtolower($request->userAgent() ?? '');
+        $path      = '/' . ltrim($request->path(), '/');
+
+        // === 2. Admins und Backends vollständig ausschließen ===
+        if (
+            (Auth::check() && Auth::user()?->hasRole('admin')) ||  // Rollenbasiert statt is_admin
+            $this->isExcludedPath($path) ||
+            $this->isBot($userAgent) ||
+            $this->isTechnicalRequest($request)
+        ) {
+            if ($debug) \Log::info("🔁 Ignoriert: $path [$ip]");
             return $next($request);
         }
 
-        $sessionId = $request->cookie('laravel_session') ?? session()->getId();
-        $visitorKey = sha1($sessionId . '|' . ($request->userAgent() ?? ''));
-        $ip = $request->ip(); // ZUERST definieren!
-        $location = geoip($ip);
+        // === 3. Device-Klassifizierung (Basic-Parser) ===
+        $deviceType = match (true) {
+            Str::contains($userAgent, 'mobile') && !Str::contains($userAgent, 'tablet') => 'Mobile',
+            Str::contains($userAgent, 'tablet') => 'Tablet',
+            Str::contains($userAgent, 'windows') || Str::contains($userAgent, 'macintosh') || Str::contains($userAgent, 'linux') => 'Desktop',
+            default => 'Other'
+        };
 
-        \Log::info('GeoIP', [
-            'ip' => $ip,
-            'location' => $location ? $location->toArray() : null,
-        ]);
+        // === 4. Standortdaten (failsafe)
+        try {
+            $location = geoip($ip);
+        } catch (\Exception) {
+            $location = (object)[];
+        }
 
-        // Besucher als aktiv markieren
-        $visitors = Cache::get('site:active_visitors', []);
-        $visitors[$visitorKey] = time();
-        Cache::put('site:active_visitors', $visitors, now()->addMinutes(15));
+        // === 5. Nur tracken, wenn letzter Besuch > 120s zurückliegt
+        $alreadyVisited = VisitorStat::where('session_id', $sessionId)
+            ->where('ip_address', $ip)
+            ->orderByDesc('visited_at')
+            ->first();
 
-        // Schreibe nur einen Stat pro Session/IP+UserAgent und 30 Minuten
-        $lastLogKey = 'visitor_lastlog_' . $visitorKey;
-        $lastLogged = Cache::get($lastLogKey);
-
-        // Max. 1x pro 30 Minuten einen Stat erfassen
-        if (!$lastLogged || now()->diffInMinutes($lastLogged) > 30) {
-            $location = geoip($request->ip());
-
+        if (!$alreadyVisited || now()->diffInSeconds($alreadyVisited->visited_at) > 120) {
             VisitorStat::create([
                 'session_id'  => $sessionId,
-                'user_id'     => auth()->id(),
-                'ip_address'  => $request->ip(),
+                'user_id'     => Auth::id(),
+                'ip_address'  => $ip,
                 'user_agent'  => substr($request->userAgent(), 0, 255),
-                'url'         => $request->fullUrl(),
+                'device_type' => $deviceType,
+                'url'         => $path,
                 'referer'     => $request->header('referer'),
                 'country'     => $location->country ?? null,
                 'region'      => $location->state_name ?? null,
                 'city'        => $location->city ?? null,
                 'visited_at'  => now(),
-                // Optional: device_type, wenn du das analysierst
-                // 'device_type' => $this->detectDevice($request->userAgent()),
+                'latitude'  => $location->lat ?? null,
+                'longitude' => $location->lon ?? null,
             ]);
-            Cache::put($lastLogKey, now(), now()->addMinutes(30));
+
+            if ($debug) \Log::info("✅ Besucher erfasst: $path [$ip]");
+        } elseif ($debug) {
+            \Log::info("⏱️ Besuch zu kurz zurück: $path [$ip]");
         }
 
         return $next($request);
     }
 
-    // Optional: Geräteerkennung via UserAgent (Mobile/Desktop/Tablet/Bot)
-    protected function detectDevice($userAgent)
+    protected function isBot(string $userAgent): bool
     {
-        $agent = strtolower($userAgent);
-        if (preg_match('/mobile|android|touch|webos|hpwos/', $agent)) return 'mobile';
-        if (preg_match('/tablet|ipad/', $agent)) return 'tablet';
-        if (preg_match('/bot|crawl|slurp|spider/', $agent)) return 'bot';
-        return 'desktop';
+        return preg_match('/(bot|crawl|slurp|spider|mediapartners|facebookexternalhit|google|bing|duckduckbot|yandex|baidu|sogou|exabot|ia_archiver)/i', $userAgent);
+    }
+
+    protected function isTechnicalRequest($request): bool
+    {
+        return $request->ajax() ||
+            $request->wantsJson() ||
+            $request->header('X-Inertia') ||
+            $request->header('Purpose') === 'prefetch';
+    }
+
+    protected function isExcludedPath(string $path): bool
+    {
+        $excludedPrefixes = [
+            '/admin', '/dashboard', '/visitor-analytics',
+            '/api', '/login', '/logout',
+            '/jetstream', '/sanctum', '/password', '/_ignition',
+        ];
+
+        foreach ($excludedPrefixes as $prefix) {
+            if (Str::startsWith($path, $prefix)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

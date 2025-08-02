@@ -13,9 +13,9 @@ use App\Models\ServiceItem;
 use App\Models\Referenz;
 use App\Models\Session;
 use App\Models\User;
+use App\Models\VisitorStat;
 use Carbon\Carbon;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Redis;
 
 class DashboardController extends Controller
 {
@@ -74,69 +74,113 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function activeVisitors()
-{
-    try {
-        $all = Cache::get('site:active_visitors', []);
-        $now = time();
-        $recent = array_filter($all, fn($ts) => ($now - $ts) < 60);
+    /**
+     * Aktuell aktive Besucher (letzte 10 Minuten, nur Frontend).
+     */
+    public function activeVisitors(Request $request)
+    {
+        $since = now()->subMinutes(10);
 
-        return response()->json([
-            'count' => count($recent),
-            'visitors' => $recent,
-        ]);
-    } catch (\Throwable $e) {
-        \Log::error('Cache error: ' . $e->getMessage());
-        return response()->json(['count' => 0, 'error' => $e->getMessage()], 500);
-    }
-}
+        $count = VisitorStat::query()
+            ->where('visited_at', '>=', $since)
+            ->where(function ($q) {
+                $q->whereNull('user_id')
+                  ->orWhereHas('user', function ($uq) {
+                      $uq->whereDoesntHave('roles', function ($rq) {
+                          $rq->where('name', 'admin');
+                      });
+                  });
+            })
+            ->distinct('session_id')
+            ->count('session_id');
 
-public function activeVisitorsHistory(Request $request)
-{
-    $range = $request->input('range', '1h');
-    $now = now();
-    $result = [];
-
-    if ($range === '1h') {
-        $interval = 2; $points = 30;
-    } elseif ($range === '6h') {
-        $interval = 10; $points = 36;
-    } else {
-        $interval = 60; $points = 24;
+        return response()->json(['count' => $count]);
     }
 
-    $labels = [];
-    $counts = [];
-    try {
+    /**
+     * Verlauf aktiver Besucher (Live-Charts).
+     */
+    public function activeVisitorsHistory(Request $request)
+    {
+        $range = $request->input('range', '1h');
+        $now = now();
+
+        [$interval, $points] = match ($range) {
+            '6h'   => [10, 36],
+            '24h'  => [60, 24],
+            default => [2, 30],
+        };
+
+        $history = [];
+
         for ($i = $points - 1; $i >= 0; $i--) {
-            $time = $now->copy()->subMinutes($i * $interval);
-            $key = 'visitors_stats:' . $time->format('YmdHi');
-            $labels[] = $time->format('H:i');
-            $count = (int) Cache::get($key, 0);
-            $counts[] = [
-                'time' => $labels[count($labels) - 1],
+            $from = $now->copy()->subMinutes(($i + 1) * $interval);
+            $to   = $now->copy()->subMinutes($i * $interval);
+
+            $count = VisitorStat::query()
+                ->whereBetween('visited_at', [$from, $to])
+                ->where(function ($q) {
+                    $q->whereNull('user_id')
+                      ->orWhereHas('user', function ($uq) {
+                          $uq->whereDoesntHave('roles', function ($rq) {
+                              $rq->where('name', 'admin');
+                          });
+                      });
+                })
+                ->distinct('session_id')
+                ->count('session_id');
+
+            $history[] = [
+                'time' => $to->format('H:i'),
                 'count' => $count,
             ];
         }
 
-        $active = Cache::get('site:active_visitors', []);
-        $current = 0;
-        $nowTimestamp = time();
-        foreach ($active as $ts) {
-            if ($nowTimestamp - $ts < 600) $current++;
-        }
+        $current = VisitorStat::query()
+            ->where('visited_at', '>=', $now->copy()->subMinutes(10))
+            ->where(function ($q) {
+                $q->whereNull('user_id')
+                  ->orWhereHas('user', function ($uq) {
+                      $uq->whereDoesntHave('roles', function ($rq) {
+                          $rq->where('name', 'admin');
+                      });
+                  });
+            })
+            ->distinct('session_id')
+            ->count('session_id');
 
         return response()->json([
             'current' => $current,
-            'history' => $counts,
+            'history' => $history,
         ]);
-    } catch (\Throwable $e) {
-        \Log::error('Cache error (history): ' . $e->getMessage());
-        return response()->json([
-            'current' => 0,
-            'history' => [],
-            'error' => $e->getMessage(),
-        ], 500);
+    }
+
+    public function visitorMap()
+{
+    try {
+        $visitors = \App\Models\VisitorStat::latest('visited_at')
+            ->limit(100)
+            ->get(['ip_address', 'city', 'country', 'visited_at']);
+
+        $geoData = $visitors->map(function ($v) {
+            try {
+                $geo = geoip($v->ip_address);
+                return [
+                    'city' => $v->city,
+                    'country' => $v->country,
+                    'latitude' => $geo->lat ?? null,
+                    'longitude' => $geo->lon ?? null,
+                    'visited_at' => $v->visited_at,
+                ];
+            } catch (\Exception $e) {
+                return null;
+            }
+        })->filter()->values();
+
+        return response()->json($geoData);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Server error: ' . $e->getMessage()], 500);
     }
 }
+
 }

@@ -14,7 +14,12 @@ import Chart from 'chart.js/auto';
 import { createPinia } from 'pinia';
 import { useConsentStore } from '@/stores/consent'; // Pfad ggf. anpassen
 
-window.Chart = Chart; // So kann deine Komponente im onMounted darauf zugreifen
+window.Chart = Chart;
+if (!window.Chart) {
+  import('chart.js/auto').then((ChartModule) => {
+    window.Chart = ChartModule.default;
+  });
+} // So kann deine Komponente im onMounted darauf zugreifen
 const appName = import.meta.env.VITE_APP_NAME || 'ANTASUS Infra';
 const head = createHead();
 const pinia = createPinia();

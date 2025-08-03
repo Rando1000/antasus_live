@@ -13,67 +13,80 @@ class TrackVisitor
     {
         $debug = false;
 
-        // === 1. Request-Infos vorbereiten ===
+        // === 1. Basisdaten vorbereiten ===
         $sessionId = $request->cookie('laravel_session') ?? session()->getId();
         $ip        = $request->ip();
-        $userAgent = strtolower($request->userAgent() ?? '');
+        $agent     = substr($request->userAgent() ?? '', 0, 255);
         $path      = '/' . ltrim($request->path(), '/');
+        $referer   = $request->header('referer');
 
-        // === 2. Admins und Backends vollständig ausschließen ===
+        // === 2. Admins, Bots & technische Pfade ausschließen ===
         if (
-            (Auth::check() && Auth::user()?->hasRole('admin')) ||  // Rollenbasiert statt is_admin
+            (Auth::check() && Auth::user()?->hasRole('admin')) ||
             $this->isExcludedPath($path) ||
-            $this->isBot($userAgent) ||
+            $this->isBot($agent) ||
             $this->isTechnicalRequest($request)
         ) {
             if ($debug) \Log::info("🔁 Ignoriert: $path [$ip]");
             return $next($request);
         }
 
-        // === 3. Device-Klassifizierung (Basic-Parser) ===
-        $deviceType = match (true) {
-            Str::contains($userAgent, 'mobile') && !Str::contains($userAgent, 'tablet') => 'Mobile',
-            Str::contains($userAgent, 'tablet') => 'Tablet',
-            Str::contains($userAgent, 'windows') || Str::contains($userAgent, 'macintosh') || Str::contains($userAgent, 'linux') => 'Desktop',
-            default => 'Other'
-        };
+        // === 3. Gerätekategorie erkennen ===
+        $deviceType = self::detectDevice($agent);
 
-        // === 4. Standortdaten (failsafe)
+        // === 4. GeoIP-Validierung & Koordinaten erfassen ===
         try {
-            $location = geoip($ip);
+            $location = geoip()->getLocation($ip);
         } catch (\Exception) {
             $location = (object)[];
         }
 
-        // === 5. Nur tracken, wenn letzter Besuch > 120s zurückliegt
-        $alreadyVisited = VisitorStat::where('session_id', $sessionId)
+        // Nur speichern, wenn gültiges Land vorhanden
+        if (empty($location->country) || $location->country === 'Reserved') {
+            if ($debug) \Log::warning("🌍 Ungültige GeoIP für $ip");
+            return $next($request);
+        }
+
+        // === 5. Wiederholte Besuche (innerhalb 2 Minuten) ausschließen ===
+        $recentVisit = VisitorStat::where('session_id', $sessionId)
             ->where('ip_address', $ip)
             ->orderByDesc('visited_at')
             ->first();
 
-        if (!$alreadyVisited || now()->diffInSeconds($alreadyVisited->visited_at) > 120) {
+        if (!$recentVisit || now()->diffInSeconds($recentVisit->visited_at) > 120) {
             VisitorStat::create([
                 'session_id'  => $sessionId,
                 'user_id'     => Auth::id(),
                 'ip_address'  => $ip,
-                'user_agent'  => substr($request->userAgent(), 0, 255),
+                'user_agent'  => $agent,
                 'device_type' => $deviceType,
                 'url'         => $path,
-                'referer'     => $request->header('referer'),
+                'referer'     => $referer,
                 'country'     => $location->country ?? null,
                 'region'      => $location->state_name ?? null,
                 'city'        => $location->city ?? null,
+                'latitude'    => $location->lat ?? null,
+                'longitude'   => $location->lon ?? null,
                 'visited_at'  => now(),
-                'latitude'  => $location->lat ?? null,
-                'longitude' => $location->lon ?? null,
             ]);
 
             if ($debug) \Log::info("✅ Besucher erfasst: $path [$ip]");
         } elseif ($debug) {
-            \Log::info("⏱️ Besuch zu kurz zurück: $path [$ip]");
+            \Log::info("⏱️ Besuch ignoriert: kürzlich erfasst [$ip]");
         }
 
         return $next($request);
+    }
+
+    public static function detectDevice(string $agent): string
+    {
+        $agent = strtolower($agent);
+        return match (true) {
+            Str::contains($agent, 'mobile') && !Str::contains($agent, 'tablet') => 'Mobile',
+            Str::contains($agent, 'tablet') => 'Tablet',
+            Str::contains($agent, 'windows') || Str::contains($agent, 'macintosh') || Str::contains($agent, 'linux') => 'Desktop',
+            default => 'Other',
+        };
     }
 
     protected function isBot(string $userAgent): bool

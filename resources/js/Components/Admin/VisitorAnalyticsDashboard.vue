@@ -120,7 +120,15 @@
                 <CountryChart
                     :series="chartData.countries.series"
                     :categories="chartData.countries.categories"
-                />
+                >
+                    <template #title>
+                        <h2
+                            class="text-lg font-bold text-antasus-black dark:text-white"
+                        >
+                            📊 Länderstatistik mit Flaggen & Export
+                        </h2>
+                    </template>
+                </CountryChart>
             </div>
         </div>
 
@@ -163,7 +171,17 @@
                             {{ formatDate(row.visited_at) }}
                         </td>
                         <td class="px-2 py-1">{{ row.ip_address }}</td>
-                        <td class="px-2 py-1">{{ row.country }}</td>
+                        <td class="flex items-center gap-2 px-2 py-1">
+                            <img
+                                v-if="countryCodeMap[row.country]"
+                                :src="`https://flagcdn.com/24x18/${countryCodeMap[
+                                    row.country
+                                ].toLowerCase()}.png`"
+                                :alt="row.country + ' Flagge'"
+                                class="inline w-5 h-3 rounded-sm shadow"
+                            />
+                            <span>{{ row.country || "-" }}</span>
+                        </td>
                         <td class="px-2 py-1">{{ row.city }}</td>
                         <td class="px-2 py-1">{{ row.device_type }}</td>
                         <td
@@ -230,6 +248,10 @@
 import { ref, onMounted, watch, computed } from "vue";
 import TrafficChart from "./TrafficChart.vue";
 import CountryChart from "./CountryChart.vue";
+import {
+    countryCodeMap,
+    getFlagEmojiFromCountry,
+} from "@/utils/countryCodeMap.js";
 
 const defaultKpis = {
     total_visits: 0,

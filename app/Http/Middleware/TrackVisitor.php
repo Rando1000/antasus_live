@@ -4,23 +4,23 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\VisitorStat;
+use Torann\GeoIP\Facades\GeoIP;
 
 class TrackVisitor
 {
     public function handle($request, Closure $next)
     {
-        $debug = false;
+        $debug = app()->environment('local'); // Nur lokal debuggen
 
-        // === 1. Basisdaten vorbereiten ===
         $sessionId = $request->cookie('laravel_session') ?? session()->getId();
         $ip        = $request->ip();
         $agent     = substr($request->userAgent() ?? '', 0, 255);
         $path      = '/' . ltrim($request->path(), '/');
         $referer   = $request->header('referer');
 
-        // === 2. Admins, Bots & technische Pfade ausschließen ===
         if (
             (Auth::check() && Auth::user()?->hasRole('admin')) ||
             $this->isExcludedPath($path) ||
@@ -31,23 +31,14 @@ class TrackVisitor
             return $next($request);
         }
 
-        // === 3. Gerätekategorie erkennen ===
         $deviceType = self::detectDevice($agent);
+        $location   = GeoIP::getLocation($ip);
 
-        // === 4. GeoIP-Validierung & Koordinaten erfassen ===
-        try {
-            $location = geoip()->getLocation($ip);
-        } catch (\Exception) {
-            $location = (object)[];
-        }
-
-        // Nur speichern, wenn gültiges Land vorhanden
         if (empty($location->country) || $location->country === 'Reserved') {
             if ($debug) \Log::warning("🌍 Ungültige GeoIP für $ip");
             return $next($request);
         }
 
-        // === 5. Wiederholte Besuche (innerhalb 2 Minuten) ausschließen ===
         $recentVisit = VisitorStat::where('session_id', $sessionId)
             ->where('ip_address', $ip)
             ->orderByDesc('visited_at')
@@ -73,6 +64,16 @@ class TrackVisitor
             if ($debug) \Log::info("✅ Besucher erfasst: $path [$ip]");
         } elseif ($debug) {
             \Log::info("⏱️ Besuch ignoriert: kürzlich erfasst [$ip]");
+        }
+
+        if ($debug) {
+            \Log::debug('GeoIP result', [
+                'ip'       => $ip,
+                'country'  => $location->country,
+                'city'     => $location->city,
+                'lat'      => $location->lat,
+                'lon'      => $location->lon,
+            ]);
         }
 
         return $next($request);

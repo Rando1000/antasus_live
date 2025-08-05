@@ -183,19 +183,24 @@ class VisitorAnalyticsController extends Controller
 
         $callback = function () use ($rows, $columns) {
             $handle = fopen('php://output', 'w');
-            fputcsv($handle, $columns, ';');
-            foreach ($rows as $row) {
-                fputcsv($handle, [
-                    $row->visited_at,
-                    $row->ip_address,
-                    $row->country,
-                    $row->city,
-                    $row->device_type,
-                    $row->url,
-                    $row->referer,
-                    $row->user_agent,
-                ], ';');
-            }
+            $fields = [
+                $row->visited_at,
+                $row->ip_address,
+                $row->country,
+                $row->city,
+                $row->device_type,
+                $row->url,
+                $row->referer,
+                $row->user_agent,
+            ];
+
+            // Schutz gegen CSV-Injection
+            $sanitized = array_map(function ($value) {
+                $value = (string) $value;
+                return preg_replace('/^=|\+|\-|\@/', "'$0", $value);
+            }, $fields);
+
+            fputcsv($handle, $sanitized, ';');
             fclose($handle);
         };
 

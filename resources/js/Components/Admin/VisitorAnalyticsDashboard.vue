@@ -98,7 +98,7 @@
                 @click="deleteAll"
                 v-if="stats.data.length"
             >
-                Alle Einträge löschen
+                Alle Tracks löschen
             </button>
         </form>
 

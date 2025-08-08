@@ -3,70 +3,123 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Cache;
-use App\Models\VisitorStat;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Support\Log;
+use App\Models\VisitorStat;
+use Torann\GeoIP\Facades\GeoIP;
 
 class TrackVisitor
 {
     public function handle($request, Closure $next)
     {
-        // Bei Admin-Pfaden keine Besucher-Statistik erfassen (optional)
-        if (Str::startsWith($request->path(), 'admin')) {
+        $debug = app()->environment('local'); // Nur lokal debuggen
+
+        $sessionId = $request->cookie('laravel_session') ?? session()->getId();
+        $ip        = $request->ip();
+        $agent     = substr($request->userAgent() ?? '', 0, 255);
+        $path      = '/' . ltrim($request->path(), '/');
+        $referer   = $request->header('referer');
+
+        if (
+            (Auth::check() && Auth::user()?->hasRole('admin')) ||
+            $this->isExcludedPath($path) ||
+            $this->isBot($agent) ||
+            $this->isTechnicalRequest($request)
+        ) {
+            if ($debug) \Log::info("🔁 Ignoriert: $path [$ip]");
             return $next($request);
         }
 
-        $sessionId = $request->cookie('laravel_session') ?? session()->getId();
-        $visitorKey = sha1($sessionId . '|' . ($request->userAgent() ?? ''));
-        $ip = $request->ip(); // ZUERST definieren!
-        $location = geoip($ip);
+        $deviceType = self::detectDevice($agent);
+        $location   = GeoIP::getLocation($ip);
 
-        \Log::info('GeoIP', [
-            'ip' => $ip,
-            'location' => $location ? $location->toArray() : null,
-        ]);
+        if (empty($location->country) || $location->country === 'Reserved') {
+            if ($debug) \Log::warning("🌍 Ungültige GeoIP für $ip");
+            return $next($request);
+        }
+        \Log::debug('📍 IP & GeoIP', [
+    'ip' => $ip,
+    'location' => $location->toArray()
+]);
+        $recentVisit = VisitorStat::where('session_id', $sessionId)
+            ->where('ip_address', $ip)
+            ->orderByDesc('visited_at')
+            ->first();
 
-        // Besucher als aktiv markieren
-        $visitors = Cache::get('site:active_visitors', []);
-        $visitors[$visitorKey] = time();
-        Cache::put('site:active_visitors', $visitors, now()->addMinutes(15));
-
-        // Schreibe nur einen Stat pro Session/IP+UserAgent und 30 Minuten
-        $lastLogKey = 'visitor_lastlog_' . $visitorKey;
-        $lastLogged = Cache::get($lastLogKey);
-
-        // Max. 1x pro 30 Minuten einen Stat erfassen
-        if (!$lastLogged || now()->diffInMinutes($lastLogged) > 30) {
-            $location = geoip($request->ip());
-
+        if (!$recentVisit || now()->diffInSeconds($recentVisit->visited_at) > 120) {
             VisitorStat::create([
                 'session_id'  => $sessionId,
-                'user_id'     => auth()->id(),
-                'ip_address'  => $request->ip(),
-                'user_agent'  => substr($request->userAgent(), 0, 255),
-                'url'         => $request->fullUrl(),
-                'referer'     => $request->header('referer'),
+                'user_id'     => Auth::id(),
+                'ip_address'  => $ip,
+                'user_agent'  => $agent,
+                'device_type' => $deviceType,
+                'url'         => $path,
+                'referer'     => $referer,
                 'country'     => $location->country ?? null,
                 'region'      => $location->state_name ?? null,
                 'city'        => $location->city ?? null,
+                'latitude'    => $location->lat ?? null,
+                'longitude'   => $location->lon ?? null,
                 'visited_at'  => now(),
-                // Optional: device_type, wenn du das analysierst
-                // 'device_type' => $this->detectDevice($request->userAgent()),
             ]);
-            Cache::put($lastLogKey, now(), now()->addMinutes(30));
+
+            if ($debug) \Log::info("✅ Besucher erfasst: $path [$ip]");
+        } elseif ($debug) {
+            \Log::info("⏱️ Besuch ignoriert: kürzlich erfasst [$ip]");
+        }
+
+        if ($debug) {
+            \Log::debug('GeoIP result', [
+                'ip'       => $ip,
+                'country'  => $location->country,
+                'city'     => $location->city,
+                'lat'      => $location->lat,
+                'lon'      => $location->lon,
+            ]);
         }
 
         return $next($request);
     }
 
-    // Optional: Geräteerkennung via UserAgent (Mobile/Desktop/Tablet/Bot)
-    protected function detectDevice($userAgent)
+    public static function detectDevice(string $agent): string
     {
-        $agent = strtolower($userAgent);
-        if (preg_match('/mobile|android|touch|webos|hpwos/', $agent)) return 'mobile';
-        if (preg_match('/tablet|ipad/', $agent)) return 'tablet';
-        if (preg_match('/bot|crawl|slurp|spider/', $agent)) return 'bot';
-        return 'desktop';
+        $agent = strtolower($agent);
+        return match (true) {
+            Str::contains($agent, 'mobile') && !Str::contains($agent, 'tablet') => 'Mobile',
+            Str::contains($agent, 'tablet') => 'Tablet',
+            Str::contains($agent, 'windows') || Str::contains($agent, 'macintosh') || Str::contains($agent, 'linux') => 'Desktop',
+            default => 'Other',
+        };
+    }
+
+    protected function isBot(string $userAgent): bool
+    {
+        return preg_match('/(bot|crawl|slurp|spider|mediapartners|facebookexternalhit|google|bing|duckduckbot|yandex|baidu|sogou|exabot|ia_archiver)/i', $userAgent);
+    }
+
+    protected function isTechnicalRequest($request): bool
+    {
+        return $request->ajax() ||
+            $request->wantsJson() ||
+            $request->header('X-Inertia') ||
+            $request->header('Purpose') === 'prefetch';
+    }
+
+    protected function isExcludedPath(string $path): bool
+    {
+        $excludedPrefixes = [
+            '/admin', '/dashboard', '/visitor-analytics',
+            '/api', '/login', '/logout',
+            '/jetstream', '/sanctum', '/password', '/_ignition',
+        ];
+
+        foreach ($excludedPrefixes as $prefix) {
+            if (Str::startsWith($path, $prefix)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

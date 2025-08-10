@@ -173,11 +173,18 @@
                         <td class="px-2 py-1">{{ row.ip_address }}</td>
                         <td class="flex items-center gap-2 px-2 py-1">
                             <img
-                                v-if="countryCodeMap[row.country]"
-                                :src="`https://flagcdn.com/24x18/${countryCodeMap[
-                                    row.country
-                                ].toLowerCase()}.png`"
-                                :alt="row.country + ' Flagge'"
+                                v-if="
+                                    row.country_code ||
+                                    countryCodeMap[row.country]
+                                "
+                                :src="`https://flagcdn.com/24x18/${(
+                                    row.country_code ||
+                                    countryCodeMap[row.country]
+                                ).toLowerCase()}.png`"
+                                :alt="
+                                    (row.country || row.country_code) +
+                                    ' Flagge'
+                                "
                                 class="inline w-5 h-3 rounded-sm shadow"
                             />
                             <span>{{ row.country || "-" }}</span>

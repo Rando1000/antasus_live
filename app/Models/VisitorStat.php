@@ -10,7 +10,7 @@ class VisitorStat extends Model
 
         protected $fillable = [
         'session_id', 'user_id', 'ip_address', 'user_agent', 'device_type',
-        'browser', 'os', 'url', 'referer', 'country', 'region', 'city', 'language', 'visited_at'
+        'browser', 'os', 'url', 'referer', 'country', 'country_code', 'region', 'city', 'language', 'visited_at'
     ];
 
     protected $casts = [

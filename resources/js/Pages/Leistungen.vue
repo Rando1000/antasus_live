@@ -42,7 +42,8 @@
                     <p
                         class="mb-8 text-lg md:text-xl text-white/90 drop-shadow-md"
                     >
-                        Wir bieten <strong>Glasfaser-Tiefbau</strong>,
+                        Radhouan Jouini Antasus Infra bietet
+                        <strong>Glasfaser-Tiefbau</strong>,
                         <strong>Hausanschluss</strong> &amp;
                         <strong>Projektplanung</strong> nach DIN/VDE -
                         termintreu, zuverlässig und partnerschaftlich.
@@ -147,7 +148,8 @@
                     <h2
                         class="mb-4 text-2xl font-bold text-antasus-black dark:text-antasus-neutral"
                     >
-                        WIR sind bereit für Ihre Projekte!
+                        Radhouan Jouini Antasus Infra ist bereit für Ihre
+                        Projekte!
                     </h2>
                     <Link
                         href="/kontakt"

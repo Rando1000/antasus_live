@@ -80,11 +80,12 @@
                 id="leistungen-expertise-headline"
                 class="max-w-3xl p-4 mx-auto mt-10 mb-10 text-antasus-black dark:text-antasus-neutral rounded-2xl border-y-4 border-antasus-primary dark:border-antasus-primary"
             >
-                <strong>{{ service.title }}</strong> - Wir begleiten Sie von der
-                präzisen Planung über die fachgerechte Umsetzung bis zur
-                vollständigen Dokumentation Ihrer Glasfaserprojekte und jeden
+                <strong>{{ service.title }}</strong> - Radhouan Jouini Antasus
+                Infra begleitet Sie von der präzisen Planung über die
+                fachgerechte Umsetzung bis zur vollständigen Dokumentation Ihrer
+                Glasfaserprojekte und jeden
                 <strong>Glasfaser Hausanschluss</strong>.<br />
-                Unsere Prozesse sind auf DIN EN 1610 und DIN 18015-5 abgestimmt
+                Antasus Prozesse sind auf DIN EN 1610 und DIN 18015-5 abgestimmt
                 - für FTTx-Anschlüsse, POPs und Infrastrukturen in Wohn- und
                 Gewerbeimmobilien.
             </h2>
@@ -161,7 +162,7 @@
                 <p
                     class="mt-4 text-base md:text-lg text-antasus-dark dark:text-antasus-neutral/80"
                 >
-                    Unsere Teams verlegen ausschließlich
+                    Radhouan Jouini Antasus Infra verlegt ausschließlich
                     <strong>DIN EN 50618-zertifizierte Leerrohre</strong> und
                     setzen moderne <strong>Pipes &amp; Conduits</strong> für
                     dauerhafte Beständigkeit ein. Dank
@@ -333,7 +334,7 @@
                 Jetzt kostenlos anfragen
             </Link>
             <p class="mt-4 text-base opacity-70">
-                ANTASUS Infra GmbH &ndash; Ihr zertifizierter Partner für
+                ANTASUS Infra &ndash; Ihr zertifizierter Partner für
                 Glasfaser-Infrastruktur, Hausanschluss und
                 Netzbetreiber-Projekte in NRW.
             </p>
@@ -496,17 +497,17 @@ const faqs = [
     {
         frage: "Wie schnell kann mein Haus angeschlossen werden?",
         antwort:
-            "In der Regel erfolgt der Anschluss innerhalb von 2 bis 4 Wochen nach Beauftragung – inklusive aller Tiefbau- und Einblasarbeiten. Je nach Auslastung und örtlichen Vorgaben kann die Dauer variieren.",
+            "In der Regel erfolgt der Anschluss innerhalb von 2 bis 4 Wochen nach Beauftragung - inklusive aller Tiefbau- und Einblasarbeiten. Je nach Auslastung und örtlichen Vorgaben kann die Dauer variieren.",
     },
     {
         frage: "Ist ein Glasfaseranschluss auch im Altbau möglich?",
         antwort:
-            "Ja! Unsere Teams sind spezialisiert auf die Nachrüstung in bestehenden Gebäuden und passen die Installation an die baulichen Gegebenheiten vor Ort an.",
+            "Ja! Radhouan Jouini Antasus Infra ist spezialisiert auf die Nachrüstung in bestehenden Gebäuden und passen die Installation an die baulichen Gegebenheiten vor Ort an.",
     },
     {
         frage: "Welche Normen und Standards setzt ANTASUS Infra um?",
         antwort:
-            "Wir arbeiten nach allen einschlägigen DIN- und EN-Normen, insbesondere DIN EN 1610, DIN 18015-5 und DIN EN 50173. So ist Ihr Netz zukunftssicher und betreiberkonform.",
+            "Radhouan Jouini Antasus Infra arbeitet nach allen einschlägigen DIN- und EN-Normen, insbesondere DIN EN 1610, DIN 18015-5 und DIN EN 50173. So ist Ihr Netz zukunftssicher und betreiberkonform.",
     },
     {
         frage: "Erhalte ich eine Dokumentation für meine Installation?",
@@ -553,7 +554,7 @@ const howToJsonLd = computed(() => ({
             "@type": "HowToStep",
             url: "https://www.antasus.de/leistungen/hausanschluss#step1",
             name: "Planung & Vermessung",
-            text: "Wir prüfen die Trassenführung und holen Genehmigungen ein.",
+            text: "Radhouan Jouini Antasus Infra prüft die Trassenführung und holen Genehmigungen ein.",
             image: "https://www.antasus.de/images/hausanschluss-planung.jpg",
             position: 1,
         },

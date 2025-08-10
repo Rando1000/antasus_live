@@ -77,7 +77,7 @@
                         class="text-2xl font-extrabold transition-colors hover:text-antasus-primary dark:hover:text-antasus-primary"
                     />
                     <NavLink
-                        href="/referenzen"
+                        href="/inprogress"
                         label="Referenzen"
                         class="text-xl font-bold transition-colors hover:text-antasus-primary dark:hover:text-antasus-primary"
                     />

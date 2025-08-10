@@ -168,10 +168,9 @@
                     ANTASUS Infra realisiert professionelle
                     <strong>Glasfaser Hausanschlüsse</strong> und
                     <strong>Glasfaser Tiefbau Projekte</strong> in Wuppertal
-                    &amp; Umgebung. Unser Team, aus erfahrenen deutschsprachigen
-                    Mitarbeitern und exzellenten Management, sorgt für
-                    termintreue Umsetzung nach aktuellen Normen. Erfahren Sie
-                    mehr über unsere
+                    &amp; Umgebung. Die Erfahrung mit exzellenten Management,
+                    sorgt für termintreue Umsetzung nach aktuellen Normen.
+                    Erfahren Sie mehr über die Antasus Infra
                     <Link href="/leistungen" class="underline">
                         Leistungen
                     </Link>
@@ -209,7 +208,7 @@
                         <h3
                             class="mb-3 text-lg font-semibold text-gray-900 dark:text-white"
                         >
-                            Fachkräfte aus Deutschland
+                            Leistungen aus Deutschland
                         </h3>
                         <p class="text-gray-600 dark:text-gray-200">
                             Muttersprachliche Kommunikation ohne Barrieren
@@ -283,7 +282,7 @@
                         Bereit für Ihr Projekt?
                     </h2>
                     <p class="max-w-2xl mx-auto text-white/90">
-                        Kontaktieren Sie uns für ein unverbindliches Angebot.
+                        Kontaktieren Sie mich für ein unverbindliches Angebot.
                     </p>
                 </header>
                 <div class="p-8 bg-gray-800 shadow-xl bg-opacity-85 rounded-xl">
@@ -296,6 +295,7 @@
                                 <p class="flex items-start gap-2">
                                     <span aria-hidden="true">📍</span>
                                     <span>
+                                        Radhouan Jouini<br />
                                         ANTASUS Infra<br />
                                         Norrenbergstraße 122<br />
                                         42289 Wuppertal
@@ -332,7 +332,7 @@
                                 Kontaktformular
                             </Link>
                             <p class="text-sm text-gray-400">
-                                Wir antworten innerhalb von 24 Stunden
+                                Antasus antwortet innerhalb von 24 Stunden
                             </p>
                         </div>
                     </div>

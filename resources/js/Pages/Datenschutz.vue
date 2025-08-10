@@ -40,10 +40,10 @@
                         1. Datenschutz auf einen Blick
                     </h2>
                     <p>
-                        Wir, die ANTASUS Infra, nehmen den Schutz Ihrer Daten
-                        sehr ernst. Sie können unsere Website grundsätzlich ohne
-                        Angabe personenbezogener Daten nutzen. Sofern
-                        personenbezogene Daten (z. B. Name, E-Mail-Adresse)
+                        Radhouan Jouini ANTASUS Infra, nimmt den Schutz Ihrer
+                        Daten sehr ernst. Sie können meine Website grundsätzlich
+                        ohne Angabe personenbezogener Daten nutzen. Sofern
+                        personenbezogene Daten (z.B. Name, E-Mail-Adresse)
                         erhoben werden, erfolgt dies stets freiwillig und nach
                         den Vorgaben der DSGVO.
                     </p>
@@ -93,23 +93,22 @@
                         3. Cookies, Consent und Reichweitenanalyse
                     </h2>
                     <p>
-                        Wir verwenden technisch notwendige Cookies zur
-                        Bereitstellung dieser Website. Alle weiteren Cookies
-                        (Statistik, Marketing, externe Dienste) werden
-                        ausschließlich nach Ihrer ausdrücklichen Einwilligung
-                        (Art. 6 Abs. 1 lit. a DSGVO) gesetzt. Die Verwaltung
-                        Ihrer Präferenzen erfolgt über das Consent-Tool (<b
-                            >Spatie Cookie Consent</b
-                        >) – Ihre Einstellungen sind jederzeit am Seitenende
-                        editierbar.
+                        Radhouan Jouini Antasus Infra verwendet technisch
+                        notwendige Cookies zur Bereitstellung dieser Website.
+                        Alle weiteren Cookies (Statistik, Marketing, externe
+                        Dienste) werden ausschließlich nach Ihrer ausdrücklichen
+                        Einwilligung (Art. 6 Abs. 1 lit. a DSGVO) gesetzt. Die
+                        Verwaltung Ihrer Präferenzen erfolgt über das
+                        Consent-Tool (<b>Spatie Cookie Consent</b>) - Ihre
+                        Einstellungen sind jederzeit am Seitenende editierbar.
                     </p>
                     <p>
-                        Zur Analyse der Nutzung verwenden wir Google Analytics 4
-                        (GA4, Google Ireland Limited, Dublin). Die Aktivierung
-                        erfolgt ausschließlich mit Ihrer Zustimmung. Die
-                        IP-Adresse wird gekürzt verarbeitet. Weitere
-                        Informationen zum Datenschutz bei Google finden Sie
-                        unter
+                        Zur Analyse der Nutzung verwendet Radhouan Jouini
+                        Antasus Infra Google Analytics 4 (GA4, Google Ireland
+                        Limited, Dublin). Die Aktivierung erfolgt ausschließlich
+                        mit Ihrer Zustimmung. Die IP-Adresse wird gekürzt
+                        verarbeitet. Weitere Informationen zum Datenschutz bei
+                        Google finden Sie unter
                         <a
                             href="https://policies.google.com/privacy?hl=de"
                             target="_blank"
@@ -135,8 +134,8 @@
                     </p>
                     <p>
                         Die technische Betreuung (Entwicklung, Wartung,
-                        IT-Security) wird ausschließlich durch unsere internen
-                        Teams und autorisierte Partner durchgeführt.
+                        IT-Security) wird ausschließlich durch Radhouan Jouini
+                        Antasus Infra und autorisierte Partner durchgeführt.
                     </p>
                 </section>
 
@@ -149,12 +148,13 @@
                         5. Kontaktaufnahme und Kommunikation
                     </h2>
                     <p>
-                        Wenn Sie uns kontaktieren (E-Mail, Telefon, Formular),
-                        verarbeiten wir Ihre Angaben ausschließlich zur
-                        Bearbeitung Ihres Anliegens (Art. 6 Abs. 1 lit. f
-                        DSGVO). Daten werden nicht an Dritte weitergegeben.
-                        Nachrichten werden nach Erledigung bzw. nach Ablauf
-                        gesetzlicher Aufbewahrungsfristen gelöscht.
+                        Wenn Sie Radhouan Jouini Antasus Infra kontaktieren
+                        (E-Mail, Telefon, Formular), werden Ihre Angaben
+                        ausschließlich zur Bearbeitung Ihres Anliegens
+                        verarbeitet (Art. 6 Abs. 1 lit. f DSGVO). Daten werden
+                        nicht an Dritte weitergegeben. Nachrichten werden nach
+                        Erledigung bzw. nach Ablauf gesetzlicher
+                        Aufbewahrungsfristen gelöscht.
                     </p>
                 </section>
 
@@ -189,17 +189,17 @@
                         7. Buchungsformular und Meetings
                     </h2>
                     <p>
-                        Für Terminbuchungen erheben wir die von Ihnen
-                        eingegebenen Daten. Die Verarbeitung erfolgt
-                        ausschließlich zur Vereinbarung und Durchführung des
-                        gebuchten Termins (Art. 6 Abs. 1 lit. b DSGVO). Die
+                        Für Terminbuchungen erhebt Radhouan Jouini Antasus Infra
+                        die von Ihnen eingegebenen Daten. Die Verarbeitung
+                        erfolgt ausschließlich zur Vereinbarung und Durchführung
+                        des gebuchten Termins (Art. 6 Abs. 1 lit. b DSGVO). Die
                         Übermittlung erfolgt verschlüsselt (TLS/SSL).
                     </p>
                     <p>
-                        Für Online-Meetings nutzen wir „Microsoft Teams“
-                        (Microsoft Ireland, EU). Die Nutzung erfolgt nur nach
-                        Ihrer aktiven Teilnahme (Beitritt/Einladung). Weitere
-                        Informationen:
+                        Für Online-Meetings nutzt Radhouan Jouini Antasus Infra
+                        „Microsoft Teams“ (Microsoft Ireland, EU). Die Nutzung
+                        erfolgt nur nach Ihrer aktiven Teilnahme
+                        (Beitritt/Einladung). Weitere Informationen:
                         <a
                             href="https://privacy.microsoft.com/de-de/privacystatement"
                             target="_blank"
@@ -219,8 +219,9 @@
                         8. Marketing und Newsletter
                     </h2>
                     <p>
-                        Wir verwenden Ihre Kontaktdaten zu Marketingzwecken
-                        (z. B. E-Mail-Newsletter, Telefon, Post) nur mit Ihrer
+                        Radhouan Jouini Antasus Infra verwendet Ihre
+                        Kontaktdaten zu Marketingzwecken (z.B.
+                        E-Mail-Newsletter, Telefon, Post) nur mit Ihrer
                         ausdrücklichen Einwilligung oder im Rahmen bestehender
                         Geschäftsbeziehungen (Art. 6 Abs. 1 lit. a/f DSGVO). Sie
                         können der Nutzung jederzeit widersprechen.
@@ -236,10 +237,11 @@
                         9. Datensicherheit
                     </h2>
                     <p>
-                        Wir setzen technische und organisatorische Maßnahmen
-                        (TOMs) zum Schutz Ihrer Daten ein, darunter
-                        TLS/SSL-Verschlüsselung, Zugriffsbeschränkungen,
-                        Firewalls und regelmäßige Audits.
+                        Radhouan Jouini Antasus Infra setzt technische und
+                        organisatorische Maßnahmen (TOMs) zum Schutz Ihrer Daten
+                        ein, darunter TLS/SSL-Verschlüsselung,
+                        Zugriffsbeschränkungen, Firewalls und regelmäßige
+                        Audits.
                     </p>
                 </section>
 
@@ -313,7 +315,7 @@
                         13. Datenschutzbeauftragter
                     </h2>
                     <p>
-                        Unser Datenschutzbeauftragter steht Ihnen für Fragen,
+                        Radhouan Jouini Antasus Infra steht Ihnen für Fragen,
                         Hinweise oder Beschwerden gern zur Verfügung:<br />
                         <strong>
                             E-Mail:

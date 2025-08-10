@@ -35,11 +35,11 @@
                 <h1
                     class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white"
                 >
-                    Kontaktieren Sie uns
+                    Kontaktieren Antasus
                 </h1>
                 <p class="mb-10 text-gray-600 dark:text-gray-300">
-                    Haben Sie Fragen oder möchten ein Projekt starten? Wir
-                    freuen uns auf Ihre Nachricht.
+                    Haben Sie Fragen oder möchten ein Projekt starten? Ich freue
+                    uns auf Ihre Nachricht.
                 </p>
             </div>
 
@@ -226,8 +226,8 @@
                                 v-if="form.recentlySuccessful"
                                 class="mt-2 text-sm text-green-600 animate-fade-in"
                             >
-                                Vielen Dank für Ihre Nachricht! Wir melden uns
-                                zeitnah.
+                                Vielen Dank für Ihre Nachricht! Antasus meldet
+                                sich zeitnah.
                             </p>
                         </transition>
                     </div>

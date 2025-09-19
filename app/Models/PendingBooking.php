@@ -15,6 +15,7 @@ class PendingBooking extends Model
         'email',
         'topic',
         'token',
+        'status',
     ];
 
     protected $casts = [

@@ -1,33 +1,30 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Cookie;
-use Inertia\Inertia;
-use Carbon\Carbon;
-
-// Controllers
-use App\Http\Controllers\ContactFormController;
-use App\Http\Controllers\SeoController;
-use App\Http\Controllers\ReferenzController;
-use App\Http\Controllers\MeetingBookingController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\Frontend\LeistungenController;
-use App\Http\Controllers\ServiceItemController;
 use App\Http\Controllers\Admin\EmailCampaignController;
 use App\Http\Controllers\Admin\EmailPromotionController;
 use App\Http\Controllers\Admin\EmailTrackingController;
+use App\Http\Controllers\Admin\PendingBookingController as AdminPendingBooking;
+use App\Http\Controllers\BookingController;
+// Controllers
+use App\Http\Controllers\ContactFormController;
+use App\Http\Controllers\Frontend\LeistungenController;
 use App\Http\Controllers\Frontend\TechnologienController;
+use App\Http\Controllers\MeetingBookingController;
+use App\Http\Controllers\ReferenzController;
+use App\Http\Controllers\SeoController;
+use App\Http\Controllers\ServiceItemController;
 use App\Http\Middleware\TrackVisitor;
-
-// Models
 use App\Models\Referenz;
 use App\Models\Service;
-
+use Carbon\Carbon;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Cookie;
+// Models
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 // Helpers
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
-
 
 // --------- MAIN FRONTEND (mit Besucher-Tracking) ----------
 Route::middleware([TrackVisitor::class])->group(function () {
@@ -35,10 +32,10 @@ Route::middleware([TrackVisitor::class])->group(function () {
     // --- Startseite / Welcome ---
     Route::get('/', function () {
         return Inertia::render('Welcome', [
-            'canLogin'      => Route::has('login'),
-            'canRegister'   => Route::has('register'),
-            'laravelVersion'=> Application::VERSION,
-            'phpVersion'    => PHP_VERSION,
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
         ]);
     })->name('home');
 
@@ -51,6 +48,7 @@ Route::middleware([TrackVisitor::class])->group(function () {
     Route::get('/referenzen', [ReferenzController::class, 'index'])->name('referenzen.index');
     Route::get('/referenzen/{slug}', function ($slug) {
         $referenz = Referenz::where('slug', $slug)->firstOrFail();
+
         return Inertia::render('Referenz/Show', ['referenz' => $referenz]);
     })->name('referenzen.show');
 
@@ -62,10 +60,10 @@ Route::middleware([TrackVisitor::class])->group(function () {
     // --- Kontakt ---
     Route::get('/kontakt', function () {
         return Inertia::render('Kontakt', [
-            'canLogin'      => Route::has('login'),
-            'canRegister'   => Route::has('register'),
-            'laravelVersion'=> Application::VERSION,
-            'phpVersion'    => PHP_VERSION,
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
         ]);
     })->name('kontakt');
     Route::post('/kontakt', [ContactFormController::class, 'store'])->name('kontakt.store');
@@ -145,7 +143,7 @@ Route::middleware(['auth', 'role:admin'])
         // Admin-spezifische Routen
         Route::get('emailcampaign', [EmailCampaignController::class, 'index'])->name('admin.emailcampaign.index');
         Route::get('emailcampaign/create', [EmailCampaignController::class, 'create'])->name('admin.emailcampaign.create');
-        Route::put('emailkonverse/{campaign}', [EmailCampaignController::class,'update'])->name('admin.email.update');
+        Route::put('emailkonverse/{campaign}', [EmailCampaignController::class, 'update'])->name('admin.email.update');
         Route::post('emailcampaign/send', [EmailCampaignController::class, 'send'])->name('admin.emailcampaign.send');
         Route::get('/email/{type}/{token}', [EmailCampaignController::class, 'track'])->where(['type' => 'open|click', 'token' => '[\w\-]+']);
         Route::delete('/emailcampaign/{id}', [EmailCampaignController::class, 'destroy'])->name('admin.emailcampaign.destroy');
@@ -168,6 +166,7 @@ Route::middleware(['auth', 'role:admin'])->get('/redirect-after-login', function
 // -------------- Cookies / Consent ----------------
 Route::post('/cookie-consent/accept', function () {
     Cookie::queue(cookie()->forever(config('cookie-consent.cookie_name'), 'true'));
+
     return back();
 })->name('cookie-consent.accept');
 
@@ -180,6 +179,13 @@ Route::post('/cookie-consent/decline', function () {
 Route::post('/bookings', [MeetingBookingController::class, 'store'])->name('bookings.store');
 Route::get('/bookings/confirm/{token}', [BookingController::class, 'confirm'])->name('bookings.confirm');
 Route::get('/buchung/bestaetigen/{token}', [MeetingBookingController::class, 'confirm'])->name('booking.confirm');
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('pending-bookings', [AdminPendingBooking::class, 'index'])->name('pending.index');
+    Route::post('pending-bookings/{id}/confirm', [AdminPendingBooking::class, 'confirm'])->name('pending.confirm');
+    Route::post('pending-bookings/{id}/resend', [AdminPendingBooking::class, 'resend'])->name('pending.resend');
+    Route::delete('pending-bookings/{id}', [AdminPendingBooking::class, 'destroy'])->name('pending.destroy');
+});
 
 // --------- EMAIL TRACKING ---------
 Route::get('/email/open/{token}', [EmailTrackingController::class, 'open'])->name('email.open');

@@ -21,6 +21,12 @@
                     :active="isActive('/admin/bookings')"
                 />
                 <NavItem
+                    label="Pending Bookings"
+                    to="/admin/pending-bookings"
+                    icon="Clock"
+                    :active="isActive('/admin/pending-bookings')"
+                />
+                <NavItem
                     label="Services"
                     to="/admin/services"
                     icon="Services"

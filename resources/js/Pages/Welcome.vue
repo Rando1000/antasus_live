@@ -1,5 +1,5 @@
 <template>
-    <GuestLayout>
+    <GuestLayoutSanta>
         <Head>
             <title>
                 Glasfaserinfrastruktur & Hausanschluss NRW | ANTASUS Infra
@@ -345,11 +345,11 @@
                 </div>
             </div>
         </section>
-    </GuestLayout>
+    </GuestLayoutSanta>
 </template>
 
 <script setup>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
+import GuestLayoutSanta from "@/Layouts/GuestLayoutSanta.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 

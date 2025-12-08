@@ -18,50 +18,55 @@
 
         <!-- HERO -->
         <header
-            class="relative flex items-center justify-center min-h-[60vh] md:min-h-[80vh] bg-gray-900"
+            class="relative flex items-center justify-center min-h-[70vh] md:min-h-[85vh] bg-gray-900 overflow-hidden"
             aria-labelledby="startseite-hero"
         >
+            <!-- Hintergrundbild -->
             <img
-                src="/images/Header_welcome.avif"
-                alt="Glasfaserarbeiten in NRW, Glasfaser Hausanschluss und Tiefbau"
-                class="absolute inset-0 object-cover w-full h-full opacity-95"
+                src="/images/antasusSanta.png"
+                alt="Weihnachtliche Glasfaserarbeiten in NRW - Antasus Infra"
+                class="absolute inset-0 object-cover object-center w-full h-full md:object-fill"
                 loading="eager"
                 fetchpriority="high"
                 decoding="async"
                 width="1920"
-                height="800"
+                height="1080"
             />
+
+            <!-- Hochprofessioneller Glass- & Frost-Overlay -->
             <div
-                class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                class="absolute bg-black/40 backdrop-blur-lg backdrop-saturate-150 [background-image:radial-gradient(circle_at_top,rgba(0,253,207,0.25),transparent_60%)]"
                 aria-hidden="true"
             ></div>
 
+            <!-- Inhalt -->
             <div
                 class="container relative z-10 flex flex-col items-center px-6 py-20 mx-auto text-center"
             >
                 <h1
                     id="startseite-hero"
-                    class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-white drop-shadow-lg md:text-6xl"
+                    class="mb-6 text-4xl font-extrabold leading-tight tracking-tight text-white md:text-6xl drop-shadow-2xl"
                 >
                     <span
                         class="text-transparent bg-gradient-to-r from-antasus-primary to-indigo-400 bg-clip-text"
                     >
-                        Zukunftssichere </span
-                    ><br />
+                        Zukunftssichere
+                    </span>
+                    <br />
                     Glasfaserinfrastruktur
                 </h1>
+
                 <p
-                    class="max-w-2xl mx-auto mb-10 text-lg font-medium text-white/95"
+                    class="max-w-2xl mx-auto mb-10 text-lg font-medium text-white/95 drop-shadow-md"
                 >
                     Ihr Partner für <strong>Glasfaserbau</strong> &amp;
-                    <strong>Hausanschluss</strong> - hochwertige, zertifizierte
-                    Glasfaser Infrastruktur in NRW.<br
-                        class="hidden sm:inline"
-                    />
-                    Von der Planung bis zur Abnahme - alles nach
+                    <strong>Hausanschluss</strong> – hochwertige, zertifizierte
+                    Infrastruktur in NRW.<br class="hidden sm:inline" />
+                    Von der Planung bis zur Abnahme – alles nach
                     <abbr title="Deutsche Industrienorm">DIN 18220</abbr> &amp;
                     <abbr title="Verband Deutscher Elektrotechnik">VDE</abbr>.
                 </p>
+
                 <nav
                     class="flex flex-col justify-center gap-4 sm:flex-row"
                     aria-label="Hauptaktionen"
@@ -72,6 +77,7 @@
                     >
                         Projekt anfragen
                     </Link>
+
                     <Link
                         href="/leistungen"
                         class="px-8 py-4 text-white transition border rounded-lg shadow-lg bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-antasus-primary"

@@ -35,7 +35,7 @@
 
             <!-- Hochprofessioneller Glass- & Frost-Overlay -->
             <div
-                class="absolute bg-black/40 backdrop-blur-lg backdrop-saturate-150 [background-image:radial-gradient(circle_at_top,rgba(0,253,207,0.25),transparent_60%)]"
+                class="absolute inset-0 premium-glass"
                 aria-hidden="true"
             ></div>
 
@@ -382,7 +382,25 @@ const leistungen = [
 
 const icons = ["🏠", "🛠️", "📊", "📋"];
 </script>
+<style>
+.premium-glass {
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.08),
+        rgba(0, 0, 0, 0.45)
+    );
+    backdrop-filter: blur(1px) saturate(215%);
+    -webkit-backdrop-filter: blur(1px) saturate(215%);
 
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-right: 1px solid rgba(0, 0, 0, 0.35);
+
+    /* CI/CD Antasus Glow */
+
+    opacity: 0.95;
+}
+</style>
 <!-- <script setup>
 import { Head, Link } from "@inertiajs/vue3";
 

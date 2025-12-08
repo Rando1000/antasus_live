@@ -582,7 +582,7 @@ const submitBooking = async () => {
     submitError.value = null;
     submitSuccess.value = false;
 
-    bookingData.value = {
+    const payload = {
         ...bookingData.value,
         type: selectedType.value,
         mode: selectedMode.value,
@@ -591,7 +591,7 @@ const submitBooking = async () => {
     };
 
     try {
-        await axios.post("/api/bookings/pending", bookingData.value);
+        await axios.post("/api/bookings/pending", payload);
         submitSuccess.value = true;
         trackEvent("booking_submit", {
             type: selectedType.value,

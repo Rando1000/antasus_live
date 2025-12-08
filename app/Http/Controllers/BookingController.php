@@ -2,44 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\PendingBooking;
+use App\Mail\BookingConfirmationMail;
 use App\Models\MeetingBooking;
+use App\Models\PendingBooking;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Mail\BookingConfirmationMail;
 use Inertia\Inertia;
-
 
 class BookingController extends Controller
 {
     public function availableSlots(Request $request)
-{
-    $request->validate([
-        'type' => 'required|string',
-        'start' => 'required|date',
-        'end' => 'required|date|after_or_equal:start',
-    ]);
+    {
+        $request->validate([
+            'type' => 'required|string',
+            'start' => 'required|date',
+            'end' => 'required|date|after_or_equal:start',
+        ]);
 
-    $start = $request->start;
-    $end = $request->end;
+        $start = $request->start;
+        $end = $request->end;
 
-    // Alle bereits gebuchten Termine im gewählten Zeitraum
-    $booked = \App\Models\MeetingBooking::whereBetween('start', [$start, $end])
-        ->get(['start', 'end']);
+        // Alle bereits gebuchten Termine im gewählten Zeitraum
+        $booked = \App\Models\MeetingBooking::whereBetween('start', [$start, $end])
+            ->get(['start', 'end']);
 
-    // Belegte Zeiten an FullCalendar zurückgeben
-    return response()->json(
-        $booked->map(fn ($b) => [
-            'title' => 'Belegt',
-            'start' => $b->start,
-            'end' => $b->end,
-            'display' => 'background',
-            'color' => '#ccc',
-        ])
-    );
-}
-
+        // Belegte Zeiten an FullCalendar zurückgeben
+        return response()->json(
+            $booked->map(fn ($b) => [
+                'title' => 'Belegt',
+                'start' => $b->start,
+                'end' => $b->end,
+                'display' => 'background',
+                'color' => '#ccc',
+            ])
+        );
+    }
 
     public function storePending(Request $request)
     {
@@ -89,21 +87,21 @@ class BookingController extends Controller
     public function storeMulti(Request $request)
     {
         try {
-        // 1) Spatie-Rolle prüfen (Middleware macht das eigentlich schon)
+            // 1) Spatie-Rolle prüfen (Middleware macht das eigentlich schon)
             if (! $request->user()->hasRole('admin')) {
                 abort(403, 'Unauthorized');
             }
 
             // 2) Payload validieren
             $data = $request->validate([
-                'type'         => 'required|in:beratung,angebot,hausanschluss,projektplanung',
-                'mode'         => 'required|in:online,praesenz',
-                'slots'        => 'required|array|min:1',
-                'slots.*.start'=> 'required|date',
-                'slots.*.end'  => 'required|date|after:slots.*.start',
-                'name'         => 'nullable|string',
-                'email'        => 'nullable|email',
-                'topic'        => 'nullable|string',
+                'type' => 'required|in:beratung,angebot,hausanschluss,projektplanung',
+                'mode' => 'required|in:online,praesenz',
+                'slots' => 'required|array|min:1',
+                'slots.*.start' => 'required|date',
+                'slots.*.end' => 'required|date|after:slots.*.start',
+                'name' => 'nullable|string',
+                'email' => 'nullable|email',
+                'topic' => 'nullable|string',
             ]);
 
             // 3) Ein einziger Token für die ganze Buchung
@@ -115,22 +113,22 @@ class BookingController extends Controller
             $bookings = [];
             foreach ($data['slots'] as $slot) {
                 $bookings[] = MeetingBooking::create([
-                    'type'               => $data['type'],
-                    'mode'               => $data['mode'],
-                    'start'              => $slot['start'],
-                    'end'                => $slot['end'],
-                    'name'               => $data['name']  ?? $request->user()->name,
-                    'email'              => $data['email'] ?? $request->user()->email,
-                    'topic'              => $data['topic'] ?? null,
+                    'type' => $data['type'],
+                    'mode' => $data['mode'],
+                    'start' => $slot['start'],
+                    'end' => $slot['end'],
+                    'name' => $data['name'] ?? $request->user()->name,
+                    'email' => $data['email'] ?? $request->user()->email,
+                    'topic' => $data['topic'] ?? null,
                     'confirmation_token' => $token,
                 ]);
             }
 
             return response()->json([
-                'message'  => 'Multi-Slot-Buchungen angelegt.',
+                'message' => 'Multi-Slot-Buchungen angelegt.',
                 'bookings' => $bookings,
             ], 201);
-            } catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             \Log::error('storeMulti failed: '.$e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
             ]);

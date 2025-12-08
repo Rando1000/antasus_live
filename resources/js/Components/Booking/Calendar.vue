@@ -201,6 +201,13 @@ const calendarOptions = computed(() => ({
     slotDuration: props.slotDuration,
     handleWindowResize: true,
     height: "auto",
+    // *** Mobile-Tap sofort erlauben (nicht erst Long-Press) ***
+    selectLongPressDelay: 0, // Standard ~1000ms -> 0 = sofort
+    longPressDelay: 0,
+    eventLongPressDelay: 0,
+
+    // Optional, verringert versehentliche Drag-Selects:
+    selectMinDistance: 0,
 
     // Buchungen nachladen
     events: async (info, onSuccess, onError) => {

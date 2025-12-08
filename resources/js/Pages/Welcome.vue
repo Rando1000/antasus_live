@@ -23,7 +23,7 @@
         >
             <!-- Hintergrundbild -->
             <img
-                src="/images/AntasusSanta2.png"
+                src="/images/antasusSanta25.jpeg"
                 alt="Weihnachtliche Glasfaserarbeiten in NRW - Antasus Infra"
                 class="absolute inset-0 object-cover object-center w-full h-full md:object-fill"
                 loading="eager"

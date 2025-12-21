@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\VisitorStat;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class VisitorStatsController extends Controller
@@ -26,13 +26,19 @@ class VisitorStatsController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('ip_address', 'like', "%$search%")
-                  ->orWhere('user_agent', 'like', "%$search%")
-                  ->orWhere('url', 'like', "%$search%");
+                    ->orWhere('user_agent', 'like', "%$search%")
+                    ->orWhere('url', 'like', "%$search%");
             });
         }
-        if ($country) $query->where('country', $country);
-        if ($city) $query->where('city', $city);
-        if ($deviceType) $query->where('device_type', $deviceType);
+        if ($country) {
+            $query->where('country', $country);
+        }
+        if ($city) {
+            $query->where('city', $city);
+        }
+        if ($deviceType) {
+            $query->where('device_type', $deviceType);
+        }
 
         // KPIs
         $totalVisits = (clone $query)->count();
@@ -62,7 +68,7 @@ class VisitorStatsController extends Controller
             'devices' => VisitorStat::select('device_type')->distinct()->pluck('device_type'),
         ];
 
-        $stats = $query->orderByDesc('visited_at')->paginate($perPage);
+        $stats = $query->orderByDesc('visited_at')->paginate($perPage)->withQueryString();
 
         return response()->json([
             'kpis' => [
@@ -82,6 +88,7 @@ class VisitorStatsController extends Controller
     public function destroy($id)
     {
         $deleted = VisitorStat::where('id', $id)->delete();
+
         return response()->json(['success' => $deleted > 0]);
     }
 
@@ -89,12 +96,14 @@ class VisitorStatsController extends Controller
     public function bulkDelete(Request $request)
     {
         $ids = $request->input('ids');
-        if (!is_array($ids) || empty($ids)) {
+        if (! is_array($ids) || empty($ids)) {
             // Wenn keine IDs: alles löschen (Careful!)
             $count = VisitorStat::truncate();
+
             return response()->json(['success' => true, 'deleted' => 'all']);
         }
         $count = VisitorStat::whereIn('id', $ids)->delete();
+
         return response()->json(['success' => true, 'deleted' => $count]);
     }
 
@@ -102,6 +111,7 @@ class VisitorStatsController extends Controller
     public function deleteAll()
     {
         VisitorStat::truncate();
+
         return response()->json(['success' => true]);
     }
 
@@ -112,6 +122,7 @@ class VisitorStatsController extends Controller
         $activeVisitors = VisitorStat::where('visited_at', '>=', $threshold)
             ->distinct('session_id')
             ->count();
+
         return response()->json(['active' => $activeVisitors]);
     }
 }

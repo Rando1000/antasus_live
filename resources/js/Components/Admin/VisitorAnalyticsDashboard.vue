@@ -80,23 +80,36 @@
             </select>
             <input type="date" v-model="filters.from" class="input" />
             <input type="date" v-model="filters.to" class="input" />
-            <button class="btn-primary" type="submit">Filtern</button>
-            <button class="btn-secondary" @click.prevent="exportCSV">
+
+            <button class="btn-primary" type="submit" :disabled="loading">
+                {{ loading ? "Lade..." : "Filtern" }}
+            </button>
+
+            <button
+                class="btn-secondary"
+                type="button"
+                @click="exportCSV"
+                :disabled="loading"
+            >
                 CSV-Export
             </button>
+
             <button
                 v-if="selectedIds.length"
                 class="btn-danger"
                 type="button"
                 @click="deleteBulk(selectedIds)"
+                :disabled="loading"
             >
                 Auswahl löschen ({{ selectedIds.length }})
             </button>
+
             <button
                 class="btn-danger"
                 type="button"
                 @click="deleteAll"
                 v-if="stats.data.length"
+                :disabled="loading"
             >
                 Alle Tracks löschen
             </button>
@@ -214,6 +227,7 @@
                                 class="font-semibold text-red-600 hover:underline focus:outline-none"
                                 title="Diesen Datensatz löschen"
                                 @click="deleteVisitor(row.id)"
+                                :disabled="loading"
                             >
                                 Löschen
                             </button>
@@ -221,31 +235,39 @@
                     </tr>
                 </tbody>
             </table>
+
             <div
-                v-if="stats.data.length === 0"
+                v-if="stats.data.length === 0 && !loading"
                 class="mt-6 text-sm text-center text-gray-400"
             >
                 Keine Statistikdaten gefunden.
             </div>
+
             <!-- Pagination -->
-            <div class="flex flex-wrap gap-2 mt-6">
+            <div class="flex flex-wrap items-center gap-2 mt-6">
                 <button
                     class="btn-secondary"
-                    @click="changePage(stats.prev_page_url)"
-                    :disabled="!stats.prev_page_url"
+                    @click="fetchStats(stats.current_page - 1)"
+                    :disabled="loading || stats.current_page <= 1"
                 >
                     ‹ Zurück
                 </button>
-                <span class="px-3 py-2"
-                    >{{ stats.current_page }} / {{ stats.last_page }}</span
-                >
+
+                <span class="px-3 py-2">
+                    {{ stats.current_page }} / {{ stats.last_page }}
+                </span>
+
                 <button
                     class="btn-secondary"
-                    @click="changePage(stats.next_page_url)"
-                    :disabled="!stats.next_page_url"
+                    @click="fetchStats(stats.current_page + 1)"
+                    :disabled="loading || stats.current_page >= stats.last_page"
                 >
                     Weiter ›
                 </button>
+            </div>
+
+            <div v-if="error" class="mt-4 text-sm text-red-600">
+                {{ error }}
             </div>
         </div>
     </section>
@@ -253,12 +275,10 @@
 
 <script setup>
 import { ref, onMounted, watch, computed } from "vue";
+import axios from "axios";
 import TrafficChart from "./TrafficChart.vue";
 import CountryChart from "./CountryChart.vue";
-import {
-    countryCodeMap,
-    getFlagEmojiFromCountry,
-} from "@/utils/countryCodeMap.js";
+import { countryCodeMap } from "@/utils/countryCodeMap.js";
 
 const defaultKpis = {
     total_visits: 0,
@@ -284,8 +304,11 @@ const filters = ref({
     device_type: "",
     per_page: 30,
 });
+
 const endpoint = "/admin/visitor-analytics";
 const selectedIds = ref([]);
+const loading = ref(false);
+const error = ref(null);
 
 const allSelected = computed(
     () =>
@@ -294,43 +317,13 @@ const allSelected = computed(
 );
 
 function toggleAll(e) {
-    if (e.target.checked) {
-        selectedIds.value = stats.value.data.map((row) => row.id);
-    } else {
-        selectedIds.value = [];
-    }
+    selectedIds.value = e.target.checked
+        ? stats.value.data.map((row) => row.id)
+        : [];
 }
 
-function onSubmit(e) {
-    fetchStats();
-}
-
-function fetchStats(param) {
-    // Wenn das erste Argument ein SubmitEvent ist, dann verwende das endpoint!
-    if (param && typeof param.preventDefault === "function") {
-        param.preventDefault();
-        param = undefined;
-    }
-    const url = typeof param === "string" ? param : endpoint;
-    const params = new URLSearchParams(filters.value).toString();
-    fetch(`${url}?${params}`)
-        .then((res) => res.json())
-        .then((data) => {
-            kpis.value = data.kpis;
-            stats.value = data.stats;
-            dropdowns.value = data.dropdowns;
-            selectedIds.value = [];
-            prepareCharts();
-        });
-}
-
-function changePage(url) {
-    if (url) fetchStats(url);
-}
-
-function exportCSV() {
-    const params = new URLSearchParams(filters.value).toString();
-    window.open(`/admin/visitor-analytics/export?${params}`, "_blank");
+function onSubmit() {
+    fetchStats(1);
 }
 
 function formatDate(date) {
@@ -338,13 +331,12 @@ function formatDate(date) {
 }
 
 function prepareCharts() {
-    // Prepare TrafficChart
     const byHour = kpis.value.by_hour || [];
     chartData.value.byHour = {
         categories: byHour.map((e) => e.hour),
         series: [{ name: "Besucher", data: byHour.map((e) => e.count) }],
     };
-    // Prepare CountryChart
+
     const countries = kpis.value.top_countries || [];
     chartData.value.countries = {
         categories: countries.map((e) => e.country),
@@ -352,63 +344,158 @@ function prepareCharts() {
     };
 }
 
+/**
+ * High-End Pagination: wir paginieren über "page", NICHT über prev/next URL.
+ * Dadurch keine doppelten Querystrings mehr.
+ */
+async function fetchStats(page = 1) {
+    loading.value = true;
+    error.value = null;
+
+    try {
+        const res = await axios.get(endpoint, {
+            params: { ...filters.value, page },
+            headers: { "X-Requested-With": "XMLHttpRequest" },
+            withCredentials: true,
+        });
+
+        kpis.value = res.data.kpis ?? { ...defaultKpis };
+        stats.value = res.data.stats ?? {
+            data: [],
+            current_page: 1,
+            last_page: 1,
+        };
+        dropdowns.value = res.data.dropdowns ?? {
+            countries: [],
+            cities: [],
+            devices: [],
+        };
+        selectedIds.value = [];
+
+        prepareCharts();
+    } catch (e) {
+        console.error(e);
+        error.value =
+            e?.response?.status === 403
+                ? "Zugriff verweigert (403)."
+                : "Fehler beim Laden der Visitor-Analytics.";
+    } finally {
+        loading.value = false;
+    }
+}
+
+/**
+ * CSV Download: kein window.open (Popup). Stabiler: Browser-Download via location.
+ * Auth Cookies bleiben same-origin, kein Blob-Stress.
+ */
+function exportCSV() {
+    const params = new URLSearchParams({ ...filters.value }).toString();
+    window.location.href = `/admin/visitor-analytics/export?${params}`;
+}
+
+function csrfToken() {
+    return document.querySelector('meta[name="csrf-token"]')?.content ?? "";
+}
+
 async function deleteVisitor(id) {
     if (!confirm("Diesen Datensatz wirklich löschen?")) return;
-    await fetch(`/admin/visitor-analytics/${id}`, {
-        method: "DELETE",
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
-            "X-Requested-With": "XMLHttpRequest",
-        },
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.success) fetchStats();
-            else alert("Löschen fehlgeschlagen!");
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+        const res = await axios.delete(`/admin/visitor-analytics/${id}`, {
+            headers: {
+                "X-CSRF-TOKEN": csrfToken(),
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            withCredentials: true,
         });
+
+        if (res.data?.success) fetchStats(stats.value.current_page);
+        else alert("Löschen fehlgeschlagen!");
+    } catch (e) {
+        console.error(e);
+        error.value = "Fehler beim Löschen.";
+    } finally {
+        loading.value = false;
+    }
 }
 
 async function deleteBulk(ids) {
     if (!ids.length) return;
     if (!confirm("Wirklich alle ausgewählten Datensätze löschen?")) return;
-    await fetch("/admin/visitor-analytics/bulk-delete", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
-            "X-Requested-With": "XMLHttpRequest",
-        },
-        body: JSON.stringify({ ids }),
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.success) fetchStats();
-            else alert("Löschen fehlgeschlagen!");
-        });
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+        const res = await axios.post(
+            "/admin/visitor-analytics/bulk-delete",
+            { ids },
+            {
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken(),
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                withCredentials: true,
+            }
+        );
+
+        if (res.data?.success) fetchStats(1);
+        else alert("Löschen fehlgeschlagen!");
+    } catch (e) {
+        console.error(e);
+        error.value = "Fehler beim Bulk-Löschen.";
+    } finally {
+        loading.value = false;
+    }
 }
 
 async function deleteAll() {
     if (!confirm("Wirklich ALLE Besucherstatistiken unwiderruflich löschen?"))
         return;
-    await fetch("/admin/visitor-analytics/delete-all", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                .content,
-            "X-Requested-With": "XMLHttpRequest",
-        },
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            if (data.success) fetchStats();
-            else alert("Löschen fehlgeschlagen!");
-        });
+
+    loading.value = true;
+    error.value = null;
+
+    try {
+        const res = await axios.post(
+            "/admin/visitor-analytics/delete-all",
+            {},
+            {
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken(),
+                    "X-Requested-With": "XMLHttpRequest",
+                },
+                withCredentials: true,
+            }
+        );
+
+        if (res.data?.success) fetchStats(1);
+        else alert("Löschen fehlgeschlagen!");
+    } catch (e) {
+        console.error(e);
+        error.value = "Fehler beim Löschen aller Daten.";
+    } finally {
+        loading.value = false;
+    }
 }
 
-onMounted(fetchStats);
-watch(filters, () => fetchStats(), { deep: true });
+/**
+ * Debounce, damit watch(filters) nicht bei jedem Keypress spammt
+ */
+function debounce(fn, wait = 350) {
+    let t;
+    return (...args) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), wait);
+    };
+}
+const debouncedReload = debounce(() => fetchStats(1), 400);
+
+onMounted(() => fetchStats(1));
+watch(filters, () => debouncedReload(), { deep: true });
 </script>
 
 <style scoped>

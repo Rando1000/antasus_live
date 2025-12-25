@@ -8,12 +8,14 @@
                 name="description"
                 content="Ihr zertifizierter Glasfaserbau-Spezialist für Hausanschluss & Tiefbau. ANTASUS Infra – Zukunftssichere Glasfaserinfrastruktur, termintreu, DIN-konform, NRW."
             />
-            <link
-                rel="preload"
-                href="/images/Header_welcome.avif"
-                as="image"
-                type="image/avif"
+            <img
+                src="/images/Header_welcome.avif"
+                alt=""
+                width="1920"
+                height="1080"
+                loading="eager"
                 fetchpriority="high"
+                class="absolute inset-0 object-cover w-full h-full pointer-events-none opacity-20"
             />
         </Head>
 

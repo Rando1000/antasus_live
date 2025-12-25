@@ -10,8 +10,9 @@
             />
             <link
                 rel="preload"
-                as="image"
                 href="/images/Header_welcome.avif"
+                as="image"
+                type="image/avif"
                 fetchpriority="high"
             />
         </Head>

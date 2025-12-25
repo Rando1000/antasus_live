@@ -3,7 +3,7 @@
         <!-- Hero Section mit Hintergrund -->
         <section class="relative py-24 overflow-hidden bg-white">
             <div
-                class="absolute inset-0 bg-[url('/images/fiber-bg-dark.jpg')] bg-cover opacity-5"
+                class="absolute inset-0 bg-[url('/images/Header_welcome.avif')] bg-cover opacity-5"
             ></div>
             <div class="relative max-w-4xl px-6 mx-auto text-center">
                 <!-- <div class="flex justify-center mb-8">
@@ -136,7 +136,7 @@
         <!-- Kontakt Section -->
         <section class="relative py-24 overflow-hidden text-white bg-gray-900">
             <div
-                class="absolute inset-0 bg-[url('/images/contact-pattern-dark.jpg')] opacity-10"
+                class="absolute inset-0 bg-[url('/images/baumaschinen.jpg')] opacity-10"
             ></div>
             <div class="relative max-w-4xl px-6 mx-auto">
                 <div class="mb-16 text-center">

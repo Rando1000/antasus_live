@@ -28,12 +28,12 @@
                     <h1
                         class="mb-6 text-4xl font-extrabold text-white sr-only md:text-5xl drop-shadow-xl"
                     >
-                        Glasfaser-Leistungen von Antasus Infra
+                        Glasfaser Leistungen von Antasus Infra
                     </h1>
                     <h2
                         class="mb-6 text-4xl font-extrabold text-white md:text-5xl drop-shadow-xl"
                     >
-                        Unsere Glasfaser-Leistungen
+                        Unsere Glasfaser Leistungen
                         <span
                             class="block w-full h-1 mt-1 rounded bg-antasus-primary/70"
                             aria-hidden="true"
@@ -174,12 +174,12 @@ const props = defineProps({
     services: Array,
     metaTitle: {
         type: String,
-        default: "Unsere Glasfaser-Leistungen - Antasus Infra",
+        default: "Unsere Glasfaser Leistungen - Antasus Infra",
     },
     metaDescription: {
         type: String,
         default:
-            "Erfahren Sie alles über Glasfaser-Tiefbau, Hausanschlüsse und Projektplanung von Antasus Infra. Professionell, termintreu.",
+            "Erfahren Sie alles über Glasfaser Tiefbau, Hausanschlüsse und Projektplanung von Antasus Infra. Professionell, termintreu.",
     },
 });
 
@@ -205,7 +205,7 @@ const jsonLd = {
         addressCountry: "DE",
     },
     description:
-        "Ihr Subunternehmer für Glasfaser-Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE - partnerschaftlich & termintreu.",
+        "Ihr Subunternehmer für Glasfaser Tiefbau, Hausanschlüsse und technische Projektabwicklung nach DIN/VDE - partnerschaftlich & termintreu.",
     areaServed: {
         "@type": "GeoCircle",
         geoMidpoint: {

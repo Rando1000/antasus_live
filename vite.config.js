@@ -32,6 +32,8 @@ export default defineConfig({
             '@fullcalendar/timegrid',
             '@fullcalendar/interaction'
         ]
-    }
+    },
+    build: { sourcemap: false }
+
 
 });

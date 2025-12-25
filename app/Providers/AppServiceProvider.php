@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        RateLimiter::for('admin', function (Request $request) {
+            $key = $request->user()?->id
+                ? 'admin-user-'.$request->user()->id
+                : 'admin-ip-'.$request->ip();
+
+            return Limit::perMinute(60)->by($key);
+        });
     }
 }

@@ -229,7 +229,7 @@
         <!-- Kontakt Section -->
         <section class="relative py-24 overflow-hidden text-white bg-blue-200">
             <div
-                class="absolute inset-0 bg-[ural('/images/contact-pattern-dark.jpg')] opacity-10"
+                class="absolute inset-0 bg-[url('/images/baumaschinen.jpg')] opacity-10"
             ></div>
             <div class="relative max-w-4xl px-6 mx-auto">
                 <div class="mb-16 text-center">

@@ -1,5 +1,5 @@
 <template>
-    <GuestLayoutSanta>
+    <GuestLayout1>
         <Head>
             <title>
                 Glasfaserinfrastruktur & Hausanschluss NRW | ANTASUS Infra
@@ -26,8 +26,8 @@
         >
             <!-- Hintergrundbild -->
             <img
-                src="/images/antasusSanta25.jpeg"
-                alt="Weihnachtliche Glasfaserarbeiten in NRW - Antasus Infra"
+                src="/images/WelcomeDaylight.jpg"
+                alt="Glasfaserinfrastruktur und Hausanschluss in Wuppertal"
                 class="absolute inset-0 object-cover object-center w-full h-full md:object-fill"
                 loading="eager"
                 fetchpriority="high"
@@ -348,10 +348,11 @@
                 </div>
             </div>
         </section>
-    </GuestLayoutSanta>
+    </GuestLayout1>
 </template>
 
 <script setup>
+import GuestLayout1 from "@/Layouts/GuestLayout1.vue";
 import GuestLayoutSanta from "@/Layouts/GuestLayoutSanta.vue";
 import { Head, Link } from "@inertiajs/vue3";
 import { onMounted } from "vue";

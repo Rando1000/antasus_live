@@ -31,7 +31,7 @@
                     id="ai-intro-desc"
                 >
                     Ihr interaktiver Assistent für Glasfaser, Hausanschluss
-                    &amp; Telekommunikation. 100 % datenschutzkonform,
+                    &amp; Telekommunikation. 100 % datenschutzkonform,
                     barrierefrei, jederzeit verfügbar.
                 </p>
             </header>
@@ -103,6 +103,7 @@
                                     {{ msg.content }}
                                 </div>
                             </div>
+
                             <div
                                 v-else
                                 class="flex flex-col items-start w-full max-w-[90%]"
@@ -117,9 +118,10 @@
                                     >
                                     <span>{{ msg.time }}</span>
                                 </div>
+
                                 <div
                                     class="prose-sm prose text-gray-900 bubble bubble-bot dark:text-gray-100 dark:prose-invert"
-                                    v-html="msg.content"
+                                    v-html="msg.html"
                                     :tabindex="0"
                                     aria-live="polite"
                                     lang="de"
@@ -127,6 +129,7 @@
                             </div>
                         </div>
                     </li>
+
                     <li v-if="loading">
                         <div
                             class="flex items-center gap-2 mt-2 text-xs text-antasus-primary/70"
@@ -228,7 +231,6 @@
 import { ref, nextTick } from "vue";
 import axios from "axios";
 
-// Accessibility + UI
 const inputPlaceholder = "Fragen Sie alles zu Glasfaser, FTTH, Bau …";
 
 const tips = [
@@ -243,67 +245,115 @@ const tips = [
 
 const question = ref("");
 const loading = ref(false);
-const chat = ref([
-    {
-        role: "assistant",
-        content:
-            "Willkommen! 👋<br>Stellen Sie Ihre Frage rund um <strong>Glasfaser, FTTH, Hausanschluss, Bau oder Telekommunikation</strong>. Ich helfe gern weiter – powered by <b>Antasus Infra</b>.",
-        time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-        }),
-    },
-]);
-const chatList = ref(null);
 
-// Quick-Tipp nutzen
-function useTip(tip) {
-    question.value = tip;
-    // Automatisch losschicken? askAI();
-}
-
-// Abschicken & Verlauf ergänzen
-async function askAI() {
-    if (!question.value.trim()) return;
-    loading.value = true;
-    const time = new Date().toLocaleTimeString([], {
+function nowTime() {
+    return new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
     });
+}
+
+// XSS-sicher escapen
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// einfache, sichere HTML-Aufbereitung (kein Fremd-HTML!)
+function toSafeHtml(text) {
+    const safe = escapeHtml(text ?? "")
+        .replace(/\r\n/g, "\n")
+        .trim();
+    if (!safe) return "Leider keine Antwort erhalten.";
+
+    const lines = safe
+        .split("\n")
+        .map((l) => l.trim())
+        .filter(Boolean);
+    const bulletLines = lines.filter((l) => /^(-|\u2022)\s+/.test(l));
+
+    if (bulletLines.length >= Math.max(2, Math.floor(lines.length * 0.5))) {
+        const items = lines
+            .map((l) => l.replace(/^(-|\u2022)\s+/, ""))
+            .map((l) => `<li>${l}</li>`)
+            .join("");
+        return `<ul>${items}</ul>`;
+    }
+
+    return safe.replace(/\n/g, "<br>");
+}
+
+const chat = ref([
+    {
+        role: "assistant",
+        html: "Willkommen! 👋<br>Stellen Sie Ihre Frage rund um <strong>Glasfaser, FTTH, Hausanschluss, Bau oder Telekommunikation</strong>. Ich helfe gern weiter – powered by <b>Antasus Infra</b>.",
+        time: nowTime(),
+    },
+]);
+
+const chatList = ref(null);
+
+function useTip(tip) {
+    question.value = tip;
+}
+
+async function askAI() {
+    if (!question.value.trim()) return;
+
+    loading.value = true;
+
+    const userText = question.value.trim();
     chat.value.push({
         role: "user",
-        content: question.value.trim(),
-        time,
+        content: userText,
+        time: nowTime(),
     });
-    const userQuestion = question.value;
+
     question.value = "";
 
+    const debugEnabled =
+        typeof window !== "undefined" &&
+        window.localStorage?.getItem("ai_debug") === "1";
+    const url = debugEnabled ? "/api/ai/answer?debug=1" : "/api/ai/answer";
+
     try {
-        const { data } = await axios.post("/api/ai/answer", {
-            question: userQuestion,
-        });
+        const { data } = await axios.post(url, { question: userText });
+
+        if (debugEnabled) {
+            console.warn("AI DEBUG RESPONSE:", data);
+        }
+
+        // Normalfall: answer
+        const answerText = data?.answer ?? "";
+
         chat.value.push({
             role: "assistant",
-            content: data.answer || "Leider keine Antwort erhalten.",
-            time: new Date().toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-            }),
+            html: toSafeHtml(answerText),
+            time: nowTime(),
         });
+
         await nextTick();
         chatList.value?.scrollTo({
             top: chatList.value.scrollHeight,
             behavior: "smooth",
         });
     } catch (err) {
+        console.error(
+            "AI ERROR:",
+            err?.response?.status,
+            err?.response?.data || err.message
+        );
+
         chat.value.push({
             role: "assistant",
-            content:
-                "Fehler beim Abruf der Antwort. Bitte später erneut versuchen.",
-            time: new Date().toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-            }),
+            html: toSafeHtml(
+                "Fehler beim Abruf der Antwort. Bitte später erneut versuchen."
+            ),
+            time: nowTime(),
         });
     } finally {
         loading.value = false;

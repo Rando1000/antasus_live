@@ -1,11 +1,25 @@
 <IfModule mod_rewrite.c>
-    Options +FollowSymLinks
     RewriteEngine On
-    RewriteCond %{REQUEST_URI} |^/public/
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    
-    RewriteRule ^(.*)$ /public/$1
-    #RewriteRule ^ index.php [L]
-    RewriteRule ^(/)?$ public/index.php [L]
-#</IfModule>
+
+    # Allow Let's Encrypt / ACME challenges
+    RewriteRule ^\.well-known/ - [L]
+
+    # Security: block dotfiles (.env, .git, etc.) but allow .well-known
+    RewriteRule (^|/)\.(?!well-known/) - [F,L]
+
+    # Block typical sensitive files
+    RewriteRule ^(composer\.(json|lock)|package\.json|package-lock\.json|yarn\.lock|pnpm-lock\.yaml|phpunit\.xml|artisan|docker-compose\.yml)$ - [F,L]
+
+    # Block typical sensitive directories
+    RewriteRule ^(vendor/|storage/|bootstrap/|config/|database/|resources/|node_modules/|routes/|app/|\.git/) - [F,L]
+
+    # Avoid loops
+    RewriteRule ^public/ - [L]
+
+    # IMPORTANT: only skip rewrite for existing FILES, not directories
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Rewrite everything else into /public
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

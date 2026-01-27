@@ -346,7 +346,7 @@ onMounted(() => {
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        name: "Datenschutzerklärung – ANTASUS Infra",
+        name: "Datenschutzerklärung - ANTASUS Infra",
         url: "https://www.antasus.de/datenschutz",
         description:
             "DSGVO-konforme Datenschutzerklärung für ANTASUS Infra, inkl. Kontakt, Hosting, Consent, Analytics, Bewerbungen und alle gesetzlichen Pflichten.",
@@ -357,9 +357,9 @@ onMounted(() => {
             email: "info@antasus.de",
             address: {
                 "@type": "PostalAddress",
-                streetAddress: "Norrenbergstraße 122",
+                streetAddress: "Hohenstein 150",
                 addressLocality: "Wuppertal",
-                postalCode: "42289",
+                postalCode: "42283",
                 addressCountry: "DE",
             },
             telephone: "+49 176 24757616",

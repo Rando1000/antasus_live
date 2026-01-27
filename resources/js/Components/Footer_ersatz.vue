@@ -68,7 +68,7 @@
                         Kontakt
                     </h3>
                     <address class="space-y-3 not-italic text-gray-400">
-                        <p>Norrenbergstraße 122<br />42289 Wuppertal</p>
+                        <p>Hohenstein 150<br />42283 Wuppertal</p>
                         <p>
                             <a
                                 href="tel:+4917624757616"

@@ -44,8 +44,8 @@
                             ANTASUS Infra</strong
                         ><br />
                         Inhaber: Radhouan Jouini<br />
-                        Norrenbergstraße 122<br />
-                        42289 Wuppertal<br />
+                        Hohenstein 150<br />
+                        42283 Wuppertal<br />
                         Deutschland
                     </address>
                 </section>
@@ -102,8 +102,8 @@
                     </h2>
                     <address class="mb-4 not-italic">
                         Radhouan Jouini<br />
-                        Norrenbergstraße 122<br />
-                        42289 Wuppertal<br />
+                        Hohenstein 150<br />
+                        42283 Wuppertal<br />
                         Deutschland
                     </address>
                 </section>
@@ -263,9 +263,9 @@ onMounted(() => {
                 email: "info@antasus.de",
                 address: {
                     "@type": "PostalAddress",
-                    streetAddress: "Norrenbergstraße 122",
+                    streetAddress: "Hohenstein 150",
                     addressLocality: "Wuppertal",
-                    postalCode: "42289",
+                    postalCode: "42283",
                     addressCountry: "DE",
                 },
                 telephone: "+49 176 24757616",
@@ -278,14 +278,14 @@ onMounted(() => {
             },
             {
                 "@type": "LegalService",
-                name: "ANTASUS Infra – Impressum",
+                name: "ANTASUS Infra - Impressum",
                 url: "https://www.antasus.de/impressum",
                 legalName: "ANTASUS Infra, Inh. Radhouan Jouini",
                 address: {
                     "@type": "PostalAddress",
-                    streetAddress: "Norrenbergstraße 122",
+                    streetAddress: "Hohenstein 150",
                     addressLocality: "Wuppertal",
-                    postalCode: "42289",
+                    postalCode: "42283",
                     addressCountry: "DE",
                 },
                 telephone: "+49 176 24757616",
@@ -294,7 +294,7 @@ onMounted(() => {
             {
                 "@type": "WebPage",
                 "@id": "https://www.antasus.de/impressum",
-                name: "Impressum – ANTASUS Infra",
+                name: "Impressum - ANTASUS Infra",
                 description:
                     "Impressum und Pflichtangaben gemäß §5 TMG für ANTASUS Infra.",
                 inLanguage: "de",

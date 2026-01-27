@@ -81,7 +81,7 @@
                     <div class="footer">
                         <p style="margin:0 0 4px;">
                             ANTASUS Infra<br>
-                            Norrenbergstraße 122, 42289 Wuppertal
+                            Hohenstein 150, 42283 Wuppertal
                         </p>
                         <p style="margin:0;">
                             <a href="{{ $footerLink1 ?? 'https://www.antasus.de' }}">ANTASUS Online</a> |

@@ -75,8 +75,8 @@
         </div>
         <div class="footer">
             <p>
-                ANTASUS Infra – Inh. Radhouan Jouini<br>
-                Norrenbergstraße 122, 42289 Wuppertal<br>
+                ANTASUS Infra - Inh. Radhouan Jouini<br>
+                Hohenstein 150, 42283 Wuppertal<br>
                 📧 info@antasus.de · 🌐 www.antasus.de
             </p>
             <p>Diese E-Mail wurde automatisch versendet. Bitte antworten Sie nicht direkt darauf.</p>

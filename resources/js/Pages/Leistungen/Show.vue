@@ -457,9 +457,9 @@ const servicesJsonLd = computed(() => ({
         url: "https://www.antasus.de",
         address: {
             "@type": "PostalAddress",
-            streetAddress: "Norrenbergstraße 122",
+            streetAddress: "Hohenstein 150",
             addressLocality: "Wuppertal",
-            postalCode: "42289",
+            postalCode: "42283",
             addressCountry: "DE",
         },
         contactPoint: {

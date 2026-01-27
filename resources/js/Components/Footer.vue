@@ -115,7 +115,7 @@
             <div>
                 <h3 class="footer-title">Kontakt</h3>
                 <address class="not-italic space-y-1.5 text-gray-400">
-                    <p>Norrenbergstraße 122<br />42289 Wuppertal</p>
+                    <p>Hohenstein 150<br />42283 Wuppertal</p>
                     <p>
                         <a href="tel:+4920242988411" class="footer-link"
                             >Telefon: +49 202 42988411</a

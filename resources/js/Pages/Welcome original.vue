@@ -159,8 +159,8 @@
                                     <span class="mt-1 mr-3">📍</span>
                                     <span
                                         >ANTASUS Infra<br />
-                                        Norrenbergstraße 122<br />
-                                        42289 Wuppertal</span
+                                        Hohenstein 150<br />
+                                        42283 Wuppertal</span
                                     >
                                 </p>
                                 <p class="flex items-center">

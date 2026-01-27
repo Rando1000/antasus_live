@@ -1,8 +1,7 @@
 <template>
     <Head>
         <title>
-            Kontaktieren Sie ANTASUS Infra | Subunternehmer für Glasfaser &
-            Tiefbau
+            Kontaktieren Sie ANTASUS Infra | Unternehmen für Glasfaser Tiefbau
         </title>
         <meta
             name="description"
@@ -259,8 +258,8 @@ const contactStructuredData = {
         email: "info@antasus.de",
         address: {
             "@type": "PostalAddress",
-            streetAddress: "Norrenbergstraße 122",
-            postalCode: "42289",
+            streetAddress: "Hohenstein 150",
+            postalCode: "42283",
             addressLocality: "Wuppertal",
             addressCountry: "DE",
         },

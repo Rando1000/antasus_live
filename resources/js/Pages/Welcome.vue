@@ -279,7 +279,19 @@
             aria-labelledby="kontakt-antasus"
         >
             <div
-                class="absolute inset-0 bg-[url('/images/baumaschinen.jpg')] opacity-20 pointer-events-none"
+                class="absolute inset-0 bg-[url('/images/baumaschinen.jpg')] pointer-events-none"
+                aria-hidden="true"
+            ></div>
+
+            <!-- Frost / Blur Layer -->
+            <div
+                class="absolute inset-0 pointer-events-none backdrop-blur-sm bg-white/5"
+                aria-hidden="true"
+            ></div>
+
+            <!-- Eisiger Verlauf -->
+            <div
+                class="absolute inset-0 pointer-events-none bg-gradient-to-br from-white/10 via-transparent to-black/40"
                 aria-hidden="true"
             ></div>
             <div class="relative max-w-4xl px-6 mx-auto">
@@ -306,8 +318,8 @@
                                     <span>
                                         Radhouan Jouini<br />
                                         ANTASUS Infra<br />
-                                        Norrenbergstraße 122<br />
-                                        42289 Wuppertal
+                                        Hohenstein 150<br />
+                                        42283 Wuppertal
                                     </span>
                                 </p>
                                 <p class="flex items-center gap-2">

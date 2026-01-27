@@ -102,7 +102,7 @@
                     <tr>
                         <td class="footer">
                             ANTASUS Infra<br>
-                            Norrenbergstraße 122, 42289 Wuppertal<br>
+                            Hohenstein 150, 42283 Wuppertal<br>
                             <a href="mailto:info@antasus.de">info@antasus.de</a> |
                             <a href="https://www.antasus.de">www.antasus.de</a><br>
                             © {{ date('Y') }} ANTASUS Infra - Alle Rechte vorbehalten.

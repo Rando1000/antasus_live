@@ -26,7 +26,7 @@
         >
             <!-- Hintergrundbild -->
             <img
-                src="/images/WelcomeDaylight.jpg"
+                src="/images/Header_welcome2.jpeg"
                 alt="Glasfaserinfrastruktur und Hausanschluss in Wuppertal"
                 class="absolute inset-0 object-cover object-center w-full h-full md:object-fill"
                 loading="eager"

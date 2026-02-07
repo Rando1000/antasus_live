@@ -442,7 +442,7 @@ const localBusinessJsonLd = {
 const jsonLdScriptTag = `<script type="application/ld+json">${JSON.stringify(
     localBusinessJsonLd,
     null,
-    2
+    2,
 )}`;
 
 const headerBackgroundImage = computed(() => {
@@ -542,12 +542,21 @@ onMounted(() => {
     top: 0.1rem;
     height: 2px;
     pointer-events: none;
-    background-image: radial-gradient(circle, #ffffff 0, transparent 55%),
+    background-image:
+        radial-gradient(circle, #ffffff 0, transparent 55%),
         radial-gradient(circle, #00fdcf 0, transparent 55%),
         radial-gradient(circle, #facc15 0, transparent 55%),
         radial-gradient(circle, #4f46e5 0, transparent 55%);
-    background-size: 18px 2px, 28px 2px, 22px 2px, 32px 2px;
-    background-position: 0 0, 25% 0, 55% 0, 85% 0;
+    background-size:
+        18px 2px,
+        28px 2px,
+        22px 2px,
+        32px 2px;
+    background-position:
+        0 0,
+        25% 0,
+        55% 0,
+        85% 0;
     opacity: 0.6;
     mix-blend-mode: screen;
 }
@@ -568,7 +577,9 @@ onMounted(() => {
     background-image: linear-gradient(to right, #00fdcf, #4f46e5);
     opacity: 0;
     transform: translateX(-50%);
-    transition: width 0.22s ease-out, opacity 0.22s ease-out;
+    transition:
+        width 0.22s ease-out,
+        opacity 0.22s ease-out;
 }
 
 /* Hover + aktive / hervorgehobene Links */
@@ -582,8 +593,10 @@ onMounted(() => {
 .holiday-cta-main {
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25),
-        0 10px 30px rgba(0, 0, 0, 0.45), 0 0 25px rgba(0, 253, 207, 0.35);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.25),
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        0 0 25px rgba(0, 253, 207, 0.35);
 }
 
 .holiday-cta-main::before {
@@ -608,7 +621,8 @@ onMounted(() => {
 .holiday-cta-secondary {
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18),
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.18),
         0 6px 20px rgba(15, 23, 42, 0.5);
 }
 

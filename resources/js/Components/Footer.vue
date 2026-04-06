@@ -99,7 +99,7 @@
                         >
                     </li>
                     <li>
-                        <Link href="/technologien" class="footer-link"
+                        <Link href="/ratgeber/technologien" class="footer-link"
                             >Technologien</Link
                         >
                     </li>

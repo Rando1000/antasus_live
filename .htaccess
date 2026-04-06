@@ -21,8 +21,7 @@
 
     RewriteRule ^public/ - [L]
 
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
     RewriteRule ^(.*)$ public/$1 [L]

@@ -105,9 +105,9 @@
                             :src="item.image_url"
                             :alt="`${
                                 item.title
-                            } – ANTASUS Infra: ${item.description.substring(
+                            } - ANTASUS Infra: ${item.description.substring(
                                 0,
-                                40
+                                40,
                             )}...`"
                             loading="lazy"
                             decoding="async"
@@ -391,7 +391,7 @@ onMounted(() => {
             : null;
     if (itemId) {
         const item = props.service.items.find(
-            (i) => i.id.toString() === itemId || i.slug === itemId
+            (i) => i.id.toString() === itemId || i.slug === itemId,
         );
         if (item) {
             selectedItem.value = item;
@@ -583,7 +583,7 @@ const howToJsonLd = computed(() => ({
 }));
 
 const relatedItems = computed(() =>
-    props.service.items.filter((item) => item.id !== selectedItem.value?.id)
+    props.service.items.filter((item) => item.id !== selectedItem.value?.id),
 );
 </script>
 

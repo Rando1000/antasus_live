@@ -1,23 +1,16 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    RewriteCond %{HTTP_HOST} !^www\. [NC]
-    RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
-
     RewriteRule ^\.well-known/ - [L]
     RewriteRule (^|/)\.(?!well-known/) - [F,L]
 
     RewriteRule ^(artisan|composer\.(json|lock)|package(-lock)?\.json|yarn\.lock|pnpm-lock\.yaml|phpunit\.xml|docker-compose\.ya?ml)$ - [F,L,NC]
     RewriteRule ^(vendor/|bootstrap/|config/|database/|resources/|routes/|app/|node_modules/|\.git/) - [F,L,NC]
 
-    # Interne Storage-Bereiche sperren
     RewriteRule ^storage/(app/|framework/|logs/|debugbar/) - [F,L,NC]
+    RewriteRule ^storage/.*\.(log|key|sqlite|php|phtml|phar|sh|bat|cmd|pl|py|cgi)$ - [F,L,NC]
 
-    # Gefährliche / sensible Dateitypen unter /storage sperren
-    RewriteRule ^storage/.*\.(php|phtml|phar|php[0-9]*|log|key|sqlite|sql|env|sh|bat|cmd|pl|py|cgi)$ - [F,L,NC]
-
-    # Öffentliche Storage-URLs auf Laravel-Symlink umschreiben
-    RewriteRule ^storage/(.*)$ public/storage/$1 [L]
+    RewriteRule ^storage/.*\.(jpg|jpeg|png|gif|webp|svg|avif|pdf)$ public/$0 [L,NC]
 
     RewriteRule ^public/ - [L]
 

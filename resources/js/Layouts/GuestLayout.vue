@@ -6,6 +6,7 @@
             href="/favicon-96x96.png"
             sizes="96x96"
         />
+        <link rel="canonical" :href="`https://www.antasus.de${$page.url}`" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link
@@ -441,7 +442,7 @@ const localBusinessJsonLd = {
 const jsonLdScriptTag = `<script type="application/ld+json">${JSON.stringify(
     localBusinessJsonLd,
     null,
-    2
+    2,
 )}`;
 
 const headerBackgroundImage = computed(() => {

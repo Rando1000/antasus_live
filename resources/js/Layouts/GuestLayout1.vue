@@ -379,7 +379,7 @@ const handleMeetingType = (type) => {
 };
 
 const page = usePage();
-const canonicalUrl = computed(() => `https://www.antasus.de${page.url}`);
+const canonicalUrl = computed(() => `https://antasus.de${page.url}`);
 
 const localBusinessJsonLd = {
     "@context": "https://schema.org",

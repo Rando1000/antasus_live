@@ -22,7 +22,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
         RateLimiter::for('admin', function (Request $request) {
             $key = $request->user()?->id
                 ? 'admin-user-'.$request->user()->id

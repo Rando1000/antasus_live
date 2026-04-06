@@ -6,7 +6,7 @@
             </title>
             <meta
                 name="description"
-                content="Ihr zertifizierter Glasfaserbau-Spezialist für Hausanschluss & Tiefbau. ANTASUS Infra – Zukunftssichere Glasfaserinfrastruktur, termintreu, DIN-konform, NRW."
+                content="Ihr zertifizierter Glasfaserbau-Spezialist für Hausanschluss & Tiefbau. ANTASUS Infra - Zukunftssichere Glasfaserinfrastruktur, termintreu, DIN-konform, NRW."
             />
             <img
                 src="/images/Header_welcome.avif"

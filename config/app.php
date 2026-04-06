@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://antasus.de/'),
+    'url' => env('APP_URL', 'https://www.antasus.de/'),
 
     /*
     |--------------------------------------------------------------------------

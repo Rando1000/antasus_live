@@ -47,7 +47,7 @@ jobs:
               fi
 
             echo "📦 Installiere PHP-Abhängigkeiten (Composer über Benutzerpfad)..."
-            ~/composer install --no-dev --optimize-autoloader
+            composer install --no-dev --optimize-autoloader
 
             echo "🔧 Baue Assets mit npm..."
             npm ci

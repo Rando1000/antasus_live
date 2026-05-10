@@ -27,7 +27,8 @@ jobs:
             echo "➡️ Hole neusten Code von GitHub..."
             git reset --hard
             git clean -fd
-            git pull origin main --rebase
+            git fetch origin
+            git reset --hard origin/main
 
             echo "🔍 Prüfe kritische Dateien..."
             test -f public/index.php || (echo "❌ index.php fehlt!" && exit 1)

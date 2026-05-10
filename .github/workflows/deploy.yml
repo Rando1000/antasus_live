@@ -57,4 +57,4 @@ jobs:
             php artisan migrate --force || echo "⚠️ Migration übersprungen"
 
             echo "✅ Deployment abgeschlossen – teste Seite..."
-            curl -sSf https://www.antasus.de || (echo "❌ Seite nicht erreichbar!" && exit 1)
+            curl -sSf https://www.antasus.com || (echo "❌ Seite nicht erreichbar!" && exit 1)

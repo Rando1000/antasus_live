@@ -112,7 +112,7 @@
                         zukunftssichere digitale Infrastruktur. Mit modernster
                         Technik, präziser Planung und erfahrenen Fachkräften
                         sorgen wir dafür, dass leistungsfähige Glasfasernetze
-                        zuverlässig und effizient verlegt werden. Unser Anspruch
+                        zuverlässig und effizient verlegt werden! Unser Anspruch
                         ist es, höchste Qualitätsstandards einzuhalten und
                         innovative Lösungen für nachhaltige Netzwerke zu bieten,
                         damit Ihr Anschluss an die digitale Zukunft reibungslos

@@ -29,6 +29,7 @@ jobs:
             git clean -fd
             git fetch origin
             git reset --hard origin/main
+            git clean -fd
 
             echo "🔍 Prüfe kritische Dateien..."
             test -f public/index.php || (echo "❌ index.php fehlt!" && exit 1)

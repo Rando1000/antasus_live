@@ -57,7 +57,7 @@ jobs:
             php artisan config:cache
             php artisan route:cache || echo "⚠️ Routen-Caching übersprungen"
             php artisan migrate --force || echo "⚠️ Migration übersprungen"
-            php artisan storage:link
+            ln -s ../storage/app/public public/storage
 
             echo "✅ Deployment abgeschlossen – teste Seite..."
             curl -sSf https://www.antasus.com || (echo "❌ Seite nicht erreichbar!" && exit 1)

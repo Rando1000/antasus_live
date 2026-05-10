@@ -18,7 +18,7 @@ jobs:
         with:
           host: ${{ secrets.HOSTINGER_HOST1 }}
           username: ${{ secrets.HOSTINGER_USER1 }}
-          key: ${{ secrets.HOSTINGER_SSH_KEY2 }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
           port: ${{ secrets.HOSTINGER_PORT1 }}
           script: |
             cd domains/antasus.com/public_html

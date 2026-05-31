@@ -21,7 +21,7 @@ jobs:
           key: ${{ secrets.HOSTINGER_SSH_KEY2 }}
           port: ${{ secrets.HOSTINGER_PORT1 }}
           script: |
-            cd domains/antasus.com/public_html
+            cd domains/antasus.de/public_html
 
             echo "📁 Aktuelles Verzeichnis: $(pwd)"
             echo "➡️ Hole neusten Code von GitHub..."

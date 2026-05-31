@@ -87,7 +87,7 @@
                         class="text-xl font-bold transition-colors hover:text-antasus-primary dark:hover:text-antasus-primary"
                     />
                     <NavLink
-                        href="/inprogress"
+                        href="/history"
                         label="History"
                         class="text-xl font-bold transition-colors hover:text-antasus-primary dark:hover:text-antasus-primary"
                     />
